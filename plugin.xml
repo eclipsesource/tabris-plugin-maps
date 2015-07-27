@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.eclipsesouce.tabris.js.map"
+        version="1.0.0">
+
+    <name>Tabris.js Map Widget</name>
+
+    <description>A custom map widget for Tabris.js based on Google Maps.</description>
+
+    <author>EclipseSource</author>
+
+    <!-- cordova -->
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <platform name="android">
+
+        <preference name="API_KEY_FOR_ANDROID" />
+
+        <info>
+             In order to run this plugin, you need to obtain Google Maps API key for Android.
+             TODO
+        </info>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data
+              android:name="com.google.android.maps.v2.API_KEY"
+              android:value="$API_KEY_FOR_ANDROID" />
+          <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        </config-file>
+
+    </platform>
+
+</plugin>
