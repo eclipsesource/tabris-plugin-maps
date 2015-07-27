@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="com.eclipsesouce.tabris.js.map"
+        id="com.eclipsesouce.tabris.maps"
         version="1.0.0">
 
-    <name>Tabris.js Map Widget</name>
+    <name>Tabris Maps Widget</name>
 
-    <description>A custom map widget for Tabris.js based on Google Maps.</description>
+    <description>A custom map widget for Tabris based on Google Maps.</description>
 
     <author>EclipseSource</author>
 
