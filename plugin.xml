@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="com.eclipsesouce.tabris.maps"
+        id="com.eclipsesource.tabris.maps"
         version="1.0.0">
 
     <name>Tabris Maps Widget</name>
@@ -12,17 +12,26 @@
 
     <!-- cordova -->
     <engines>
-        <engine name="cordova" version=">=3.0.0" />
+        <engine name="cordova" version=">=4.0.0-dev" />
     </engines>
 
     <platform name="android">
-
-        <preference name="API_KEY_FOR_ANDROID" />
 
         <info>
              In order to run this plugin, you need to obtain Google Maps API key for Android.
              TODO
         </info>
+
+        <preference name="API_KEY_FOR_ANDROID" />
+
+        <config-file target="config.xml" parent="/*">
+
+            <feature name="Map">
+                <param name="android-package" value="com.eclipsesource.tabris.maps.Map" />
+                <param name="onload" value="true" />
+            </feature>
+
+        </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data
@@ -37,7 +46,9 @@
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
         </config-file>
 
-        <dependency id="com.google.playservices" />
+        <framework src="com.google.android.gms:play-services-maps:6.5.87" />
+
+        <source-file src="src/android/com/eclipsesource/tabris/maps/Map.java" target-dir="src/com/eclipsesource/tabris/maps" />
 
     </platform>
 
