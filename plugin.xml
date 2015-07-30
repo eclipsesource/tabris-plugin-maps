@@ -49,6 +49,9 @@
         <framework src="com.google.android.gms:play-services-maps:6.5.87" />
 
         <source-file src="src/android/com/eclipsesource/tabris/maps/Map.java" target-dir="src/com/eclipsesource/tabris/maps" />
+        <source-file src="src/android/com/eclipsesource/tabris/maps/MapHolderView.java" target-dir="src/com/eclipsesource/tabris/maps" />
+        <source-file src="src/android/com/eclipsesource/tabris/maps/MapOperator.java" target-dir="src/com/eclipsesource/tabris/maps" />
+        <source-file src="src/android/com/eclipsesource/tabris/maps/MapPropertyHandler.java" target-dir="src/com/eclipsesource/tabris/maps" />
 
     </platform>
 
