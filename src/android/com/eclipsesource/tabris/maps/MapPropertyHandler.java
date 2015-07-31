@@ -68,9 +68,9 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
   }
 
   private void setZoom( GoogleMap map, Properties properties ) {
-    Integer zoom = properties.getInteger( "zoom" );
+    Float zoom = properties.getFloat( "zoom" );
     if( zoom == null ) {
-      throw new IllegalArgumentException( "The zoom property has to be an integer value" );
+      throw new IllegalArgumentException( "The zoom property has to be a float value" );
     }
     System.out.println( "zoom to: " + zoom );
     map.moveCamera( CameraUpdateFactory.zoomTo( zoom ) );
