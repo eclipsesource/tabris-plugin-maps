@@ -11,16 +11,31 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
 
+  private Map<String, Integer> mapTypes;
+
   public MapPropertyHandler(TabrisActivity activity) {
     super(activity);
+    initMapTypesMap();
+  }
+
+  private Map<String, Integer> initMapTypesMap() {
+    mapTypes = new HashMap<>();
+    mapTypes.put("none", GoogleMap.MAP_TYPE_NONE);
+    mapTypes.put("hybrid", GoogleMap.MAP_TYPE_HYBRID);
+    mapTypes.put("normal", GoogleMap.MAP_TYPE_NORMAL);
+    mapTypes.put("satellite", GoogleMap.MAP_TYPE_SATELLITE);
+    mapTypes.put("terrain", GoogleMap.MAP_TYPE_TERRAIN);
+    return mapTypes;
   }
 
   @Override
-  public void set(MapHolderView view, Properties properties) {
+  public void set( MapHolderView view, Properties properties ) {
     super.set( view, properties );
     System.out.println( "set: " + properties );
     for( String key : properties.getAll().keySet() ) {
@@ -35,6 +50,9 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
         break;
       case "zoom":
         setZoom( map, properties );
+        break;
+      case "mapType":
+        setMapType( map, properties );
         break;
     }
   }
@@ -56,6 +74,17 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
     }
     System.out.println( "zoom to: " + zoom );
     map.moveCamera( CameraUpdateFactory.zoomTo( zoom ) );
+  }
+
+  private void setMapType( GoogleMap map, Properties properties ) {
+    String mapTypeString = properties.getString( "mapType" );
+    if( mapTypeString == null ) {
+      throw new IllegalArgumentException( "The mapType property has to be a string value." );
+    }
+    Integer mapTypeInteger = mapTypes.get( mapTypeString );
+    if( mapTypeInteger != null ) {
+      map.setMapType( mapTypeInteger );
+    }
   }
 
   @Override
