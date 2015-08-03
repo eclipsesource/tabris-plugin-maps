@@ -19,6 +19,7 @@ import com.eclipsesource.tabris.client.core.operation.ListenOperation;
 import com.eclipsesource.tabris.client.core.operation.SetOperation;
 import com.google.android.gms.maps.GoogleMap;
 
+import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateCallOperation;
 import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateCreateOperation;
 import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateListenOperation;
 import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_MAP_TAP;
@@ -135,7 +136,22 @@ public class MapOperator extends AbstractWidgetOperator {
 
   @Override
   public Object call( CallOperation callOperation ) {
+    validateCallOperation( callOperation );
+    String method = callOperation.getMethod();
+    switch( method ) {
+      case "getMinZoomLevel":
+        return getGoogleMap( callOperation ).getMinZoomLevel();
+      case "getMaxZoomLevel":
+        return getGoogleMap( callOperation ).getMaxZoomLevel();
+      default:
+        Log.d( LOG_TAG, String.format( "call to unknown method \"%s\"", method ) );
+        break;
+    }
     return null;
+  }
+
+  private GoogleMap getGoogleMap( CallOperation callOperation ) {
+    return getObjectRegistry().getObject( callOperation.getTarget(), MapHolderView.class ).getGoogleMap();
   }
 
   @Override
