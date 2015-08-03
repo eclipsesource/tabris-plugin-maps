@@ -126,13 +126,21 @@ public class MapOperator extends AbstractWidgetOperator {
 
   private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap( googleMap );
+    validateGoogleMap( googleMap, "Listeners must be attached in the 'mapReady' event callback." );
     return googleMap;
   }
 
-  private void validateGoogleMap( GoogleMap googleMap ) {
+  private GoogleMap getGoogleMapSafely( CallOperation callOperation ) {
+    String target = callOperation.getTarget();
+    MapHolderView mapHolderView = getObjectRegistry().getObject( target, MapHolderView.class );
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    validateGoogleMap( googleMap, "Only call methods on Map when it is ready." );
+    return googleMap;
+  }
+
+  private void validateGoogleMap( GoogleMap googleMap, String message ) {
     if( googleMap == null ) {
-      throw new IllegalStateException( "Google Map is not initialized. Listeners must be attached in the 'mapReady' event callback." );
+      throw new IllegalStateException( "Google Map is not yet ready. " + message );
     }
   }
 
@@ -142,18 +150,14 @@ public class MapOperator extends AbstractWidgetOperator {
     String method = callOperation.getMethod();
     switch( method ) {
       case "getMinZoomLevel":
-        return getGoogleMap( callOperation ).getMinZoomLevel();
+        return getGoogleMapSafely( callOperation ).getMinZoomLevel();
       case "getMaxZoomLevel":
-        return getGoogleMap( callOperation ).getMaxZoomLevel();
+        return getGoogleMapSafely( callOperation ).getMaxZoomLevel();
       default:
         Log.d( LOG_TAG, String.format( "call to unknown method \"%s\"", method ) );
         break;
     }
     return null;
-  }
-
-  private GoogleMap getGoogleMap( CallOperation callOperation ) {
-    return getObjectRegistry().getObject( callOperation.getTarget(), MapHolderView.class ).getGoogleMap();
   }
 
   @Override
