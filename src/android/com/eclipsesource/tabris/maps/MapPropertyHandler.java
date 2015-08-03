@@ -19,18 +19,18 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
 
   private Map<String, Integer> mapTypes;
 
-  public MapPropertyHandler(TabrisActivity activity) {
-    super(activity);
+  public MapPropertyHandler( TabrisActivity activity ) {
+    super( activity );
     initMapTypesMap();
   }
 
   private Map<String, Integer> initMapTypesMap() {
     mapTypes = new HashMap<>();
-    mapTypes.put("none", GoogleMap.MAP_TYPE_NONE);
-    mapTypes.put("hybrid", GoogleMap.MAP_TYPE_HYBRID);
-    mapTypes.put("normal", GoogleMap.MAP_TYPE_NORMAL);
-    mapTypes.put("satellite", GoogleMap.MAP_TYPE_SATELLITE);
-    mapTypes.put("terrain", GoogleMap.MAP_TYPE_TERRAIN);
+    mapTypes.put( "none", GoogleMap.MAP_TYPE_NONE );
+    mapTypes.put( "hybrid", GoogleMap.MAP_TYPE_HYBRID );
+    mapTypes.put( "normal", GoogleMap.MAP_TYPE_NORMAL );
+    mapTypes.put( "satellite", GoogleMap.MAP_TYPE_SATELLITE );
+    mapTypes.put( "terrain", GoogleMap.MAP_TYPE_TERRAIN );
     return mapTypes;
   }
 
@@ -88,8 +88,8 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
   }
 
   @Override
-  public Object get(MapHolderView view, String property) {
-    return super.get(view, property);
+  public Object get( MapHolderView view, String property ) {
+    return super.get( view, property );
   }
 
 }

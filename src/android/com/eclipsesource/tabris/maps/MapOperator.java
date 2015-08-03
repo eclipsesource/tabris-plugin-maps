@@ -96,37 +96,37 @@ public class MapOperator extends AbstractWidgetOperator {
   }
 
   private void attachOnMapReadyListener( ListenOperation listenOperation ) {
-    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    MapHolderView mapHolderView = ( MapHolderView )findViewByTarget( listenOperation );
     mapHolderView.setOnMapReadyListener();
   }
 
   private void attachOnMapClickListener( ListenOperation listenOperation ) {
-    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    MapHolderView mapHolderView = ( MapHolderView )findViewByTarget( listenOperation );
     GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     googleMap.setOnMapClickListener( new MapClickListener( getActivity(), mapHolderView ) );
   }
 
   private void removeOnMapClickListener( ListenOperation listenOperation ) {
-    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    MapHolderView mapHolderView = ( MapHolderView )findViewByTarget( listenOperation );
     GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     googleMap.setOnMapClickListener( null );
   }
 
   private void attachOnMapLongClickListener( ListenOperation listenOperation ) {
-    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    MapHolderView mapHolderView = ( MapHolderView )findViewByTarget( listenOperation );
     GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     googleMap.setOnMapLongClickListener( new MapLongClickListener( getActivity(), mapHolderView ) );
   }
 
   private void removeOnMapLongClickListener( ListenOperation listenOperation ) {
-    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    MapHolderView mapHolderView = ( MapHolderView )findViewByTarget( listenOperation );
     GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     googleMap.setOnMapLongClickListener( null );
   }
 
   private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap(googleMap);
+    validateGoogleMap( googleMap );
     return googleMap;
   }
 
