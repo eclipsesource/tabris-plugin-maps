@@ -102,30 +102,32 @@ public class MapOperator extends AbstractWidgetOperator {
 
   private void attachOnMapClickListener( ListenOperation listenOperation ) {
     MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
-    GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap(googleMap);
+    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     googleMap.setOnMapClickListener( new MapClickListener( getActivity(), mapHolderView ) );
   }
 
   private void removeOnMapClickListener( ListenOperation listenOperation ) {
     MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
-    GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap(googleMap);
+    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     googleMap.setOnMapClickListener( null );
   }
 
   private void attachOnMapLongClickListener( ListenOperation listenOperation ) {
     MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
-    GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap(googleMap);
+    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     googleMap.setOnMapLongClickListener( new MapLongClickListener( getActivity(), mapHolderView ) );
   }
 
   private void removeOnMapLongClickListener( ListenOperation listenOperation ) {
     MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
+    googleMap.setOnMapLongClickListener( null );
+  }
+
+  private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
     validateGoogleMap(googleMap);
-    googleMap.setOnMapLongClickListener( null );
+    return googleMap;
   }
 
   private void validateGoogleMap( GoogleMap googleMap ) {
