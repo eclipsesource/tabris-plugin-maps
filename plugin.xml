@@ -53,6 +53,7 @@
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapOperator.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapPropertyHandler.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapClickListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
+        <source-file src="src/android/com/eclipsesource/tabris/maps/MapLongClickListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
 
     </platform>
 

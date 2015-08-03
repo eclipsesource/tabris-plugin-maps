@@ -55,6 +55,7 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
     Log.d( LOG_TAG, "map is ready" );
     this.googleMap = map;
     googleMap.setOnMapClickListener( new MapClickListener(activity, this) );
+    googleMap.setOnMapLongClickListener( new MapLongClickListener( activity, this ) );
   }
 
   public GoogleMap getGoogleMap() {
