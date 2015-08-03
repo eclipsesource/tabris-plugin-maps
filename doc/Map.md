@@ -55,6 +55,14 @@ Returns the minimum zoom level for the current map type and device used.
 
 ## Events
 
+### "mapReady" (widget)
+
+**Parameters:**
+
+- widget: *Map*
+
+The map is ready to be used. Map event listeners can only be attached after the 'mapReady' event has been fired.
+
 ### "mapTap" (widget, latLng)
 
 **Parameters:**
