@@ -13,6 +13,8 @@ import java.util.List;
 
 public class MapClickListener implements GoogleMap.OnMapClickListener {
 
+  public static final String EVENT_MAP_TAP = "mapTap";
+
   private TabrisActivity activity;
   private MapHolderView mapHolderView;
 
@@ -26,6 +28,6 @@ public class MapClickListener implements GoogleMap.OnMapClickListener {
     List<Double> properties = new ArrayList<>();
     properties.add( latLng.latitude );
     properties.add( latLng.longitude );
-    activity.getRemoteObject( mapHolderView ).notify( "mapTap", "latLng", properties );
+    activity.getRemoteObject( mapHolderView ).notify( EVENT_MAP_TAP, "latLng", properties );
   }
 }

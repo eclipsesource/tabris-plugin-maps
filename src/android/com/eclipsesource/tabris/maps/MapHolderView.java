@@ -23,9 +23,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
  */
 public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
 
+  public static final String EVENT_MAP_READY = "mapReady";
   private static final String LOG_TAG = "map.holder";
+
   private TabrisActivity activity;
   private GoogleMap googleMap;
+  private MapFragment mapFragment;
 
   public MapHolderView( TabrisActivity activity ) {
     super( activity );
@@ -35,10 +38,9 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   public void createMap() {
     setBackgroundColor( Color.RED );
     FrameLayout mapDummy = createMapDummy();
-    MapFragment mapFragment = new MapFragment();
+    mapFragment = new MapFragment();
     FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
     ft.replace( mapDummy.getId(), mapFragment ).commit();
-    mapFragment.getMapAsync( this );
   }
 
   @NonNull
@@ -50,15 +52,18 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
     return mapDummy;
   }
 
-  @Override
-  public void onMapReady( GoogleMap map ) {
-    Log.d( LOG_TAG, "map is ready" );
-    this.googleMap = map;
-    googleMap.setOnMapClickListener( new MapClickListener(activity, this) );
-    googleMap.setOnMapLongClickListener( new MapLongClickListener( activity, this ) );
-  }
-
   public GoogleMap getGoogleMap() {
     return googleMap;
+  }
+
+  public void setOnMapReadyListener() {
+    mapFragment.getMapAsync( this );
+  }
+
+  @Override
+  public void onMapReady( GoogleMap googleMap ) {
+    Log.d( LOG_TAG, "map is ready" );
+    this.googleMap = googleMap;
+    activity.getRemoteObject( this ).notify( EVENT_MAP_READY );
   }
 }

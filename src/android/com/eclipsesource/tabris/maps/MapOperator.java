@@ -11,13 +11,19 @@ import android.util.Log;
 import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.internal.toolkit.operator.AbstractWidgetOperator;
 import com.eclipsesource.tabris.android.internal.toolkit.property.IPropertyHandler;
+import com.eclipsesource.tabris.client.core.model.Properties;
 import com.eclipsesource.tabris.client.core.operation.CallOperation;
 import com.eclipsesource.tabris.client.core.operation.CreateOperation;
 import com.eclipsesource.tabris.client.core.operation.DestroyOperation;
 import com.eclipsesource.tabris.client.core.operation.ListenOperation;
 import com.eclipsesource.tabris.client.core.operation.SetOperation;
+import com.google.android.gms.maps.GoogleMap;
 
 import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateCreateOperation;
+import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateListenOperation;
+import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_MAP_TAP;
+import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_MAP_READY;
+import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_MAP_LONGPRESS;
 
 /**
  * This class handles all protocol operation for the Tabris maps custom widget.
@@ -63,6 +69,68 @@ public class MapOperator extends AbstractWidgetOperator {
   @Override
   public void listen( ListenOperation listenOperation ) {
     super.listen( listenOperation );
+    validateListenOperation( listenOperation );
+    Properties properties = listenOperation.getProperties();
+    if( properties.hasProperty( EVENT_MAP_READY ) ) {
+      if( properties.getBoolean( EVENT_MAP_READY ) ) {
+        attachOnMapReadyListener( listenOperation );
+      } else {
+        throw new IllegalStateException( "'mapReady' event listeners cannot be removed." );
+      }
+    }
+    if( properties.hasProperty( EVENT_MAP_TAP ) ) {
+      if( properties.getBoolean( EVENT_MAP_TAP ) ) {
+        attachOnMapClickListener( listenOperation );
+      } else {
+        removeOnMapClickListener( listenOperation );
+      }
+    }
+    if( properties.hasProperty( EVENT_MAP_LONGPRESS ) ) {
+      if( properties.getBoolean( EVENT_MAP_LONGPRESS ) ) {
+        attachOnMapLongClickListener( listenOperation );
+      } else {
+        removeOnMapLongClickListener( listenOperation );
+      }
+    }
+  }
+
+  private void attachOnMapReadyListener( ListenOperation listenOperation ) {
+    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    mapHolderView.setOnMapReadyListener();
+  }
+
+  private void attachOnMapClickListener( ListenOperation listenOperation ) {
+    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    validateGoogleMap(googleMap);
+    googleMap.setOnMapClickListener( new MapClickListener( getActivity(), mapHolderView ) );
+  }
+
+  private void removeOnMapClickListener( ListenOperation listenOperation ) {
+    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    validateGoogleMap(googleMap);
+    googleMap.setOnMapClickListener( null );
+  }
+
+  private void attachOnMapLongClickListener( ListenOperation listenOperation ) {
+    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    validateGoogleMap(googleMap);
+    googleMap.setOnMapLongClickListener( new MapLongClickListener( getActivity(), mapHolderView ) );
+  }
+
+  private void removeOnMapLongClickListener( ListenOperation listenOperation ) {
+    MapHolderView mapHolderView = (MapHolderView) findViewByTarget( listenOperation );
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    validateGoogleMap(googleMap);
+    googleMap.setOnMapLongClickListener( null );
+  }
+
+  private void validateGoogleMap( GoogleMap googleMap ) {
+    if( googleMap == null ) {
+      throw new IllegalStateException( "Google Map is not initialized. Listeners must be attached in the 'mapReady' event callback." );
+    }
   }
 
   @Override

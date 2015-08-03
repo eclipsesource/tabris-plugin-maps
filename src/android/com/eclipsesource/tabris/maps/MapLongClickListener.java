@@ -13,6 +13,8 @@ import java.util.List;
 
 public class MapLongClickListener implements GoogleMap.OnMapLongClickListener {
 
+  public static final String EVENT_MAP_LONGPRESS = "mapLongpress";
+
   private TabrisActivity activity;
   private MapHolderView mapHolderView;
 
@@ -26,6 +28,6 @@ public class MapLongClickListener implements GoogleMap.OnMapLongClickListener {
     List<Double> properties = new ArrayList<>();
     properties.add( latLng.latitude );
     properties.add( latLng.longitude );
-    activity.getRemoteObject( mapHolderView ).notify( "mapLongpress", "latLng", properties );
+    activity.getRemoteObject( mapHolderView ).notify( EVENT_MAP_LONGPRESS, "latLng", properties );
   }
 }
