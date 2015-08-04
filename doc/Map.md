@@ -8,7 +8,7 @@ Type: *string*, supported values: `none`, `hybrid`, `normal`, `satellite`, `terr
 
 Allows setting the type of the map. It cannot be changed after widget creation.
 
-### latLng
+### center
 Type: *[LatLng](LatLng.md)*
 
 Allows setting the current camera position.
@@ -27,7 +27,7 @@ When `liteMode` is switched to *true*, a non-interactive bitmap version of the m
 
 ### addMarker(latLng)
 
-**Parameters:** 
+**Parameters:**
 
 - latLng: *[LatLng](LatLng.md)*
 
@@ -35,7 +35,7 @@ Add a marker on the map at the given coordinates.
 
 ### removeMarker(marker)
 
-**Parameters:** 
+**Parameters:**
 
 - marker: *[Marker](Marker.md)*
 
@@ -74,7 +74,7 @@ Fired once when a finger briefly touches the map.
 
 ### "mapLongpress" (widget, latLng)
 
-**Parameters:** 
+**Parameters:**
 
 - widget: *Map*
 - latLng: *[LatLng](LatLng.md)*
@@ -83,7 +83,7 @@ Fired after pressing the map for a specific amount of time (about a second), and
 
 ### "markerTap" (widget, marker)
 
-**Parameters:** 
+**Parameters:**
 
 - widget: *Map*
 - marker: *[Marker](Marker.md)*

@@ -4,6 +4,8 @@
 
 package com.eclipsesource.tabris.maps;
 
+import android.support.annotation.NonNull;
+
 import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.internal.toolkit.property.ViewPropertyHandler;
 import com.eclipsesource.tabris.client.core.model.Properties;
@@ -45,8 +47,8 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
 
   private void setProperty( String key, GoogleMap map, Properties properties ) {
     switch( key ) {
-      case "latLng":
-        setLatLong( map, properties );
+      case "center":
+        setCenter( map, properties );
         break;
       case "zoom":
         setZoom( map, properties );
@@ -57,10 +59,10 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
     }
   }
 
-  private void setLatLong( GoogleMap map, Properties properties ) {
-    List<Double> coordinates = properties.getList( "latLng", Double.class );
+  private void setCenter( GoogleMap map, Properties properties ) {
+    List<Double> coordinates = properties.getList( "center", Double.class );
     if( coordinates.size() != 2 ) {
-      throw new IllegalArgumentException( "The latLng property has to be a 2 element tuple" );
+      throw new IllegalArgumentException( "The center property has to be a 2 element tuple" );
     }
     LatLng latLng = new LatLng( coordinates.get( 0 ), coordinates.get( 1 ) );
     System.out.println( "move to: " + latLng );
@@ -88,8 +90,24 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
   }
 
   @Override
-  public Object get( MapHolderView view, String property ) {
-    return super.get( view, property );
+  public Object get( MapHolderView mapHolderView, String property ) {
+    Object result;
+    switch( property ) {
+      case "center":
+        result = getCenter( mapHolderView );
+        break;
+      default:
+        result = super.get( mapHolderView, property );
+        break;
+    }
+    return result;
+  }
+
+  @NonNull
+  private double[] getCenter( MapHolderView mapHolderView ) {
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    LatLng target = googleMap.getCameraPosition().target;
+    return new double[]{ target.latitude, target.longitude };
   }
 
 }

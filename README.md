@@ -24,7 +24,7 @@ cordova plugin add ../tabris-maps --variable API_KEY_FOR_ANDROID="your-android-m
 ## Compatibility
 Compatible with:
  * [Tabris.js 1.1.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.1.0)
- 
+                                                                                    
 ### Supported Maps API
 
  * Lite Mode (create)
