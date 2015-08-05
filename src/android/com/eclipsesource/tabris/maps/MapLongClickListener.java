@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MapLongClickListener implements GoogleMap.OnMapLongClickListener {
 
-  public static final String EVENT_MAP_LONGPRESS = "mapLongpress";
+  public static final String EVENT_MAP_LONGPRESS = "maplongpress";
 
   private TabrisActivity activity;
   private MapHolderView mapHolderView;

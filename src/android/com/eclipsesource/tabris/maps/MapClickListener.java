@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MapClickListener implements GoogleMap.OnMapClickListener {
 
-  public static final String EVENT_MAP_TAP = "mapTap";
+  public static final String EVENT_MAP_TAP = "maptap";
 
   private TabrisActivity activity;
   private MapHolderView mapHolderView;

@@ -55,15 +55,15 @@ Returns the minimum zoom level for the current map type and device used.
 
 ## Events
 
-### "mapReady" (widget)
+### "mapready" (widget)
 
 **Parameters:**
 
 - widget: *Map*
 
-The map is ready to be used. Map event listeners can only be attached after the 'mapReady' event has been fired.
+The map is ready to be used. Map event listeners can only be attached after the 'mapready' event has been fired.
 
-### "mapTap" (widget, latLng)
+### "maptap" (widget, latLng)
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ The map is ready to be used. Map event listeners can only be attached after the 
 
 Fired once when a finger briefly touches the map.
 
-### "mapLongpress" (widget, latLng)
+### "maplongpress" (widget, latLng)
 
 **Parameters:**
 
@@ -81,7 +81,7 @@ Fired once when a finger briefly touches the map.
 
 Fired after pressing the map for a specific amount of time (about a second), and again on lifting the finger.
 
-### "markerTap" (widget, marker)
+### "markertap" (widget, marker)
 
 **Parameters:**
 
