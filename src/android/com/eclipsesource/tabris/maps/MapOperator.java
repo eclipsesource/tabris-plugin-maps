@@ -32,7 +32,7 @@ import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_MAP_LONGP
 public class MapOperator extends AbstractWidgetOperator {
 
   private static final String LOG_TAG = "tabris.maps";
-  public static final String WIDGET_TYPE = "com.eclipsesource.tabris.maps.map";
+  public static final String WIDGET_TYPE = "ESMap";
 
   private final MapPropertyHandler mapPropertyHandler;
 

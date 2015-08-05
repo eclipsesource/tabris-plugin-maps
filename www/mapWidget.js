@@ -1,5 +1,4 @@
-tabris.registerWidget("Map", {
-  _type: "com.eclipsesource.tabris.maps.map",
+tabris.registerWidget("ESMap", {
   _properties: {
     liteMode: {type: "boolean", default: false},
     center: "array",
@@ -34,7 +33,7 @@ tabris.registerWidget("Map", {
       "southEastLatLng": southEastLatLng
     });
   },
-animateCameraToPointGroup: function(latLngPointGroup) {
+  animateCameraToPointGroup: function(latLngPointGroup) {
     // TODO check types
     this._nativeCall("animateCameraToPointGroup", {
       "latLngPointGroup": latLngPointGroup
