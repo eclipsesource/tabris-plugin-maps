@@ -12,7 +12,7 @@
 
     <!-- cordova -->
     <engines>
-        <engine name="cordova" version=">=4.0.0-dev" />
+        <engine name="cordova" version=">=3.8.0" />
     </engines>
 
     <platform name="android">
