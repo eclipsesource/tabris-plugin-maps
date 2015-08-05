@@ -1,0 +1,4 @@
+include 'maps'
+include ':cordova'
+project (':cordova').projectDir = new File(System.getenv("TABRIS_CORDOVA_PLATFORM_HOME") +
+        "/framework")

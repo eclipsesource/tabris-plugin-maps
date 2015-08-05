@@ -15,6 +15,10 @@
         <engine name="cordova" version=">=3.8.0" />
     </engines>
 
+    <js-module src="www/mapWidget.js" name="maps">
+      <runs />
+    </js-module>
+
     <platform name="android">
 
         <info>
@@ -24,20 +28,14 @@
 
         <preference name="API_KEY_FOR_ANDROID" />
 
-        <config-file target="config.xml" parent="/*">
-
-            <feature name="Map">
-                <param name="android-package" value="com.eclipsesource.tabris.maps.Map" />
-                <param name="onload" value="true" />
-            </feature>
-
-        </config-file>
-
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data
               android:name="com.google.android.maps.v2.API_KEY"
               android:value="$API_KEY_FOR_ANDROID" />
             <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+            <meta-data
+              android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps"
+              android:value="com.eclipsesource.tabris.maps.MapOperator" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
@@ -48,7 +46,6 @@
 
         <framework src="com.google.android.gms:play-services-maps:6.5.87" />
 
-        <source-file src="src/android/com/eclipsesource/tabris/maps/Map.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapHolderView.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapOperator.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapPropertyHandler.java" target-dir="src/com/eclipsesource/tabris/maps" />

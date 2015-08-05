@@ -1,0 +1,27 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            // provides tabris from directory repository
+            url new File( System.getenv("TABRIS_CORDOVA_PLATFORM_HOME") +
+                    "/bin/templates/project/m2repository" ).toURI()
+                    .toURL().toString()
+        }
+    }
+}
+
+project.ext.set("cdvCompileSdkVersion", 21)
+project.ext.set("cdvBuildToolsVersion", "22.0.1")
+
+apply plugin: 'android-reporting'
