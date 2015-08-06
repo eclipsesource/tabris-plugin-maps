@@ -22,9 +22,9 @@ import com.google.android.gms.maps.GoogleMap;
 import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateCallOperation;
 import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateCreateOperation;
 import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateListenOperation;
-import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_MAP_TAP;
-import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_MAP_READY;
-import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_MAP_LONGPRESS;
+import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_TAP;
+import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
+import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
 
 /**
  * This class handles all protocol operation for the Tabris maps custom widget.
@@ -72,22 +72,22 @@ public class MapOperator extends AbstractWidgetOperator {
     super.listen( listenOperation );
     validateListenOperation( listenOperation );
     Properties properties = listenOperation.getProperties();
-    if( properties.hasProperty( EVENT_MAP_READY ) ) {
-      if( properties.getBoolean( EVENT_MAP_READY ) ) {
+    if( properties.hasProperty( EVENT_READY ) ) {
+      if( properties.getBoolean( EVENT_READY ) ) {
         attachOnMapReadyListener( listenOperation );
       } else {
         throw new IllegalStateException( "'mapReady' event listeners cannot be removed." );
       }
     }
-    if( properties.hasProperty( EVENT_MAP_TAP ) ) {
-      if( properties.getBoolean( EVENT_MAP_TAP ) ) {
+    if( properties.hasProperty( EVENT_TAP ) ) {
+      if( properties.getBoolean( EVENT_TAP ) ) {
         attachOnMapClickListener( listenOperation );
       } else {
         removeOnMapClickListener( listenOperation );
       }
     }
-    if( properties.hasProperty( EVENT_MAP_LONGPRESS ) ) {
-      if( properties.getBoolean( EVENT_MAP_LONGPRESS ) ) {
+    if( properties.hasProperty( EVENT_LONGPRESS ) ) {
+      if( properties.getBoolean( EVENT_LONGPRESS ) ) {
         attachOnMapLongClickListener( listenOperation );
       } else {
         removeOnMapLongClickListener( listenOperation );

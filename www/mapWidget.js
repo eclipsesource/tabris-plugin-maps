@@ -6,17 +6,17 @@ tabris.registerWidget("ESMap", {
     mapType: {type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain"]]}
   },
   _events: {
-    maptap: {
-      trigger: function(event) {this.trigger("maptap", this, event.latLng);}
+    tap: {
+      trigger: function(event) {this.trigger("tap", this, event.latLng);}
     },
-    maplongpress: {
-      trigger: function(event) {this.trigger("maplongpress", this, event.latLng);}
+    longpress: {
+      trigger: function(event) {this.trigger("longpress", this, event.latLng);}
     },
-    mapready: {
-      trigger: function() {this.trigger("mapready", this);}
+    ready: {
+      trigger: function() {this.trigger("ready", this);}
     },
-    mappan: {
-      trigger: function(event) {this.trigger("mappan", this, event.latLng);}
+    pan: {
+      trigger: function(event) {this.trigger("pan", this, event.latLng);}
     }
   },
   animateCamera: function(centerLatLng, zoom) {

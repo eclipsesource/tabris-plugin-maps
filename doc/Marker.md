@@ -2,7 +2,7 @@
 
 ## Events
 
-### "markertap" (widget, marker)
+### "tap" (widget, marker)
 
 **Parameters:**
 

@@ -23,7 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
  */
 public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
 
-  public static final String EVENT_MAP_READY = "mapready";
+  public static final String EVENT_READY = "ready";
   private static final String LOG_TAG = "map.holder";
 
   private TabrisActivity activity;
@@ -64,6 +64,6 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   public void onMapReady( GoogleMap googleMap ) {
     Log.d( LOG_TAG, "map is ready" );
     this.googleMap = googleMap;
-    activity.getRemoteObject( this ).notify( EVENT_MAP_READY );
+    activity.getRemoteObject( this ).notify( EVENT_READY );
   }
 }
