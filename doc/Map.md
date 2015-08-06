@@ -23,6 +23,16 @@ Type: *boolean*
 
 When `liteMode` is switched to *true*, a non-interactive bitmap version of the map is shown. Using maps with `liteMode` enabled can improve performance in the case that many maps are displayed, e.g. in a collection view.
 
+### maxZoomLevel
+Type: *float*
+
+The maximum zoom level for the current camera position and map type. Read only.
+
+### minZoomLevel
+Type: *float*
+
+Returns the minimum zoom level for the current map type and device used. Read only.
+
 ## Methods
 
 ### addMarker(latLng)
@@ -40,18 +50,6 @@ Add a marker on the map at the given coordinates.
 - marker: *[Marker](Marker.md)*
 
 Remove the referenced marker from the map.
-
-### getMaxZoomLevel
-
-**Returns:** *number*
-
-Returns the maximum zoom level for the current camera position and map type.
-
-### getMinZoomLevel
-
-**Returns:** *number*
-
-Returns the minimum zoom level for the current map type and device used.
 
 ## Events
 

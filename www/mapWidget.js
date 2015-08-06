@@ -1,8 +1,10 @@
 tabris.registerWidget("ESMap", {
   _properties: {
     liteMode: {type: "boolean", default: false},
-    center: "array",
-    zoom: "float",
+    center: {type: "array", nocache: true},
+    zoom: {type: "float", nocache: true},
+    minZoomLevel: {type: "float", nocache: true},
+    maxZoomLevel: {type: "float", nocache: true},
     mapType: {type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain"]]}
   },
   _events: {
@@ -38,11 +40,5 @@ tabris.registerWidget("ESMap", {
     this._nativeCall("animateCameraToPointGroup", {
       "latLngPointGroup": latLngPointGroup
     });
-  },
-  getMinZoomLevel: function() {
-    return this._nativeCall("getMinZoomLevel", {});
-  },
-  getMaxZoomLevel: function() {
-    return this._nativeCall("getMaxZoomLevel", {});
   }
 });

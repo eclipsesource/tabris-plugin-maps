@@ -13,9 +13,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
 public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
 
@@ -91,23 +94,30 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
 
   @Override
   public Object get( MapHolderView mapHolderView, String property ) {
-    Object result;
     switch( property ) {
+      case "minZoomLevel":
+        return getGoogleMapSafely( mapHolderView ).getMinZoomLevel();
+      case "maxZoomLevel":
+        return getGoogleMapSafely( mapHolderView ).getMaxZoomLevel();
       case "center":
-        result = getCenter( mapHolderView );
-        break;
+        return getCenter( mapHolderView );
       default:
-        result = super.get( mapHolderView, property );
-        break;
+        return super.get( mapHolderView, property );
     }
-    return result;
+  }
+
+  private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    validateGoogleMap( googleMap, "Only call get on map when it is ready." );
+    return googleMap;
   }
 
   @NonNull
-  private double[] getCenter( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = mapHolderView.getGoogleMap();
+  private List<Double> getCenter( MapHolderView mapHolderView ) {
+    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     LatLng target = googleMap.getCameraPosition().target;
-    return new double[]{ target.latitude, target.longitude };
+    Double[] position = { target.latitude, target.longitude };
+    return Arrays.asList( position );
   }
 
 }

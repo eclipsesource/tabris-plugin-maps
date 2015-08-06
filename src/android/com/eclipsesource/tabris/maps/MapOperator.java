@@ -25,6 +25,7 @@ import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateL
 import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
 import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
+import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
 /**
  * This class handles all protocol operation for the Tabris maps custom widget.
@@ -130,29 +131,11 @@ public class MapOperator extends AbstractWidgetOperator {
     return googleMap;
   }
 
-  private GoogleMap getGoogleMapSafely( CallOperation callOperation ) {
-    String target = callOperation.getTarget();
-    MapHolderView mapHolderView = getObjectRegistry().getObject( target, MapHolderView.class );
-    GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap( googleMap, "Only call methods on Map when it is ready." );
-    return googleMap;
-  }
-
-  private void validateGoogleMap( GoogleMap googleMap, String message ) {
-    if( googleMap == null ) {
-      throw new IllegalStateException( "Google Map is not yet ready. " + message );
-    }
-  }
-
   @Override
   public Object call( CallOperation callOperation ) {
     validateCallOperation( callOperation );
     String method = callOperation.getMethod();
     switch( method ) {
-      case "getMinZoomLevel":
-        return getGoogleMapSafely( callOperation ).getMinZoomLevel();
-      case "getMaxZoomLevel":
-        return getGoogleMapSafely( callOperation ).getMaxZoomLevel();
       default:
         Log.d( LOG_TAG, String.format( "call to unknown method \"%s\"", method ) );
         break;
@@ -161,8 +144,8 @@ public class MapOperator extends AbstractWidgetOperator {
   }
 
   @Override
-  public Object get( String s, String s1 ) {
-    return null;
+  public Object get( String target, String property ) {
+    return super.get( target, property );
   }
 
   @Override
