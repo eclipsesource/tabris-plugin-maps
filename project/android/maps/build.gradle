@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    compile project (':cordova')
     compile 'com.eclipsesource.tabris:tabris-android:2.0.0'
     compile 'com.google.android.gms:play-services-maps:6.5.87'
 

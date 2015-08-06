@@ -21,7 +21,4 @@ allprojects {
     }
 }
 
-project.ext.set("cdvCompileSdkVersion", 21)
-project.ext.set("cdvBuildToolsVersion", "22.0.1")
-
 apply plugin: 'android-reporting'
