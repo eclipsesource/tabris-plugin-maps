@@ -81,11 +81,11 @@ Fired once when a finger briefly touches the map.
 
 Fired after pressing the map for a specific amount of time (about a second), and again on lifting the finger.
 
-### "markertap" (widget, marker)
+### "mappan" (widget, latLng)
 
 **Parameters:**
 
 - widget: *Map*
-- marker: *[Marker](Marker.md)*
+- latLng: *[LatLng](LatLng.md)*
 
-Fired when the map is tapped.
+Fired continously while the map is dragged with a finger.
