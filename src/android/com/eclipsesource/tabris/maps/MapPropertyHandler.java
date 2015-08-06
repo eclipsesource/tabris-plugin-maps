@@ -101,6 +101,8 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
         return getGoogleMapSafely( mapHolderView ).getMaxZoomLevel();
       case "center":
         return getCenter( mapHolderView );
+      case "zoom":
+        return getZoom( mapHolderView );
       default:
         return super.get( mapHolderView, property );
     }
@@ -110,6 +112,11 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
     validateGoogleMap( googleMap, "Only call get on map when it is ready." );
     return googleMap;
+  }
+
+  private float getZoom( MapHolderView mapHolderView ) {
+    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
+    return googleMap.getCameraPosition().zoom;
   }
 
   @NonNull
