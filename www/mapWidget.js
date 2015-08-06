@@ -1,4 +1,5 @@
 tabris.registerWidget("ESMap", {
+  _supportsChildren: true,
   _properties: {
     liteMode: {type: "boolean", default: false},
     center: {type: "array", nocache: true},
@@ -40,5 +41,8 @@ tabris.registerWidget("ESMap", {
     this._nativeCall("animateCameraToPointGroup", {
       "latLngPointGroup": latLngPointGroup
     });
+  },
+  createMarker: function(mapOptions) {
+    return tabris.create("_ESMarker", mapOptions).appendTo(this);
   }
 });

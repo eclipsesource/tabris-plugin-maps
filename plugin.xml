@@ -19,6 +19,10 @@
       <runs />
     </js-module>
 
+    <js-module src="www/markerWidget.js" name="marker">
+      <runs />
+    </js-module>
+
     <platform name="android">
 
         <info>
@@ -36,6 +40,9 @@
             <meta-data
               android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps"
               android:value="com.eclipsesource.tabris.maps.MapOperator" />
+            <meta-data
+              android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps.marker"
+              android:value="com.eclipsesource.tabris.maps.MarkerOperator" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
@@ -52,6 +59,8 @@
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapClickListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapLongClickListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapValidator.java" target-dir="src/com/eclipsesource/tabris/maps" />
+        <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerOperator.java" target-dir="src/com/eclipsesource/tabris/maps" />
+        <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerPropertyHandler.java" target-dir="src/com/eclipsesource/tabris/maps" />
 
     </platform>
 
