@@ -1,19 +1,15 @@
 # tabris-maps
-Tabris Maps Plugin
+tabris-maps is a custom widget for [Tabris.js](https://tabrisjs.com).
+tabris-maps comes in form of a Cordova plugin.
 
-This is a custom maps widget for use in the native UI of your [Tabris.js](https://tabrisjs.com) and [Tabris](http://developer.eclipsesource.com/tabris/) projects.
+This maps widget for use in the native UI (iOS and Android) of your Tabris.js projects leverages the respective native map implementations.
 
-It provides access to features available through the [Google Maps API](https://developers.google.com/maps/) for Android and iOS.
+It provides access to features available through the [Map Kit framework](https://developer.apple.com/maps/) on iOS and the [Google Maps API](https://developers.google.com/maps/) on Android.
+
+
 
 ## Use the Plugin
-
-The Tabris.js project provides documentation on [how to use Cordova plugins](https://tabrisjs.com/documentation/latest/cordova) in your projects.
-
-### Obtain an API Key
-
-The documentation for the Google Maps API explains how to aquire API keys for:
- * [Android](https://developers.google.com/maps/documentation/android/signup)
- * [iOS](https://developers.google.com/maps/documentation/ios/intro)
+The Tabris.js website provides documentation on how to use custom widgets [TODO: add link] in your Tabris.js projects. It also explains [how to use Cordova plugins](https://tabrisjs.com/documentation/latest/cordova) in your projects.
 
 ### Add the Plugin to your Project
 Add it to your Cordova project like this:
@@ -21,12 +17,21 @@ Add it to your Cordova project like this:
 cordova plugin add ../tabris-maps --variable API_KEY_FOR_ANDROID="your-android-maps-api-key-here"
 ```
 
+## Requirements
+### Android
+To use this custom widget on Android devices you have to obtain an API Key from Google.
+The documentation for the Google Maps API explains [how to aquire API keys](https://developers.google.com/maps/documentation/android/signup).
+
+### iOS
+tbd
+
 ## Compatibility
 Compatible with:
  * [Tabris.js 1.1.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.1.0)
-                                                                                    
-### Supported Maps API
 
+### Supported API
+This sections gives a brief overview of the subsets of the native maps APIs supported by this custom widget.
+#### Android
  * Lite Mode (create)
  * GoogleMap
    * mapType
@@ -46,3 +51,6 @@ Compatible with:
    * onMapClick
    * onMapLongClick
    * onMarkerClick
+
+#### iOS
+ tbd
