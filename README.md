@@ -17,6 +17,9 @@ Add it to your Cordova project like this:
 cordova plugin add ../tabris-maps --variable API_KEY_FOR_ANDROID="your-android-maps-api-key-here"
 ```
 
+### Example Project
+We prepare an [example Tabris.js project](https://github.com/eclipsesource/tabris-maps-example) that uses tabris-maps as a custom widget.
+
 ## Requirements
 ### Android
 To use this custom widget on Android devices you have to obtain an API Key from Google.
