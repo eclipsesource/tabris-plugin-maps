@@ -9,7 +9,7 @@ It provides access to features available through the [Map Kit framework](https:/
 
 
 ## Use the Plugin
-The Tabris.js website provides documentation on how to use custom widgets [TODO: add link] in your Tabris.js projects. It also explains [how to use Cordova plugins](https://tabrisjs.com/documentation/latest/cordova) in your projects.
+The Tabris.js website provides documentation on [how to use custom widgets](https://tabrisjs.com/documentation/1.2/custom-widgets) in your Tabris.js projects. It also explains [how to use Cordova plugins](https://tabrisjs.com/documentation/latest/cordova) in your projects.
 
 ### Add the Plugin to your Project
 Add it to your Cordova project like this:
