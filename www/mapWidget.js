@@ -3,9 +3,9 @@ tabris.registerWidget("ESMap", {
   _properties: {
     liteMode: {type: "boolean", default: false},
     center: {type: "array", nocache: true},
-    zoom: {type: "float", nocache: true},
-    minZoomLevel: {type: "float", nocache: true},
-    maxZoomLevel: {type: "float", nocache: true},
+    zoom: {type: "any", nocache: true},
+    minZoomLevel: {type: "any", nocache: true},
+    maxZoomLevel: {type: "any", nocache: true},
     mapType: {type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain"]]}
   },
   _events: {
