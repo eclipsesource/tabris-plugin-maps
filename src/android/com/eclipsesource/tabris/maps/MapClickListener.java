@@ -5,6 +5,7 @@
 package com.eclipsesource.tabris.maps;
 
 import com.eclipsesource.tabris.android.TabrisActivity;
+import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -15,11 +16,11 @@ public class MapClickListener implements GoogleMap.OnMapClickListener {
 
   public static final String EVENT_TAP = "tap";
 
-  private TabrisActivity activity;
-  private MapHolderView mapHolderView;
+  private final ObjectRegistry objectRegistry;
+  private final MapHolderView mapHolderView;
 
-  public MapClickListener( TabrisActivity activity, MapHolderView mapHolderView ) {
-    this.activity = activity;
+  public MapClickListener( ObjectRegistry objectRegistry, MapHolderView mapHolderView ) {
+    this.objectRegistry = objectRegistry;
     this.mapHolderView = mapHolderView;
   }
 
@@ -28,6 +29,6 @@ public class MapClickListener implements GoogleMap.OnMapClickListener {
     List<Double> properties = new ArrayList<>();
     properties.add( latLng.latitude );
     properties.add( latLng.longitude );
-    activity.getRemoteObject( mapHolderView ).notify( EVENT_TAP, "latLng", properties );
+    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_TAP, "latLng", properties );
   }
 }

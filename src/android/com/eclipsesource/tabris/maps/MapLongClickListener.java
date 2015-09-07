@@ -5,6 +5,7 @@
 package com.eclipsesource.tabris.maps;
 
 import com.eclipsesource.tabris.android.TabrisActivity;
+import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -15,11 +16,11 @@ public class MapLongClickListener implements GoogleMap.OnMapLongClickListener {
 
   public static final String EVENT_LONGPRESS = "longpress";
 
-  private TabrisActivity activity;
-  private MapHolderView mapHolderView;
+  private final ObjectRegistry objectRegistry;
+  private final MapHolderView mapHolderView;
 
-  public MapLongClickListener( TabrisActivity activity, MapHolderView mapHolderView ) {
-    this.activity = activity;
+  public MapLongClickListener( ObjectRegistry objectRegistry, MapHolderView mapHolderView ) {
+    this.objectRegistry = objectRegistry;
     this.mapHolderView = mapHolderView;
   }
 
@@ -28,6 +29,6 @@ public class MapLongClickListener implements GoogleMap.OnMapLongClickListener {
     List<Double> properties = new ArrayList<>();
     properties.add( latLng.latitude );
     properties.add( latLng.longitude );
-    activity.getRemoteObject( mapHolderView ).notify( EVENT_LONGPRESS, "latLng", properties );
+    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_LONGPRESS, "latLng", properties );
   }
 }

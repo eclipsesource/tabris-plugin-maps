@@ -4,9 +4,12 @@
 
 package com.eclipsesource.tabris.maps;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.eclipsesource.tabris.android.TabrisActivity;
+import com.eclipsesource.tabris.android.TabrisContext;
+import com.eclipsesource.tabris.android.TabrisWidgetPropertyHandler;
 import com.eclipsesource.tabris.android.internal.toolkit.property.ViewPropertyHandler;
 import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,12 +23,12 @@ import java.util.Map;
 
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
-public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
+public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderView> {
 
   private Map<String, Integer> mapTypes;
 
-  public MapPropertyHandler( TabrisActivity activity ) {
-    super( activity );
+  public MapPropertyHandler( Activity activity, TabrisContext context ) {
+    super( activity, context );
     initMapTypesMap();
   }
 

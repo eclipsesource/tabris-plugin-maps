@@ -1,6 +1,10 @@
 package com.eclipsesource.tabris.maps;
 
+import android.app.Activity;
+
 import com.eclipsesource.tabris.android.TabrisActivity;
+import com.eclipsesource.tabris.android.TabrisContext;
+import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 import com.eclipsesource.tabris.android.internal.toolkit.property.IPropertyHandler;
 
 import org.junit.Test;
@@ -12,18 +16,18 @@ public class MapOperator_Test {
 
   @Test
   public void testGetType() {
-    MapOperator operator = new MapOperator( mock( TabrisActivity.class ) );
+    MapOperator operator = new MapOperator( mock( Activity.class ), mock( TabrisContext.class) );
 
     String type = operator.getType();
 
-    assertEquals( "com.eclipsesource.tabris.maps.map", type );
+    assertEquals( "ESMap", type );
   }
 
   @Test
   public void testGetPropertyHandler() {
-    MapOperator operator = new MapOperator( mock( TabrisActivity.class ) );
+    MapOperator operator = new MapOperator( mock( Activity.class ), mock( TabrisContext.class)  );
 
-    IPropertyHandler propertyHandler = operator.getPropertyHandler( null );
+    TabrisPropertyHandler propertyHandler = operator.getPropertyHandler();
 
     assertTrue( propertyHandler instanceof MapPropertyHandler );
   }
