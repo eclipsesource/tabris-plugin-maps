@@ -59,6 +59,12 @@ public class MarkerOperator extends AbstractTabrisOperator<Marker> {
   }
 
   @Override
+  public void destroy( Marker marker ) {
+    Log.d( LOG_TAG, String.format( "Removing marker: %s (id: %s)", marker, marker.getId() ) );
+    marker.remove();
+  }
+
+  @Override
   public void listen( final Marker marker, String event, boolean listen ) {
     switch( event ) {
       case EVENT_TAP:
