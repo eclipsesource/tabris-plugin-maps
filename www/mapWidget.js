@@ -1,4 +1,5 @@
 tabris.registerWidget("ESMap", {
+  _type: "tabris.Map",
   _supportsChildren: true,
   _properties: {
     liteMode: {type: "boolean", default: false},
@@ -6,7 +7,8 @@ tabris.registerWidget("ESMap", {
     zoom: {type: "any", nocache: true},
     minZoomLevel: {type: "any", nocache: true},
     maxZoomLevel: {type: "any", nocache: true},
-    mapType: {type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain"]]}
+    region: {type: "array", nocache: true},
+    mapType: {type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain", "satelliteflyover", "hybridflyover"]], nocache: true}
   },
   _events: {
     tap: {

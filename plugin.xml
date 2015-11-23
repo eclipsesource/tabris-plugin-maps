@@ -65,23 +65,11 @@
     </platform>
 
     <platform name="ios">
-
-        <info>
-             In order to run this plugin, you need to obtain Google Maps API key for Android.
-        </info>
-
-        <!-- Script hooks -->
-
-        <hook type="before_plugin_add" src="scripts/ios/prepare.js" />
-        <hook type="after_plugin_add" src="scripts/ios/revert.js" />
-
         <!-- Source files -->
-
-        <source-file src="src/ios/Map.swift" />
-        <source-file src="src/ios/MapView.swift" />
+        <source-file src="src/ios/ESMap.swift" />
+        <source-file src="src/ios/ESMarker.swift" />
 
         <!-- Required frameworks -->
-
         <framework src="MapKit.framework" />
 
     </platform>

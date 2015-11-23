@@ -26,11 +26,12 @@ To use this custom widget on Android devices you have to obtain an API Key from 
 The documentation for the Google Maps API explains [how to aquire API keys](https://developers.google.com/maps/documentation/android/signup).
 
 ### iOS
-tbd
+iOS uses MapKit to privde maps services. Maps plugin has been written in Swift. For further information regarding MapKit you should check [Apple MapKit documentation](https://developer.apple.com/library/ios/documentation/MapKit/Reference/MapKit_Framework_Reference/index.html#//apple_ref/doc/uid/TP40008210). iOS implementation does not require any API key.
 
 ## Compatibility
 Compatible with:
- * [Tabris.js 1.1.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.1.0)
+ * Android - [Tabris.js 1.1.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.1.0)
+ * iOS - [Tabris.js 1.4.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.4.0)
 
 ### Supported API
 This sections gives a brief overview of the subsets of the native maps APIs supported by this custom widget.
@@ -56,4 +57,13 @@ This sections gives a brief overview of the subsets of the native maps APIs supp
    * onMarkerClick
 
 #### iOS
- tbd
+ * MapKit
+   * mapType
+   * center
+   * region
+   * addMarker
+   * removeMarker
+ * Listener
+   * tap
+   * pan
+   * ready
