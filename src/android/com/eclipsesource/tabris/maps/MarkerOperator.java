@@ -23,9 +23,9 @@ import static com.eclipsesource.tabris.client.core.util.ValidationUtil.validateL
 
 public class MarkerOperator extends AbstractTabrisOperator<Marker> {
 
-  private static final String WIDGET_TYPE = "_ESMarker";
+  private static final String WIDGET_TYPE = "tabris.maps.marker";
   private static final String EVENT_TAP = "tap";
-  private static final String LOG_TAG = "tabris.maps.marker";
+  private static final String LOG_TAG = WIDGET_TYPE;
 
   private final Activity activity;
   private final TabrisContext tabrisContext;

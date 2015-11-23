@@ -26,8 +26,8 @@ import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
  */
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
-  private static final String LOG_TAG = "tabris.maps";
-  public static final String WIDGET_TYPE = "ESMap";
+  private static final String LOG_TAG = WIDGET_TYPE;
+  public static final String WIDGET_TYPE = "tabris.maps";
 
   private final Activity activity;
   private final TabrisContext tabrisContext;
