@@ -73,7 +73,7 @@
         <!-- Source files -->
         <source-file src="src/ios/ESMap.swift" />
         <source-file src="src/ios/ESMarker.swift" />
-        <source-file src="src/ios/__PROJECT_NAME__-Bridging-Header.h" />
+        <source-file src="src/ios/ESMaps-Bridging-Header.h" />
 
         <!-- Required frameworks -->
         <framework src="MapKit.framework" />

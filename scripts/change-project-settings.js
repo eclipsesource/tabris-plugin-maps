@@ -49,8 +49,12 @@ if (rootdir) {
       var file = getProjectFile("ios", "") + ".xcodeproj/project.pbxproj";
       var definesModuleReplace = "DEFINES_MODULE = NO";
       var clangReplace = "CLANG_ENABLE_MODULES = NO";
+      var containsSwiftReplace = "EMBEDDED_CONTENT_CONTAINS_SWIFT = NO";
+      var runpathReplace = "LD_RUNPATH_SEARCH_PATHS = \"\"";
       replace(file, definesModuleReplace, "DEFINES_MODULE = YES");
       replace(file, clangReplace, "CLANG_ENABLE_MODULES = YES");
+      replace(file, containsSwiftReplace, "EMBEDDED_CONTENT_CONTAINS_SWIFT = YES");
+      replace(file, runpathReplace, "LD_RUNPATH_SEARCH_PATHS = \"@executable_path/Frameworks\"");
     };
 
     updateProjectSettings();

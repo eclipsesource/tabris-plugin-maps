@@ -82,30 +82,20 @@ if (rootdir) {
 
     var updateProjectSettings = function() {
       var projectName = getProjectName();
-      var headerName = projectName + "-Bridging-Header.h";
+      var headerName = "ESMaps-Bridging-Header.h";
       var file = getProjectFile("ios", "") + ".xcodeproj/project.pbxproj";
-      var headerReplace = "__PROJECT_NAME__-Bridging-Header.h";
       var bridgeReplace = "SWIFT_OBJC_BRIDGING_HEADER = \"\";"
-      replace(file, headerReplace, headerName);
-      replace(file, bridgeReplace, "SWIFT_OBJC_BRIDGING_HEADER = \""+ projectName + "/Plugins/com.eclipsesource.tabris.maps/" + headerName + "\";");
+      replace(file, bridgeReplace, "SWIFT_OBJC_BRIDGING_HEADER = \""+ projectName + "/Plugins/com.eclipsesource.tabris.maps/ESMaps-Bridging-Header.h\";");
     };
-
-    var setupBridgingHeader = function() {
-      var headerName = getProjectName() + "-Bridging-Header.h";
-      var headerReplace = "__PROJECT_NAME__-Bridging-Header.h";
-      var folder = getProjectFile("ios", "Plugins/com.eclipsesource.tabris.maps/");
-      fs.rename(folder + headerReplace, folder + headerName);
-    }
 
     var updateExistingBridgingHeader = function() {
       var headerPath = getBridgingHeaderPath();
-      fs.appendFile(headerPath, "\n\n#import \"AppDelegate.h\"\n#import <Tabris/BasicObject.h>\n#import <Tabris/BasicWidget.h>\n#import <Tabris/ClientLayout.h>\n#import <Tabris/DelegatingView.h>\n#import <Tabris/JSBinding.h>\n#import <Tabris/Message.h>\n#import <Tabris/Notifications.h>\n#import <Tabris/NotificationsProtocols.h>\n#import <Tabris/RemoteObject.h>\n#import <Tabris/TabrisClient.h>\n#import <Tabris/TabrisClientDelegates.h>\n#import <Tabris/TabrisHTTPClient.h>\n");
+      fs.appendFile(headerPath, "\n\n#import \"ESMaps-Bridging-Header.h\"");
     }
 
     if (checkForBridgingHeader()) {
       updateExistingBridgingHeader();
     } else {
-      setupBridgingHeader();
       updateProjectSettings();
     }
   }
