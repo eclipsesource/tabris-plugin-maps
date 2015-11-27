@@ -31,7 +31,7 @@ iOS uses MapKit to privde maps services. Maps plugin has been written in Swift. 
 ## Compatibility
 Compatible with:
  * Android - [Tabris.js 1.1.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.1.0)
- * iOS - [Tabris.js 1.4.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.4.0)
+ * iOS - [Tabris.js 1.5.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.5.0)
 
 ### Supported API
 This sections gives a brief overview of the subsets of the native maps APIs supported by this custom widget.
