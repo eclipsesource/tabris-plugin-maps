@@ -6,6 +6,8 @@ import android.util.Log;
 import com.eclipsesource.tabris.android.AbstractTabrisOperator;
 import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.TabrisContext;
+import com.eclipsesource.tabris.android.TabrisPropertyHandler;
+import com.eclipsesource.tabris.android.internal.toolkit.property.IPropertyHandler;
 import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.eclipsesource.tabris.client.core.model.Properties;
 import com.eclipsesource.tabris.client.core.operation.CreateOperation;
@@ -36,6 +38,11 @@ public class MarkerOperator extends AbstractTabrisOperator<Marker> {
     this.activity = activity;
     this.tabrisContext = tabrisContext;
     markerPropertyHandler = new MarkerPropertyHandler( activity, tabrisContext );
+  }
+
+  @Override
+  public TabrisPropertyHandler<Marker> getPropertyHandler() {
+    return markerPropertyHandler;
   }
 
   @Override
@@ -82,16 +89,6 @@ public class MarkerOperator extends AbstractTabrisOperator<Marker> {
     MapValidator.validateGoogleMap( googleMap,
         "Markers can only be used after the Map's 'ready' event has been fired." );
     return googleMap;
-  }
-
-  @Override
-  public Object get( Marker marker, String property ) {
-    return null;
-  }
-
-  @Override
-  public void set( Marker marker, Properties properties ) {
-    // do nothing
   }
 
   private Marker createMarker( List<Double> latLng ) {
