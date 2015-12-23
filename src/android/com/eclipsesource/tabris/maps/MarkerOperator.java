@@ -109,8 +109,7 @@ public class MarkerOperator extends AbstractTabrisOperator<Marker> {
     googleMap.setOnMarkerClickListener( new GoogleMap.OnMarkerClickListener() {
       @Override
       public boolean onMarkerClick( Marker marker ) {
-        Log.d( LOG_TAG, String.format( "Marker %s with id %s was tapped.", marker, marker.getId()
-        ) );
+        Log.d( LOG_TAG, String.format( "Marker %s with id %s was tapped.", marker, marker.getId() ) );
         getObjectRegistry().getRemoteObjectForObject( marker ).notify( EVENT_TAP );
         return true;
       }
