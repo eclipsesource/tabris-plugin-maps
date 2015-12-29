@@ -13,7 +13,7 @@ Type: *string*
 A text that appears in a white bubble above the marker when tapped.
 
 ### color
-Type: * string*
+Type: *string*
 
 The color of the marker pin. One of: `azure`, `cyan`, `blue`, `green`, `magenta`, `orange`, `red`, `rose`, `violet`, `yellow`.
 

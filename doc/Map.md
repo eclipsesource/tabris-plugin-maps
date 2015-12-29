@@ -66,7 +66,7 @@ The map is ready to be used. Map event listeners can only be attached after the 
 **Parameters:**
 
 - widget: *Map*
-- latLng: *[LatLng](LatLng.md)*
+- latLng: *[LatLng](LatLng.md)* The location on the map where the touch occurred.
 
 Fired once when a finger briefly touches the map.
 
@@ -75,7 +75,7 @@ Fired once when a finger briefly touches the map.
 **Parameters:**
 
 - widget: *Map*
-- latLng: *[LatLng](LatLng.md)*
+- latLng: *[LatLng](LatLng.md)* The location on the map where the touch occurred.
 
 Fired after pressing the map for a specific amount of time (about a second), and again on lifting the finger.
 
@@ -86,4 +86,4 @@ Fired after pressing the map for a specific amount of time (about a second), and
 - widget: *Map*
 - latLng: *[LatLng](LatLng.md)*
 
-Fired continously while the map is dragged with a finger.
+Fired continuously while the map is dragged with a finger.
