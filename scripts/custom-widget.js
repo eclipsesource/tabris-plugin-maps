@@ -9,7 +9,7 @@ if (rootdir) {
   module.exports = function(context) {
 
     var cordova_util = context.requireCordovaModule("cordova-lib/src/cordova/util"),
-        ConfigParser = context.requireCordovaModule("cordova-lib/src/configparser/ConfigParser"),
+        ConfigParser = context.requireCordovaModule("cordova-common").ConfigParser,
         projectRoot = cordova_util.isCordova(),
         xml = cordova_util.projectConfig(projectRoot),
         cfg = new ConfigParser(xml);
@@ -21,21 +21,9 @@ if (rootdir) {
     } catch(e) {
       platforms = context.requireCordovaModule('cordova-lib/src/platforms/platforms');
     }
-
     var getProjectFile = function(platform, relPath) {
-      var platform_path = path.join(projectRoot, "platforms", platform);
-      var parser = new platforms[platform].parser(platform_path);
-      if (typeof parser.cordovaproj !== "undefined") {
-        return path.join(parser.cordovaproj, relPath);
-      }
-      return path.join(parser.path, relPath);
+      return path.join(projectRoot, "platforms", platform, cfg.name(), relPath);
     };
-
-    var getProjectName = function() {
-      var platform_path = path.join(projectRoot, "platforms", "ios");
-      var parser = new platforms["ios"].parser(platform_path);
-      return parser.cordovaproj.replace(/^.*[\\\/]/, '');
-    }
 
     var replace = function(path, to_replace, replace_with) {
       var data = fs.readFileSync(path, "utf8");
@@ -45,8 +33,7 @@ if (rootdir) {
 
     var updateIOSAppDelegate = function() {
       var appDelegate = getProjectFile("ios", "Classes/AppDelegate.m");
-      var plugins = cfg.getPlatformPreference("tabris-plugins", "ios")
-      var projectName = getProjectName();
+      var projectName = cfg.name();
       var importReplace = "#import \"AppDelegate.h\"";
       var registerReplace = "self.client.delegate = self;"
       replace(appDelegate, importReplace, importReplace + "\n#import \"" + projectName + "-Swift.h\"");

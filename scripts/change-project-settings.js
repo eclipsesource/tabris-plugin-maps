@@ -9,7 +9,7 @@ if (rootdir) {
   module.exports = function(context) {
 
     var cordova_util = context.requireCordovaModule("cordova-lib/src/cordova/util"),
-        ConfigParser = context.requireCordovaModule("cordova-lib/src/configparser/ConfigParser"),
+        ConfigParser = context.requireCordovaModule("cordova-common").ConfigParser,
         projectRoot = cordova_util.isCordova(),
         xml = cordova_util.projectConfig(projectRoot),
         cfg = new ConfigParser(xml);
@@ -23,18 +23,11 @@ if (rootdir) {
     }
 
     var getProjectFile = function(platform, relPath) {
-      var platform_path = path.join(projectRoot, "platforms", platform);
-      var parser = new platforms[platform].parser(platform_path);
-      if (typeof parser.cordovaproj !== "undefined") {
-        return path.join(parser.cordovaproj, relPath);
-      }
-      return path.join(parser.path, relPath);
+      return path.join(projectRoot, "platforms", platform, cfg.name(), relPath);
     };
 
     var getProjectName = function() {
-      var platform_path = path.join(projectRoot, "platforms", "ios");
-      var parser = new platforms["ios"].parser(platform_path);
-      return parser.cordovaproj.replace(/^.*[\\\/]/, '');
+      return cfg.name();
     }
 
     var replace = function(path, to_replace, replace_with) {
