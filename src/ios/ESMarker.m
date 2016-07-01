@@ -1,0 +1,80 @@
+//
+//  ESMarker.m
+//  TabrisMapsExample
+//
+//  Created by Patryk Mol on 30/06/16.
+//
+//
+
+#import "ESMarker.h"
+#import "ESMap.h"
+
+@interface ESMarker ()
+@property (weak) ESMap *map;
+@end
+
+@implementation ESMarker
+
+@synthesize latLng = _latLng;
+@synthesize tapListener = _tapListener;
+@synthesize coordinate = _coordinate;
+@synthesize title = _title;
+@synthesize subtitle = _subtitle;
+@synthesize map = _map;
+
+- (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
+    self = [super initWithObjectId:objectId properties:properties andClient:client];
+    if (self) {
+        NSArray *coordinates = [properties objectForKey:@"latLng"];
+        if (coordinates) {
+            self.coordinate = CLLocationCoordinate2DMake([[coordinates objectAtIndex:0] floatValue], [[coordinates objectAtIndex:1] floatValue]);
+        }
+        NSString *parentId = [properties objectForKey:@"parent"];
+        if (parentId) {
+            self.map = (ESMap *)[self.client objectById:parentId];
+            [self.map addMarker:self];
+        }
+    }
+    return self;
+}
+
+- (instancetype)initWithObjectId:(NSString *)objectId andClient:(TabrisClient *)client {
+    self = [super initWithObjectId:objectId andClient:client];
+    if (self) {
+        [self setCoordinate:CLLocationCoordinate2DMake(0, 0)];
+    }
+    return self;
+}
+
+- (UIView *)view {
+    return nil;
+}
+
++ (NSMutableSet *)remoteObjectProperties {
+    NSMutableSet *set = [super remoteObjectProperties];
+    [set addObject:@"latLng"];
+    return set;
+}
+
++ (NSString *)remoteObjectType {
+    return @"tabris.maps.marker";
+}
+
+- (void)tapped {
+    if (self.tapListener) {
+        Message<Notification> *message = [[self notifications] forObject:self];
+        [message fireEvent:@"tap" withAttributes:@{}];
+    }
+}
+
+- (void)destroy {
+    [self.map removeMarker:self];
+    self.map = nil;
+    [super destroy];
+}
+
+- (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate {
+    _coordinate = newCoordinate;
+}
+
+@end

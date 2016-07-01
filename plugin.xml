@@ -67,13 +67,12 @@
     <platform name="ios">
         <!-- Hooks -->
         <hook type="after_plugin_install" src="scripts/custom-widget.js" />
-        <hook type="after_plugin_install" src="scripts/change-project-settings.js" />
-        <hook type="after_plugin_install" src="scripts/setup-bridging-header.js" />
 
         <!-- Source files -->
-        <source-file src="src/ios/ESMap.swift" />
-        <source-file src="src/ios/ESMarker.swift" />
-        <source-file src="src/ios/ESMaps-Bridging-Header.h" />
+        <header-file src="src/ios/ESMap.h" />
+        <source-file src="src/ios/ESMap.m" />
+        <header-file src="src/ios/ESMarker.h" />
+        <source-file src="src/ios/ESMarker.m" />
 
         <!-- Required frameworks -->
         <framework src="MapKit.framework" />
