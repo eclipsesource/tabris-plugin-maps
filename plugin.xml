@@ -51,7 +51,7 @@
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
         </config-file>
 
-        <framework src="com.google.android.gms:play-services-maps:7.8.0" />
+        <framework src="com.google.android.gms:play-services-maps:9.2.0" />
 
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapHolderView.java" target-dir="src/com/eclipsesource/tabris/maps" />
         <source-file src="src/android/com/eclipsesource/tabris/maps/MapOperator.java" target-dir="src/com/eclipsesource/tabris/maps" />
