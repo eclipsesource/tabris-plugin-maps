@@ -16,10 +16,10 @@ import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.GoogleMap;
 
+import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERACHANGE;
 import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
 import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
-import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERACHANGE;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
 /**
@@ -54,12 +54,8 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @Override
   public MapHolderView create( Properties properties ) {
     Log.d( LOG_TAG, String.format( "Creating new map holder. %s", properties ) );
-    final MapHolderView mapHolderView = new MapHolderView( activity, tabrisContext );
-    mapHolderView.post( new Runnable() {
-      public void run() {
-        mapHolderView.createMap();
-      }
-    } );
+    MapHolderView mapHolderView = new MapHolderView( activity, tabrisContext );
+    mapHolderView.createMap();
     return mapHolderView;
   }
 
@@ -68,11 +64,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     switch( event ) {
       case EVENT_READY:
         if( listen ) {
-          mapHolderView.postOnAnimation( new Runnable() {
-            public void run() {
-              mapHolderView.setOnMapReadyListener();
-            }
-          } );
+          mapHolderView.setOnMapReadyListener();
         } else {
           throw new IllegalStateException( "'mapReady' event listeners cannot be removed." );
         }
