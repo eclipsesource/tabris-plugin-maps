@@ -38,10 +38,12 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   }
 
   public void createMap() {
-    FrameLayout mapDummy = createMapDummy();
-    mapFragment = new MapFragment();
-    FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
-    ft.replace( mapDummy.getId(), mapFragment ).commit();
+    if( mapFragment == null ) {
+      FrameLayout mapDummy = createMapDummy();
+      mapFragment = new MapFragment();
+      FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
+      ft.replace( mapDummy.getId(), mapFragment ).commit();
+    }
   }
 
   @NonNull
@@ -58,6 +60,7 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   }
 
   public void setOnMapReadyListener() {
+    createMap();
     mapFragment.getMapAsync( this );
   }
 
