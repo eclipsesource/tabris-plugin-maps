@@ -68,7 +68,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     switch( event ) {
       case EVENT_READY:
         if( listen ) {
-          mapHolderView.post( new Runnable() {
+          mapHolderView.postOnAnimation( new Runnable() {
             public void run() {
               mapHolderView.setOnMapReadyListener();
             }
