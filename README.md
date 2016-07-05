@@ -55,6 +55,7 @@ This sections gives a brief overview of the subsets of the native maps APIs supp
    * tiltGesturesEnabled
    * addMarker()
    * removeMarker()
+   * animateCameraToPointGroup() (can only be set after "ready" callback)
  * Marker
    * latLong
    * title

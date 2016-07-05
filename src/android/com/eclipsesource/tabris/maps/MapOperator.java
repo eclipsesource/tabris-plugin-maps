@@ -7,6 +7,7 @@ package com.eclipsesource.tabris.maps;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -14,7 +15,12 @@ import com.eclipsesource.tabris.android.AbstractTabrisOperator;
 import com.eclipsesource.tabris.android.TabrisContext;
 import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 import com.eclipsesource.tabris.client.core.model.Properties;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+
+import java.util.List;
 
 import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERACHANGE;
 import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_TAP;
@@ -29,6 +35,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   public static final String WIDGET_TYPE = "tabris.Map";
   private static final String LOG_TAG = WIDGET_TYPE;
+  private static final int DEFAULT_CAMERA_PADDING = 32;
 
   private final Activity activity;
   private final TabrisContext tabrisContext;
@@ -96,11 +103,30 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @Override
   public Object call( MapHolderView mapHolderView, String method, Properties properties ) {
     switch( method ) {
+      case "animateCameraToPointGroup":
+        animateCameraToPointGroup( mapHolderView, properties );
+        break;
       default:
         Log.d( LOG_TAG, String.format( "Call to unknown method \"%s\". Properties: %s", method, properties ) );
         break;
     }
     return null;
+  }
+
+  private void animateCameraToPointGroup( MapHolderView mapHolderView, Properties properties ) {
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+    List<Double> latLngPointGroup = properties.getList( "latLngPointGroup", Double.class );
+    for( int i = 0; i < latLngPointGroup.size(); i += 2 ) {
+      builder.include( new LatLng( latLngPointGroup.get( i ), latLngPointGroup.get( i + 1 ) ) );
+    }
+    googleMap.animateCamera( CameraUpdateFactory.newLatLngBounds( builder.build(), getCameraPadding() ) );
+  }
+
+  private int getCameraPadding() {
+    DisplayMetrics metrics = new DisplayMetrics();
+    activity.getWindowManager().getDefaultDisplay().getMetrics( metrics );
+    return Math.round( metrics.density * DEFAULT_CAMERA_PADDING );
   }
 
   @Override
@@ -143,5 +169,4 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     validateGoogleMap( googleMap, "Listeners must be attached in the 'mapReady' event callback." );
     return googleMap;
   }
-
 }
