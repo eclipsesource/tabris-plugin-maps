@@ -56,10 +56,6 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
   @Override
   public void set( MapHolderView view, Properties properties ) {
     super.set( view, properties );
-    if( ContextCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION )
-        != PackageManager.PERMISSION_GRANTED ) {
-      throw new IllegalStateException( Manifest.permission.ACCESS_FINE_LOCATION + " not available" );
-    }
     for( String key : properties.getAll().keySet() ) {
       setProperty( key, view.getGoogleMap(), properties );
     }
@@ -116,6 +112,10 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
   }
 
   private void setShowMyLocation( GoogleMap map, Properties properties ) {
+    if( ContextCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION )
+        != PackageManager.PERMISSION_GRANTED ) {
+      throw new IllegalStateException( Manifest.permission.ACCESS_FINE_LOCATION + " not available" );
+    }
     map.setMyLocationEnabled( properties.getBooleanSafe( PROP_SHOW_MY_LOCATION ) );
   }
 
