@@ -37,6 +37,7 @@
 @synthesize tapListener = _tapListener;
 @synthesize readyListener = _readyListener;
 @synthesize panListener = _panListener;
+@synthesize showMyLocation = _showMyLocation;
 
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
     self = [super initWithObjectId:objectId properties:properties andClient:client];
@@ -52,6 +53,10 @@
         NSArray *region = [properties objectForKey:@"region"];
         if (region) {
             self.region = region;
+        }
+        BOOL showMyLocation = [[properties objectForKey:@"showMyLocation"] boolValue];
+        if (showMyLocation) {
+            self.showMyLocation = showMyLocation;
         }
     }
     return self;
@@ -78,6 +83,7 @@
     [set addObject:@"mapType"];
     [set addObject:@"center"];
     [set addObject:@"region"];
+    [set addObject:@"showMyLocation"];
     [set addObject:@"tapListener"];
     [set addObject:@"readyListener"];
     [set addObject:@"panListener"];
@@ -129,6 +135,14 @@
 
 - (BOOL)tapListener {
     return _tapListener;
+}
+
+- (void)setShowMyLocation:(BOOL)showMyLocation {
+    self.map.showsUserLocation = showMyLocation;
+}
+
+- (BOOL)showMyLocation {
+    return self.map.showsUserLocation;
 }
 
 - (void)setCenter:(NSArray *)center {
@@ -199,6 +213,9 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    if ([NSStringFromClass([view class]) isEqualToString:@"MKModernUserLocationView"]) {
+        return;
+    }
     ESMarker *marker = (ESMarker *)view.annotation;
     [marker tapped];
 }

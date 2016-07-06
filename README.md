@@ -67,6 +67,7 @@ This sections gives a brief overview of the subsets of the native maps APIs supp
 
 #### iOS
  * MapKit
+   * showsUserLocation
    * mapType
    * center
    * region

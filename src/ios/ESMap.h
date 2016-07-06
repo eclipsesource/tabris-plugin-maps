@@ -14,6 +14,7 @@
 @property (assign) BOOL tapListener;
 @property (assign) BOOL readyListener;
 @property (assign) BOOL panListener;
+@property (assign) BOOL showMyLocation;
 @property (strong) NSString *mapType;
 @property (strong) NSArray *center;
 @property (strong) NSArray *region;
