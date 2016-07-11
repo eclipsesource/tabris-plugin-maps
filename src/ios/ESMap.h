@@ -17,6 +17,7 @@
 @property (assign) BOOL showMyLocation;
 @property (strong) NSString *mapType;
 @property (strong) NSArray *center;
+@property (readonly, strong) NSArray *myLocation;
 @property (strong) NSArray *region;
 - (void)addMarker:(ESMarker *)marker;
 - (void)removeMarker:(ESMarker *)marker;

@@ -34,6 +34,7 @@
 @synthesize mapType = _mapType;
 @synthesize center = _center;
 @synthesize region = _region;
+@synthesize myLocation = _myLocation;
 @synthesize tapListener = _tapListener;
 @synthesize readyListener = _readyListener;
 @synthesize panListener = _panListener;
@@ -82,6 +83,7 @@
     NSMutableSet *set = [super remoteObjectProperties];
     [set addObject:@"mapType"];
     [set addObject:@"center"];
+    [set addObject:@"myLocation"];
     [set addObject:@"region"];
     [set addObject:@"showMyLocation"];
     [set addObject:@"tapListener"];
@@ -143,6 +145,15 @@
 
 - (BOOL)showMyLocation {
     return self.map.showsUserLocation;
+}
+
+- (NSArray *)myLocation {
+    CLLocationDegrees latitude = self.map.userLocation.location.coordinate.latitude;
+    CLLocationDegrees longitude = self.map.userLocation.location.coordinate.longitude;
+    if (latitude == 0 && longitude == 0) {
+        return nil;
+    }
+    return @[@(latitude), @(longitude)];
 }
 
 - (void)setCenter:(NSArray *)center {
