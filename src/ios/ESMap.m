@@ -219,7 +219,7 @@
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     if (self.panListener) {
         Message<Notification> *message = [[self notifications] forObject:self];
-        [message fireEvent:@"ready" withAttributes:@{@"latLng":@[@(self.map.centerCoordinate.latitude), @(self.map.centerCoordinate.longitude)]}];
+        [message fireEvent:@"pan" withAttributes:@{@"latLng":@[@(self.map.centerCoordinate.latitude), @(self.map.centerCoordinate.longitude)]}];
     }
 }
 
