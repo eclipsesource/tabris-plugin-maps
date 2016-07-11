@@ -10,6 +10,7 @@ tabris.registerWidget("ESMap", {
     region: {type: "array", nocache: true},
     showMyLocation: {type: "boolean", default: false},
     showMyLocationButton: {type: "boolean", default: false},
+    myLocation: {type: "any", nocache: true},
     mapType: {type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain", "satelliteflyover", "hybridflyover"]], nocache: true}
   },
   _events: {

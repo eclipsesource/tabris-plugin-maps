@@ -46,6 +46,7 @@ This sections gives a brief overview of the subsets of the native maps APIs supp
    * moveCamera
    * latLong
    * zoom
+   * myLocation (can only be set after "ready" callback, requires showMyLocation to be enabled, property is read only)
    * showMyLocation (can only be set after "ready" callback)
    * showMyLocationButton (can only be set after "ready" callback)
    * zoomControlsEnabled

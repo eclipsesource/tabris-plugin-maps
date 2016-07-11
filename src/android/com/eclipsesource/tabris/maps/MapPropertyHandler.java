@@ -7,6 +7,7 @@ package com.eclipsesource.tabris.maps;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -17,12 +18,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
+import static java.util.Arrays.asList;
 
 public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderView> {
 
@@ -33,6 +34,7 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
   private static final String PROP_MAP_TYPE = "mapType";
   private static final String PROP_SHOW_MY_LOCATION = "showMyLocation";
   private static final String PROP_SHOW_MY_LOCATION_BUTTON = "showMyLocationButton";
+  private static final String PROP_MY_LOCATION = "myLocation";
 
   private Map<String, Integer> mapTypes;
   private Activity activity;
@@ -138,9 +140,19 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
         return getShowMyLocation( mapHolderView );
       case PROP_SHOW_MY_LOCATION_BUTTON:
         return getShowMyLocationButton( mapHolderView );
+      case PROP_MY_LOCATION:
+        return getMyLocation( mapHolderView );
       default:
         return super.get( mapHolderView, property );
     }
+  }
+
+  private Object getMyLocation( MapHolderView mapHolderView ) {
+    Location myLocation = mapHolderView.getGoogleMap().getMyLocation();
+    if( myLocation != null ) {
+      return asList( myLocation.getLatitude(), myLocation.getLongitude() );
+    }
+    return null;
   }
 
   private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
@@ -159,7 +171,7 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
     GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
     LatLng target = googleMap.getCameraPosition().target;
     Double[] position = { target.latitude, target.longitude };
-    return Arrays.asList( position );
+    return asList( position );
   }
 
   private boolean getShowMyLocation( MapHolderView mapHolderView ) {
