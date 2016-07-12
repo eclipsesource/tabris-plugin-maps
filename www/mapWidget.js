@@ -24,11 +24,12 @@ tabris.registerWidget("ESMap", {
     ready: {
       trigger: function() {this.trigger("ready", this);}
     },
-    cameraMove: {
-      trigger: function(event) {this.trigger("cameraMove", this, event);}
+    cameramove: {
+      trigger: function (event) { this.trigger("cameramove", this, event); }
     },
     "change:camera": {
-      trigger: function(event) {this.trigger("change:camera", this, event);}
+      name: "cameramoveprogrammatic",
+      trigger: function (event) { this.trigger("change:camera", this, event); }
     }
   },
   animateCamera: function(centerLatLng, zoom) {
