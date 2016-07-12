@@ -13,10 +13,12 @@
 @interface ESMap : BasicWidget
 @property (assign) BOOL tapListener;
 @property (assign) BOOL readyListener;
-@property (assign) BOOL panListener;
+@property (assign) BOOL cameramoveListener;
+@property (assign) BOOL cameramoveprogrammaticListener;
 @property (assign) BOOL showMyLocation;
 @property (strong) NSString *mapType;
-@property (strong) NSArray *center;
+@property (strong) NSArray *position;
+@property (strong) NSDictionary *camera;
 @property (readonly, strong) NSArray *myLocation;
 @property (strong) NSArray *region;
 - (void)addMarker:(ESMarker *)marker;

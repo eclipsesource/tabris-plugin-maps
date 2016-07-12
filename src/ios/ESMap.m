@@ -24,6 +24,10 @@
 @property (strong) MKMapView *map;
 @property (assign) dispatch_once_t readyEventToken;
 @property (strong) UITapGestureRecognizer *tapRecognizer;
+@property (strong) UITapGestureRecognizer *doubleTapRecognizer;
+@property (strong) UIPanGestureRecognizer *panRecognizer;
+@property (strong) UIPinchGestureRecognizer *pinchRecognizer;
+@property (assign) BOOL gestureWasRecognized;
 @end
 
 @implementation ESMap
@@ -31,13 +35,17 @@
 @synthesize map = _map;
 @synthesize readyEventToken = _readyEventToken;
 @synthesize tapRecognizer = _tapRecognizer;
+@synthesize doubleTapRecognizer = _doubleTapRecognizer;
+@synthesize panRecognizer = _panRecognizer;
+@synthesize pinchRecognizer = _pinchRecognizer;
 @synthesize mapType = _mapType;
-@synthesize center = _center;
+@synthesize position = _position;
 @synthesize region = _region;
 @synthesize myLocation = _myLocation;
 @synthesize tapListener = _tapListener;
 @synthesize readyListener = _readyListener;
-@synthesize panListener = _panListener;
+@synthesize cameramoveListener = _cameramoveListener;
+@synthesize cameramoveprogrammaticListener = _cameramoveprogrammaticListener;
 @synthesize showMyLocation = _showMyLocation;
 
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
@@ -47,13 +55,17 @@
         if (mapType) {
             self.mapType = mapType;
         }
-        NSArray *center = [properties objectForKey:@"center"];
-        if (center) {
-            self.center = center;
+        NSArray *position = [properties objectForKey:@"position"];
+        if (position) {
+            self.position = position;
         }
         NSArray *region = [properties objectForKey:@"region"];
         if (region) {
             self.region = region;
+        }
+        NSDictionary *camera = [properties objectForKey:@"camera"];
+        if (camera) {
+            self.camera = camera;
         }
         BOOL showMyLocation = [[properties objectForKey:@"showMyLocation"] boolValue];
         if (showMyLocation) {
@@ -70,6 +82,10 @@
         self.map.delegate = self;
         self.mapType = @"normal";
         self.tapRecognizer = nil;
+        self.doubleTapRecognizer = nil;
+        self.panRecognizer = nil;
+        self.pinchRecognizer = nil;
+        self.gestureWasRecognized = NO;
         self.readyEventToken = 0;
     }
     return self;
@@ -82,18 +98,30 @@
 + (NSMutableSet *)remoteObjectProperties {
     NSMutableSet *set = [super remoteObjectProperties];
     [set addObject:@"mapType"];
-    [set addObject:@"center"];
+    [set addObject:@"position"];
+    [set addObject:@"camera"];
     [set addObject:@"myLocation"];
     [set addObject:@"region"];
     [set addObject:@"showMyLocation"];
     [set addObject:@"tapListener"];
     [set addObject:@"readyListener"];
-    [set addObject:@"panListener"];
+    [set addObject:@"cameramoveListener"];
+    [set addObject:@"cameramoveprogrammaticListener"];
     return set;
 }
 
 - (UIView *)view {
     return self.map;
+}
+
+- (void)regionWillChangeByUserInteraction:(UIGestureRecognizer*)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        self.gestureWasRecognized = YES;
+    }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 - (void)setMapType:(NSString *)mapType {
@@ -139,6 +167,55 @@
     return _tapListener;
 }
 
+- (void)setCameramoveListener:(BOOL)cameramoveListener {
+    _cameramoveListener = cameramoveListener;
+    if (cameramoveListener) {
+        [self enableDoubleTapGestureRecognizer];
+        [self enablePanGestureRecognizer];
+        [self enablePinchGestureRecognizer];
+    } else {
+        self.doubleTapRecognizer.enabled = NO;
+        self.panRecognizer.enabled = NO;
+        self.pinchRecognizer.enabled = NO;
+    }
+}
+
+- (BOOL)cameramoveListener {
+    return _cameramoveListener;
+}
+
+- (void)enableDoubleTapGestureRecognizer {
+    if (self.doubleTapRecognizer != nil) {
+        self.doubleTapRecognizer.enabled = YES;
+    } else {
+        self.doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action: @selector(regionWillChangeByUserInteraction:)];
+        self.doubleTapRecognizer.numberOfTapsRequired = 2;
+        self.doubleTapRecognizer.numberOfTouchesRequired = 1;
+        [self.doubleTapRecognizer setDelegate: self];
+        [self.map addGestureRecognizer:self.doubleTapRecognizer];
+    }
+}
+
+- (void)enablePanGestureRecognizer {
+    if (self.panRecognizer != nil) {
+        self.panRecognizer.enabled = YES;
+    } else {
+        self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action: @selector(regionWillChangeByUserInteraction:)];
+        [self.panRecognizer setDelegate:self];
+        [self.map addGestureRecognizer:self.panRecognizer];
+    }
+}
+
+- (void)enablePinchGestureRecognizer {
+    if (self.pinchRecognizer != nil) {
+        self.pinchRecognizer.enabled = YES;
+    } else {
+        self.pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action: @selector(regionWillChangeByUserInteraction:)];
+        [self.pinchRecognizer setDelegate:self];
+        [self.map addGestureRecognizer:self.pinchRecognizer];
+    }
+}
+
 - (void)setShowMyLocation:(BOOL)showMyLocation {
     self.map.showsUserLocation = showMyLocation;
 }
@@ -156,15 +233,23 @@
     return @[@(latitude), @(longitude)];
 }
 
-- (void)setCenter:(NSArray *)center {
+- (void)setPosition:(NSArray *)center {
     if ([center count] < 2) {
         return;
     }
     self.map.centerCoordinate = CLLocationCoordinate2DMake([[center objectAtIndex:0] floatValue], [[center objectAtIndex:1] floatValue]);
 }
 
-- (NSArray *)center {
+- (NSArray *)position {
     return @[@(self.map.centerCoordinate.latitude), @(self.map.centerCoordinate.longitude)];
+}
+
+- (void) setCamera:(NSDictionary *)camera {
+    self.position = [camera objectForKey:@"position"];
+}
+
+- (NSDictionary *)camera {
+    return @{@"position": @[@(self.map.centerCoordinate.latitude), @(self.map.centerCoordinate.longitude)]};
 }
 
 - (void)setRegion:(NSArray *)region {
@@ -216,10 +301,15 @@
     }
 }
 
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-    if (self.panListener) {
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    if (self.cameramoveprogrammaticListener) {
         Message<Notification> *message = [[self notifications] forObject:self];
-        [message fireEvent:@"pan" withAttributes:@{@"latLng":@[@(self.map.centerCoordinate.latitude), @(self.map.centerCoordinate.longitude)]}];
+        [message fireEvent:@"cameramoveprogrammatic" withAttributes:self.camera];
+    }
+    if (self.cameramoveListener && self.gestureWasRecognized) {
+        self.gestureWasRecognized = NO;
+        Message<Notification> *message = [[self notifications] forObject:self];
+        [message fireEvent:@"cameramove" withAttributes:self.camera];
     }
 }
 
