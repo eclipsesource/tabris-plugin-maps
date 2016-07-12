@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.eclipsesource.tabris.android.AbstractTabrisOperator;
 import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.android.TabrisOperator;
 import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.eclipsesource.tabris.client.core.OperatorRegistry;
@@ -26,7 +25,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.List;
 
-import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERACHANGE;
+import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERA_MOVE;
+import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERA_MOVE_PROGRAMMATIC;
 import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
 import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
@@ -94,7 +94,8 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
           removeOnMapLongClickListener( mapHolderView );
         }
         break;
-      case EVENT_CAMERACHANGE:
+      case EVENT_CAMERA_MOVE:
+      case EVENT_CAMERA_MOVE_PROGRAMMATIC:
         if( listen ) {
           attachOnCameraChangeListener( mapHolderView );
         } else {
@@ -117,14 +118,25 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     return null;
   }
 
-  private void animateCameraToPointGroup( MapHolderView mapHolderView, Properties properties ) {
+  private void animateCameraToPointGroup( final MapHolderView mapHolderView, Properties properties ) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
     LatLngBounds.Builder builder = new LatLngBounds.Builder();
     List<Double> latLngPointGroup = properties.getList( "latLngPointGroup", Double.class );
     for( int i = 0; i < latLngPointGroup.size(); i += 2 ) {
       builder.include( new LatLng( latLngPointGroup.get( i ), latLngPointGroup.get( i + 1 ) ) );
     }
-    googleMap.animateCamera( CameraUpdateFactory.newLatLngBounds( builder.build(), getCameraPadding() ) );
+    googleMap.animateCamera( CameraUpdateFactory.newLatLngBounds( builder.build(), getCameraPadding() ),
+        new GoogleMap.CancelableCallback() {
+          @Override
+          public void onFinish() {
+            mapHolderView.setChangeUserInitiated( true );
+          }
+
+          @Override
+          public void onCancel() {
+            mapHolderView.setChangeUserInitiated( false );
+          }
+        } );
   }
 
   private int getCameraPadding() {

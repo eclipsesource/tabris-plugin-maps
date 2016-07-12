@@ -9,7 +9,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -30,6 +30,7 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   private final TabrisContext tabrisContext;
   private GoogleMap googleMap;
   private MapFragment mapFragment;
+  private boolean changeUserInitiated;
 
   public MapHolderView( Activity activity, TabrisContext tabrisContext ) {
     super( activity );
@@ -63,8 +64,16 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
 
   @Override
   public void onMapReady( GoogleMap googleMap ) {
-    Log.d( LOG_TAG, "map is ready" );
     this.googleMap = googleMap;
     tabrisContext.getObjectRegistry().getRemoteObjectForObject( this ).notify( EVENT_READY );
   }
+
+  public boolean isChangeUserInitiated() {
+    return changeUserInitiated;
+  }
+
+  public void setChangeUserInitiated( boolean changeUserInitiated ) {
+    this.changeUserInitiated = changeUserInitiated;
+  }
+
 }
