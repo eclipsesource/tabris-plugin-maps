@@ -3,10 +3,10 @@ package com.eclipsesource.tabris.maps;
 import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 public class MapCameraChangeListener implements GoogleMap.OnCameraChangeListener {
 
@@ -22,11 +22,7 @@ public class MapCameraChangeListener implements GoogleMap.OnCameraChangeListener
 
   @Override
   public void onCameraChange( CameraPosition cameraPosition ) {
-    List<Double> properties = new ArrayList<>();
-    LatLng target = cameraPosition.target;
-    properties.add( target.latitude );
-    properties.add( target.longitude );
-    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_CAMERACHANGE, "latLng", properties );
-
+    List<Double> latLng = asList( cameraPosition.target.latitude, cameraPosition.target.longitude );
+    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_CAMERACHANGE, "latLng", latLng );
   }
 }

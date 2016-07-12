@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.eclipsesource.tabris.android.AbstractTabrisOperator;
+import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.TabrisContext;
+import com.eclipsesource.tabris.android.TabrisOperator;
 import com.eclipsesource.tabris.android.TabrisPropertyHandler;
+import com.eclipsesource.tabris.client.core.ObjectRegistry;
+import com.eclipsesource.tabris.client.core.OperatorRegistry;
 import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -132,6 +136,18 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @Override
   public void destroy( MapHolderView mapHolderView ) {
     ( ( ViewGroup )mapHolderView.getParent() ).removeView( mapHolderView );
+    String mapId = tabrisContext.getObjectRegistry().getRemoteObjectForObject( mapHolderView ).getId();
+    for( ObjectRegistry.RegistryEntry registryEntry : tabrisContext.getObjectRegistry().getEntries() ) {
+      Object object = registryEntry.getObject();
+      if( object instanceof MapMarker ) {
+        MapMarker mapMarker = ( MapMarker )object;
+        if( mapMarker.getMapId().equals( mapId ) ) {
+          OperatorRegistry operatorRegistry = ( ( TabrisActivity )activity ).getWidgetToolkit().getOperatorRegistry();
+          MarkerOperator operator = ( MarkerOperator )operatorRegistry.get( MarkerOperator.TYPE );
+          operator.destroy( mapMarker );
+        }
+      }
+    }
   }
 
   private void attachOnMapClickListener( MapHolderView mapHolderView ) {

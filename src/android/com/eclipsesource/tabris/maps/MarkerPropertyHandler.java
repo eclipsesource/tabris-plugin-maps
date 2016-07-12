@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MarkerPropertyHandler<T extends Marker> implements TabrisPropertyHandler<T> {
+public class MarkerPropertyHandler<T extends MapMarker> implements TabrisPropertyHandler<T> {
 
   private static final String LOG_TAG = "marker.properties";
   private static final String PROPERTY_TITLE = "title";
@@ -45,7 +45,7 @@ public class MarkerPropertyHandler<T extends Marker> implements TabrisPropertyHa
     Log.d( LOG_TAG, String.format( "get \"%s\" from %s", property, marker ) );
     switch( property ) {
       case "title":
-        return marker.getTitle();
+        return marker.getMarker().getTitle();
     }
     return null;
   }
@@ -64,14 +64,14 @@ public class MarkerPropertyHandler<T extends Marker> implements TabrisPropertyHa
       if( markerColor == null ) {
         Log.e( LOG_TAG, String.format( "Color \"%s\" not available!", markerColorName ) );
       } else {
-        marker.setIcon( BitmapDescriptorFactory.defaultMarker( markerColor ) );
+        marker.getMarker().setIcon( BitmapDescriptorFactory.defaultMarker( markerColor ) );
       }
     }
   }
 
   private void setTitle( T marker, Properties properties ) {
     if( properties.hasProperty( PROPERTY_TITLE ) ) {
-      marker.setTitle( properties.getString( PROPERTY_TITLE ) );
+      marker.getMarker().setTitle( properties.getString( PROPERTY_TITLE ) );
     }
   }
 
