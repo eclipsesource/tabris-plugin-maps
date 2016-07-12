@@ -3,7 +3,8 @@ tabris.registerWidget("ESMap", {
   _supportsChildren: true,
   _properties: {
     liteMode: {type: "boolean", default: false},
-    center: {type: "array", nocache: true},
+    position: {type: "array", nocache: true},
+    camera: {type: "any", nocache: true},
     zoom: {type: "any", nocache: true},
     minZoomLevel: {type: "any", nocache: true},
     maxZoomLevel: {type: "any", nocache: true},
@@ -23,8 +24,11 @@ tabris.registerWidget("ESMap", {
     ready: {
       trigger: function() {this.trigger("ready", this);}
     },
-    pan: {
-      trigger: function(event) {this.trigger("pan", this, event.latLng);}
+    cameraMove: {
+      trigger: function(event) {this.trigger("cameraMove", this, event);}
+    },
+    "change:camera": {
+      trigger: function(event) {this.trigger("change:camera", this, event);}
     }
   },
   animateCamera: function(centerLatLng, zoom) {
