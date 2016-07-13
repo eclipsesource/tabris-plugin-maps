@@ -160,18 +160,13 @@
     NSArray *northEastCoordinate = [region objectForKey:@"northEast"];
     NSArray *southWestCoordinate = [region objectForKey:@"southWest"];
     NSDictionary *options = [parameters objectForKey:@"options"];
-    NSNumber *paddingNumber = [options objectForKey:@"padding"];
-    NSNumber *animateNumber = [options objectForKey:@"animate"];
-    BOOL animate = animateNumber ? [animateNumber boolValue] : NO;
+    CGFloat padding = [[options objectForKey:@"padding"] floatValue];
+    BOOL animate = [[options objectForKey:@"animate"] boolValue];
     if ([northEastCoordinate count] < 2 || [southWestCoordinate count] < 2) {
         return;
     }
     MKMapRect rectangle = [self getRectangleFromCoordinates:northEastCoordinate southWestCoordinate:southWestCoordinate];
-    if (!paddingNumber) {
-        return [self.map setVisibleMapRect:rectangle animated:animate];
-    }
-    CGFloat paddingFloat = [paddingNumber floatValue];
-    [self.map setVisibleMapRect:rectangle edgePadding:UIEdgeInsetsMake(paddingFloat, paddingFloat, paddingFloat, paddingFloat) animated:animate];
+    [self.map setVisibleMapRect:rectangle edgePadding:UIEdgeInsetsMake(padding, padding, padding, padding) animated:animate];
 }
 
 - (NSString *)mapType {
