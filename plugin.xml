@@ -6,7 +6,7 @@
 
     <name>Tabris Maps Widget</name>
 
-    <description>A custom map widget for Tabris based on Google Maps.</description>
+    <description>A map widget for Tabris.js based on Google maps on Android and Apple maps on iOS.</description>
 
     <author>EclipseSource</author>
 
@@ -15,13 +15,13 @@
         <engine name="cordova" version=">=3.8.0" />
     </engines>
 
-    <js-module src="www/mapWidget.js" name="maps">
+    <js-module src="www/Map.js" name="maps">
       <runs />
     </js-module>
-
-    <js-module src="www/markerWidget.js" name="marker">
+    <js-module src="www/Marker.js" name="marker">
       <runs />
     </js-module>
+    <js-module src="www/sphericalutil.js" name="sphericalutil" />
 
     <platform name="android">
 
