@@ -67,9 +67,9 @@
         if (camera) {
             self.camera = camera;
         }
-        BOOL showMyLocation = [[properties objectForKey:@"showMyLocation"] boolValue];
+        NSNumber *showMyLocation = [properties objectForKey:@"showMyLocation"];
         if (showMyLocation) {
-            self.showMyLocation = showMyLocation;
+            self.showMyLocation = [showMyLocation boolValue];
         }
     }
     return self;
