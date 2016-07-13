@@ -31,12 +31,9 @@ import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
 import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
-/**
- * This class handles all protocol operation for the Tabris maps custom widget.
- */
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
-  public static final String WIDGET_TYPE = "tabris.Map";
+  public static final String WIDGET_TYPE = "com.eclipsesource.maps.Map";
   private static final String METHOD_MOVE_TO_REGION = "moveToRegion";
   private static final String PROP_OPTIONS = "options";
   private static final String PROP_ANIMATE = "animate";

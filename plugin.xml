@@ -15,7 +15,7 @@
         <engine name="cordova" version=">=3.8.0" />
     </engines>
 
-    <js-module src="www/Map.js" name="maps">
+    <js-module src="www/Map.js" name="map">
       <runs />
     </js-module>
     <js-module src="www/Marker.js" name="marker">

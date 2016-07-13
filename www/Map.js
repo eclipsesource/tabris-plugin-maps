@@ -3,7 +3,7 @@ var PLUGIN_ID = "com.eclipsesource.tabris.maps";
 var sphericalUtil = cordova.require(PLUGIN_ID + ".sphericalutil");
 
 tabris.registerWidget("ESMap", {
-  _type: "tabris.Map",
+  _type: "com.eclipsesource.maps.Map",
   _supportsChildren: true,
   _properties: {
     position: {type: "array", nocache: true},

@@ -1,5 +1,5 @@
 tabris.registerWidget("_ESMarker", {
-  _type: "tabris.maps.marker",
+  _type: "com.eclipsesource.maps.Marker",
   _properties: {
     latLng: {type: "array", nocache: true},
     title: {type: "string"},

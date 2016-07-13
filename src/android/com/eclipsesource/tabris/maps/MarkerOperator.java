@@ -20,7 +20,7 @@ import static com.eclipsesource.tabris.client.core.ProtocolConstants.PROP_PARENT
 
 public class MarkerOperator extends AbstractTabrisOperator<MapMarker> {
 
-  public static final String TYPE = "tabris.maps.marker";
+  public static final String TYPE = "com.eclipsesource.maps.Marker";
 
   private static final String PROP_LAT_LNG = "latLng";
   private static final String EVENT_TAP = "tap";
