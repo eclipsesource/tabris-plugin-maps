@@ -17,6 +17,7 @@ import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.eclipsesource.tabris.client.core.OperatorRegistry;
 import com.eclipsesource.tabris.client.core.model.Properties;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,12 +37,13 @@ import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   public static final String WIDGET_TYPE = "tabris.Map";
-  private static final String METHOD_MOVE_CAMERA_TO_BOUNDING_BOX = "moveCameraToBoundingBox";
+  private static final String METHOD_MOVE_CAMERA_TO_REGION = "moveCameraToRegion";
   private static final String PROP_OPTIONS = "options";
   private static final String PROP_ANIMATE = "animate";
   private static final String PROP_PADDING = "padding";
   private static final String PROP_SOUTH_WEST = "southWest";
   private static final String PROP_NORTH_EAST = "northEast";
+  private static final String PROP_REGION = "region";
 
   private final Activity activity;
   private final TabrisContext tabrisContext;
@@ -109,23 +111,21 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @Override
   public Object call( MapHolderView mapHolderView, String method, Properties properties ) {
     switch( method ) {
-      case METHOD_MOVE_CAMERA_TO_BOUNDING_BOX:
-        moveCameraToBoundingBox( mapHolderView, properties );
+      case METHOD_MOVE_CAMERA_TO_REGION:
+        moveCameraToRegion( mapHolderView, properties );
         break;
     }
     return null;
   }
 
-  private void moveCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
-    LatLngBounds bounds = createBoundsFromBoundingBox( properties );
+  private void moveCameraToRegion( MapHolderView mapHolderView, Properties properties ) {
+    LatLngBounds bounds = createBoundsFromRegion( properties );
     int padding = getPaddingFromOptions( properties );
-    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds( bounds, padding );
     if( getAnimateFromOptions( properties ) ) {
-      googleMap.animateCamera( CameraUpdateFactory.newLatLngBounds( bounds, padding ),
-          new UserInitiationCallback( mapHolderView ) );
+      mapHolderView.animateCamera( cameraUpdate );
     } else {
-      mapHolderView.setChangeUserInitiated( false );
-      googleMap.moveCamera( CameraUpdateFactory.newLatLngBounds( bounds, padding ) );
+      mapHolderView.moveCamera( cameraUpdate );
     }
   }
 
@@ -137,9 +137,10 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     return false;
   }
 
-  private LatLngBounds createBoundsFromBoundingBox( Properties properties ) {
-    List<Double> southWest = properties.getList( PROP_SOUTH_WEST, Double.class );
-    List<Double> northEast = properties.getList( PROP_NORTH_EAST, Double.class );
+  private LatLngBounds createBoundsFromRegion( Properties properties ) {
+    Properties region = properties.getProperties( PROP_REGION );
+    List<Double> southWest = region.getList( PROP_SOUTH_WEST, Double.class );
+    List<Double> northEast = region.getList( PROP_NORTH_EAST, Double.class );
     return new LatLngBounds(
         new LatLng( southWest.get( 0 ), southWest.get( 1 ) ),
         new LatLng( northEast.get( 0 ), northEast.get( 1 ) ) );
@@ -214,22 +215,4 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     return googleMap;
   }
 
-  private static class UserInitiationCallback implements GoogleMap.CancelableCallback {
-
-    private final MapHolderView mapHolderView;
-
-    UserInitiationCallback( MapHolderView mapHolderView ) {
-      this.mapHolderView = mapHolderView;
-    }
-
-    @Override
-    public void onFinish() {
-      mapHolderView.setChangeUserInitiated( true );
-    }
-
-    @Override
-    public void onCancel() {
-      mapHolderView.setChangeUserInitiated( false );
-    }
-  }
 }

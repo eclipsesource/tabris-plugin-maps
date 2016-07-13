@@ -9,11 +9,11 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.eclipsesource.tabris.android.TabrisContext;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,7 +24,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
 
   public static final String EVENT_READY = "ready";
-  private static final String LOG_TAG = "map.holder";
 
   private final Activity activity;
   private final TabrisContext tabrisContext;
@@ -76,4 +75,31 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
     this.changeUserInitiated = changeUserInitiated;
   }
 
+  public void moveCamera( CameraUpdate cameraUpdate ) {
+    setChangeUserInitiated( false );
+    getGoogleMap().moveCamera( cameraUpdate );
+  }
+
+  public void animateCamera( CameraUpdate cameraUpdate ) {
+    getGoogleMap().animateCamera( cameraUpdate, new UserInitiationCallback( this ) );
+  }
+
+  private static class UserInitiationCallback implements GoogleMap.CancelableCallback {
+
+    private final MapHolderView mapHolderView;
+
+    UserInitiationCallback( MapHolderView mapHolderView ) {
+      this.mapHolderView = mapHolderView;
+    }
+
+    @Override
+    public void onFinish() {
+      mapHolderView.setChangeUserInitiated( true );
+    }
+
+    @Override
+    public void onCancel() {
+      mapHolderView.setChangeUserInitiated( false );
+    }
+  }
 }

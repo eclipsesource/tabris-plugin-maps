@@ -16,6 +16,7 @@ import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,9 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
   private static final String PROP_SHOW_MY_LOCATION = "showMyLocation";
   private static final String PROP_SHOW_MY_LOCATION_BUTTON = "showMyLocationButton";
   private static final String PROP_MY_LOCATION = "myLocation";
+  private static final String PROP_SOUTH_WEST = "southWest";
+  private static final String PROP_NORTH_EAST = "northEast";
+  private static final String PROP_REGION = "region";
 
   private Map<String, Integer> mapTypes;
   private Activity activity;
@@ -71,6 +75,9 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
       case PROP_CAMERA:
         setCamera( mapHolderView, properties );
         break;
+      case PROP_REGION:
+        setRegion( mapHolderView, properties );
+        break;
       case PROP_ZOOM:
         setZoom( mapHolderView.getGoogleMap(), properties );
         break;
@@ -86,6 +93,19 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
     }
   }
 
+  private void setRegion( MapHolderView mapHolderView, Properties properties ) {
+    LatLngBounds bounds = createBoundsFromBoundingBox( properties.getProperties( PROP_REGION ) );
+    mapHolderView.moveCamera( CameraUpdateFactory.newLatLngBounds( bounds, 0 ) );
+  }
+
+  private LatLngBounds createBoundsFromBoundingBox( Properties properties ) {
+    List<Double> southWest = properties.getList( PROP_SOUTH_WEST, Double.class );
+    List<Double> northEast = properties.getList( PROP_NORTH_EAST, Double.class );
+    return new LatLngBounds(
+        new LatLng( southWest.get( 0 ), southWest.get( 1 ) ),
+        new LatLng( northEast.get( 0 ), northEast.get( 1 ) ) );
+  }
+
   private void setCamera( MapHolderView mapHolderView, Properties properties ) {
     setPosition( mapHolderView, properties.getPropertiesSafe( PROP_CAMERA ) );
   }
@@ -95,9 +115,8 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
     if( position == null || position.size() != 2 ) {
       throw new IllegalArgumentException( "The 'position' property has to be a 2 element tuple but is " + position );
     }
-    mapHolderView.setChangeUserInitiated( false );
-    mapHolderView.getGoogleMap().moveCamera(
-        CameraUpdateFactory.newLatLng( new LatLng( position.get( 0 ), position.get( 1 ) ) ) );
+    LatLng latLng = new LatLng( position.get( 0 ), position.get( 1 ) );
+    mapHolderView.moveCamera( CameraUpdateFactory.newLatLng( latLng ) );
   }
 
   private void setZoom( GoogleMap map, Properties properties ) {
@@ -141,6 +160,8 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
         return getPosition( mapHolderView );
       case PROP_CAMERA:
         return getCamera( mapHolderView );
+      case PROP_REGION:
+        return getRegion( mapHolderView );
       case PROP_ZOOM:
         return getZoom( mapHolderView );
       case PROP_SHOW_MY_LOCATION:
@@ -152,6 +173,14 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
       default:
         return super.get( mapHolderView, property );
     }
+  }
+
+  private Object getRegion( MapHolderView mapHolderView ) {
+    LatLngBounds bounds = mapHolderView.getGoogleMap().getProjection().getVisibleRegion().latLngBounds;
+    Map<String, Object> region = new HashMap<>();
+    region.put( PROP_SOUTH_WEST, asList( bounds.southwest.latitude, bounds.southwest.longitude ) );
+    region.put( PROP_NORTH_EAST, asList( bounds.northeast.latitude, bounds.northeast.longitude ) );
+    return region;
   }
 
   private Object getMyLocation( MapHolderView mapHolderView ) {
