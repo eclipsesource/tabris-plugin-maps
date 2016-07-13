@@ -25,8 +25,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.List;
 
-import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERA_MOVE;
-import static com.eclipsesource.tabris.maps.MapCameraChangeListener.EVENT_CAMERA_MOVE_PROGRAMMATIC;
+import static com.eclipsesource.tabris.maps.MapCameraChangeListener.*;
 import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
 import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
@@ -40,6 +39,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   public static final String WIDGET_TYPE = "tabris.Map";
   private static final String LOG_TAG = WIDGET_TYPE;
   private static final int DEFAULT_CAMERA_PADDING = 32;
+  private static final String METHOD_ANIMATE_CAMERA_TO_POINT_GROUP = "animateCameraToPointGroup";
 
   private final Activity activity;
   private final TabrisContext tabrisContext;
@@ -108,14 +108,48 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @Override
   public Object call( MapHolderView mapHolderView, String method, Properties properties ) {
     switch( method ) {
-      case "animateCameraToPointGroup":
+      case METHOD_ANIMATE_CAMERA_TO_POINT_GROUP:
         animateCameraToPointGroup( mapHolderView, properties );
         break;
-      default:
-        Log.d( LOG_TAG, String.format( "Call to unknown method \"%s\". Properties: %s", method, properties ) );
+      case "animateCameraToBoundingBox":
+        animateCameraToBoundingBox( mapHolderView, properties );
+        break;
+      case "moveCameraToBoundingBox":
+        moveCameraToBoundingBox( mapHolderView, properties );
         break;
     }
     return null;
+  }
+
+  private void animateCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
+    LatLngBounds bounds = createBoundsFromBoundingBox( properties );
+    mapHolderView.getGoogleMap().animateCamera( CameraUpdateFactory.newLatLngBounds( bounds,
+        getScaledFloat( properties, "padding" ) ), new UserInitiationCallback( mapHolderView ) );
+  }
+
+  private void moveCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
+    mapHolderView.setChangeUserInitiated( false );
+    LatLngBounds bounds = createBoundsFromBoundingBox( properties );
+    mapHolderView.getGoogleMap().moveCamera( CameraUpdateFactory.newLatLngBounds( bounds,
+        getScaledFloat( properties, "padding" ) ) );
+  }
+
+  private LatLngBounds createBoundsFromBoundingBox( Properties properties ) {
+    List<Double> southWest = properties.getList( "southWest", Double.class );
+    List<Double> northEast = properties.getList( "northEast", Double.class );
+    return new LatLngBounds(
+        new LatLng( southWest.get( 0 ), southWest.get( 1 ) ),
+        new LatLng( northEast.get( 0 ), northEast.get( 1 ) ) );
+  }
+
+  private int getScaledFloat( Properties properties, String key ) {
+    Float padding = properties.getFloat( key );
+    if( padding != null ) {
+      DisplayMetrics metrics = new DisplayMetrics();
+      activity.getWindowManager().getDefaultDisplay().getMetrics( metrics );
+      return Math.round( metrics.density * DEFAULT_CAMERA_PADDING );
+    }
+    return 0;
   }
 
   private void animateCameraToPointGroup( final MapHolderView mapHolderView, Properties properties ) {
@@ -126,17 +160,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
       builder.include( new LatLng( latLngPointGroup.get( i ), latLngPointGroup.get( i + 1 ) ) );
     }
     googleMap.animateCamera( CameraUpdateFactory.newLatLngBounds( builder.build(), getCameraPadding() ),
-        new GoogleMap.CancelableCallback() {
-          @Override
-          public void onFinish() {
-            mapHolderView.setChangeUserInitiated( true );
-          }
-
-          @Override
-          public void onCancel() {
-            mapHolderView.setChangeUserInitiated( false );
-          }
-        } );
+        new UserInitiationCallback( mapHolderView ) );
   }
 
   private int getCameraPadding() {
@@ -196,5 +220,24 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
     validateGoogleMap( googleMap, "Listeners must be attached in the 'mapReady' event callback." );
     return googleMap;
+  }
+
+  private static class UserInitiationCallback implements GoogleMap.CancelableCallback {
+
+    private final MapHolderView mapHolderView;
+
+    public UserInitiationCallback( MapHolderView mapHolderView ) {
+      this.mapHolderView = mapHolderView;
+    }
+
+    @Override
+    public void onFinish() {
+      mapHolderView.setChangeUserInitiated( true );
+    }
+
+    @Override
+    public void onCancel() {
+      mapHolderView.setChangeUserInitiated( false );
+    }
   }
 }
