@@ -23,5 +23,5 @@
 @property (strong) NSArray *region;
 - (void)addMarker:(ESMarker *)marker;
 - (void)removeMarker:(ESMarker *)marker;
-- (void)moveCameraToBoundingBox: (NSDictionary *)properties;
+- (void)moveToRegion: (NSDictionary *)properties;
 @end

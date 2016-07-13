@@ -87,7 +87,7 @@
         self.pinchRecognizer = nil;
         self.gestureWasRecognized = NO;
         self.readyEventToken = 0;
-        [self registerSelector:@selector(moveCameraToBoundingBox:) forCall:@"moveCameraToBoundingBox"];
+        [self registerSelector:@selector(moveToRegion:) forCall:@"moveToRegion"];
     }
     return self;
 }
@@ -144,9 +144,10 @@
     }
 }
 
-- (void)moveCameraToBoundingBox: (NSDictionary *)parameters {
-    NSArray *northEastCoordinate = [parameters objectForKey:@"northEast"];
-    NSArray *southWestCoordinate = [parameters objectForKey:@"southWest"];
+- (void)moveToRegion: (NSDictionary *)parameters {
+    NSDictionary *region = [parameters objectForKey:@"region"];
+    NSArray *northEastCoordinate = [region objectForKey:@"northEast"];
+    NSArray *southWestCoordinate = [region objectForKey:@"southWest"];
     NSDictionary *options = [parameters objectForKey:@"options"];
     NSNumber *paddingNumber = [options objectForKey:@"padding"];
     NSNumber *animateNumber = [options objectForKey:@"animate"];
