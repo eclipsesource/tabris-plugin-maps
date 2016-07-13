@@ -36,16 +36,16 @@ tabris.registerWidget("ESMap", {
       trigger: function(event) {this.trigger("change:camera", this, event);}
     }
   },
-  animateCameraToPosition: function(position, radius, padding) {
+  moveCameraToPosition: function(position, radius, options) {
     var southwest = sphericalUtil.computeOffset(position, radius * Math.sqrt(2.0), 225);
     var northeast = sphericalUtil.computeOffset(position, radius * Math.sqrt(2.0), 45);
-    this.animateCameraToBoundingBox(northeast, southwest, padding);
+    this.moveCameraToBoundingBox(northeast, southwest, options);
   },
-  animateCameraToBoundingBox: function(northEast, southWest, padding) {
-    this._nativeCall("animateCameraToBoundingBox", {
+  moveCameraToBoundingBox: function(northEast, southWest, options) {
+    this._nativeCall("moveCameraToBoundingBox", {
       northEast: northEast,
       southWest: southWest,
-      padding: padding
+      options: options
     });
   },
   animateCameraToPointGroup: function(latLngPointGroup) {

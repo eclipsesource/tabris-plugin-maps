@@ -40,6 +40,12 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   private static final String LOG_TAG = WIDGET_TYPE;
   private static final int DEFAULT_CAMERA_PADDING = 32;
   private static final String METHOD_ANIMATE_CAMERA_TO_POINT_GROUP = "animateCameraToPointGroup";
+  private static final String METHOD_MOVE_CAMERA_TO_BOUNDING_BOX = "moveCameraToBoundingBox";
+  private static final String PROP_OPTIONS = "options";
+  private static final String PROP_ANIMATE = "animate";
+  private static final String PROP_PADDING = "padding";
+  private static final String PROP_SOUTH_WEST = "southWest";
+  private static final String PROP_NORTH_EAST = "northEast";
 
   private final Activity activity;
   private final TabrisContext tabrisContext;
@@ -111,43 +117,59 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
       case METHOD_ANIMATE_CAMERA_TO_POINT_GROUP:
         animateCameraToPointGroup( mapHolderView, properties );
         break;
-      case "animateCameraToBoundingBox":
-        animateCameraToBoundingBox( mapHolderView, properties );
-        break;
-      case "moveCameraToBoundingBox":
-        moveCameraToBoundingBox( mapHolderView, properties );
+      case METHOD_MOVE_CAMERA_TO_BOUNDING_BOX:
+        if( getAnimateFromOptions( properties ) ) {
+          animateCameraToBoundingBox( mapHolderView, properties );
+        } else {
+          moveCameraToBoundingBox( mapHolderView, properties );
+        }
         break;
     }
     return null;
   }
 
+  private boolean getAnimateFromOptions( Properties properties ) {
+    Properties optionProperties = properties.getProperties( PROP_OPTIONS );
+    if( optionProperties != null ) {
+      return optionProperties.getBooleanSafe( PROP_ANIMATE );
+    }
+    return false;
+  }
+
   private void animateCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
     LatLngBounds bounds = createBoundsFromBoundingBox( properties );
     mapHolderView.getGoogleMap().animateCamera( CameraUpdateFactory.newLatLngBounds( bounds,
-        getScaledFloat( properties, "padding" ) ), new UserInitiationCallback( mapHolderView ) );
+        getPaddingFromOptions( properties ) ),
+        new UserInitiationCallback( mapHolderView ) );
   }
 
   private void moveCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
     mapHolderView.setChangeUserInitiated( false );
     LatLngBounds bounds = createBoundsFromBoundingBox( properties );
     mapHolderView.getGoogleMap().moveCamera( CameraUpdateFactory.newLatLngBounds( bounds,
-        getScaledFloat( properties, "padding" ) ) );
+        getPaddingFromOptions( properties ) ) );
   }
 
   private LatLngBounds createBoundsFromBoundingBox( Properties properties ) {
-    List<Double> southWest = properties.getList( "southWest", Double.class );
-    List<Double> northEast = properties.getList( "northEast", Double.class );
+    List<Double> southWest = properties.getList( PROP_SOUTH_WEST, Double.class );
+    List<Double> northEast = properties.getList( PROP_NORTH_EAST, Double.class );
     return new LatLngBounds(
         new LatLng( southWest.get( 0 ), southWest.get( 1 ) ),
         new LatLng( northEast.get( 0 ), northEast.get( 1 ) ) );
   }
 
+  private int getPaddingFromOptions( Properties properties ) {
+    return getScaledFloat( properties.getProperties( PROP_OPTIONS ), PROP_PADDING );
+  }
+
   private int getScaledFloat( Properties properties, String key ) {
-    Float padding = properties.getFloat( key );
-    if( padding != null ) {
-      DisplayMetrics metrics = new DisplayMetrics();
-      activity.getWindowManager().getDefaultDisplay().getMetrics( metrics );
-      return Math.round( metrics.density * DEFAULT_CAMERA_PADDING );
+    if( properties != null ) {
+      Float padding = properties.getFloat( key );
+      if( padding != null ) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics( metrics );
+        return Math.round( metrics.density * padding );
+      }
     }
     return 0;
   }
@@ -226,7 +248,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
     private final MapHolderView mapHolderView;
 
-    public UserInitiationCallback( MapHolderView mapHolderView ) {
+    UserInitiationCallback( MapHolderView mapHolderView ) {
       this.mapHolderView = mapHolderView;
     }
 
