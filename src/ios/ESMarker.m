@@ -57,7 +57,7 @@
 }
 
 + (NSString *)remoteObjectType {
-    return @"tabris.maps.marker";
+    return @"com.eclipsesource.maps.Marker";
 }
 
 - (void)tapped {

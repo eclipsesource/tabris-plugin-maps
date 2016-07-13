@@ -93,7 +93,7 @@
 }
 
 + (NSString *)remoteObjectType {
-    return @"tabris.Map";
+    return @"com.eclipsesource.maps.Map";
 }
 
 + (NSMutableSet *)remoteObjectProperties {
