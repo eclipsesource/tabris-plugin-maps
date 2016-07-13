@@ -87,7 +87,7 @@
         self.pinchRecognizer = nil;
         self.gestureWasRecognized = NO;
         self.readyEventToken = 0;
-        [self registerSelector:@selector(animateCameraToBoundingBox:) forCall:@"animateCameraToBoundingBox"];
+        [self registerSelector:@selector(moveCameraToBoundingBox:) forCall:@"moveCameraToBoundingBox"];
     }
     return self;
 }
@@ -144,10 +144,13 @@
     }
 }
 
-- (void)animateCameraToBoundingBox: (NSDictionary *)parameters {
+- (void)moveCameraToBoundingBox: (NSDictionary *)parameters {
     NSArray *northEastCoordinate = [parameters objectForKey:@"northEast"];
     NSArray *southWestCoordinate = [parameters objectForKey:@"southWest"];
-    NSNumber *paddingNumber = [parameters objectForKey:@"padding"];
+    NSDictionary *options = [parameters objectForKey:@"options"];
+    NSNumber *paddingNumber = [options objectForKey:@"padding"];
+    NSNumber *animateNumber = [options objectForKey:@"animate"];
+    BOOL animate = animateNumber ? [animateNumber boolValue] : NO;
     if ([northEastCoordinate count] < 2 || [southWestCoordinate count] < 2) {
         return;
     }
@@ -159,10 +162,10 @@
     MKMapRect northEastRectangle = MKMapRectMake(northEastPoint.x, northEastPoint.y, 0, 0);
     MKMapRect zoomRectangle = MKMapRectUnion(northEastRectangle, southWestRectangle);
     if (!paddingNumber) {
-        return [self.map setVisibleMapRect:zoomRectangle animated:YES];
+        return [self.map setVisibleMapRect:zoomRectangle animated:animate];
     }
     CGFloat paddingFloat = [paddingNumber floatValue];
-    [self.map setVisibleMapRect:zoomRectangle edgePadding:UIEdgeInsetsMake(paddingFloat, paddingFloat, paddingFloat, paddingFloat) animated:YES];
+    [self.map setVisibleMapRect:zoomRectangle edgePadding:UIEdgeInsetsMake(paddingFloat, paddingFloat, paddingFloat, paddingFloat) animated:animate];
 }
 
 - (NSString *)mapType {
