@@ -59,7 +59,7 @@
         if (position) {
             self.position = position;
         }
-        NSArray *region = [properties objectForKey:@"region"];
+        NSDictionary *region = [properties objectForKey:@"region"];
         if (region) {
             self.region = region;
         }
@@ -144,6 +144,17 @@
     }
 }
 
+- (MKMapRect)getRectangleFromCoordinates:(NSArray *)northEastCoordinate
+                         southWestCoordinate:(NSArray *)southWestCoordinate {
+    MKMapPoint northEastPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([[northEastCoordinate objectAtIndex:0] floatValue],
+                                                                                   [[northEastCoordinate objectAtIndex:1] floatValue]));
+    MKMapPoint southWestPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([[southWestCoordinate objectAtIndex:0] floatValue],
+                                                                                   [[southWestCoordinate objectAtIndex:1] floatValue]));
+    MKMapRect southWestRectangle = MKMapRectMake(southWestPoint.x, southWestPoint.y, 0, 0);
+    MKMapRect northEastRectangle = MKMapRectMake(northEastPoint.x, northEastPoint.y, 0, 0);
+    return MKMapRectUnion(northEastRectangle, southWestRectangle);
+}
+
 - (void)moveToRegion: (NSDictionary *)parameters {
     NSDictionary *region = [parameters objectForKey:@"region"];
     NSArray *northEastCoordinate = [region objectForKey:@"northEast"];
@@ -155,18 +166,12 @@
     if ([northEastCoordinate count] < 2 || [southWestCoordinate count] < 2) {
         return;
     }
-    MKMapPoint northEastPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([[northEastCoordinate objectAtIndex:0] floatValue],
-                                                                                   [[northEastCoordinate objectAtIndex:1] floatValue]));
-    MKMapPoint southWestPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([[southWestCoordinate objectAtIndex:0] floatValue],
-                                                                                   [[southWestCoordinate objectAtIndex:1] floatValue]));
-    MKMapRect southWestRectangle = MKMapRectMake(southWestPoint.x, southWestPoint.y, 0, 0);
-    MKMapRect northEastRectangle = MKMapRectMake(northEastPoint.x, northEastPoint.y, 0, 0);
-    MKMapRect zoomRectangle = MKMapRectUnion(northEastRectangle, southWestRectangle);
+    MKMapRect rectangle = [self getRectangleFromCoordinates:northEastCoordinate southWestCoordinate:southWestCoordinate];
     if (!paddingNumber) {
-        return [self.map setVisibleMapRect:zoomRectangle animated:animate];
+        return [self.map setVisibleMapRect:rectangle animated:animate];
     }
     CGFloat paddingFloat = [paddingNumber floatValue];
-    [self.map setVisibleMapRect:zoomRectangle edgePadding:UIEdgeInsetsMake(paddingFloat, paddingFloat, paddingFloat, paddingFloat) animated:animate];
+    [self.map setVisibleMapRect:rectangle edgePadding:UIEdgeInsetsMake(paddingFloat, paddingFloat, paddingFloat, paddingFloat) animated:animate];
 }
 
 - (NSString *)mapType {
@@ -278,18 +283,25 @@
     return @{@"position": @[@(self.map.centerCoordinate.latitude), @(self.map.centerCoordinate.longitude)]};
 }
 
-- (void)setRegion:(NSArray *)region {
-    if ([region count] < 4) {
+- (void)setRegion:(NSDictionary *)region {
+    NSArray *northEastCoordinate = [region objectForKey:@"northEast"];
+    NSArray *southWestCoordinate = [region objectForKey:@"southWest"];
+    if ([northEastCoordinate count] < 2 || [southWestCoordinate count] < 2) {
         return;
     }
-    CLLocationCoordinate2D center = CLLocationCoordinate2DMake([[region objectAtIndex:0] floatValue], [[region objectAtIndex:1] floatValue]);
-    MKCoordinateSpan span = MKCoordinateSpanMake([[region objectAtIndex:2] floatValue], [[region objectAtIndex:3] floatValue]);
-    self.map.region = [self.map regionThatFits:MKCoordinateRegionMake(center, span)];
+    [self.map setVisibleMapRect:[self getRectangleFromCoordinates:northEastCoordinate southWestCoordinate:southWestCoordinate]];
 }
 
-- (NSArray *)region {
-    MKCoordinateRegion region = self.map.region;
-    return @[@(region.center.latitude), @(region.center.longitude), @(region.span.latitudeDelta), @(region.span.longitudeDelta)];
+- (NSDictionary *)region {
+    MKMapRect rectangle = self.map.visibleMapRect;
+    MKMapPoint northEastPoint = MKMapPointMake(MKMapRectGetMaxX(rectangle), rectangle.origin.y);
+    MKMapPoint southWestPoint = MKMapPointMake(rectangle.origin.x, MKMapRectGetMaxY(rectangle));
+    CLLocationCoordinate2D northEastCordinate = MKCoordinateForMapPoint(northEastPoint);
+    CLLocationCoordinate2D southWestCoordinate = MKCoordinateForMapPoint(southWestPoint);
+    return @{
+             @"northEast": @[@(northEastCordinate.latitude), @(northEastCordinate.longitude)],
+             @"southWest": @[@(southWestCoordinate.latitude), @(southWestCoordinate.longitude)]
+             };
 }
 
 - (void)addMarker:(ESMarker *)marker {
