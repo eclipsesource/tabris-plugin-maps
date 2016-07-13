@@ -32,13 +32,13 @@ tabris.registerWidget("ESMap", {
       trigger: function(event) {this.trigger("change:camera", this, event);}
     }
   },
-  moveCameraToPosition: function(position, radius, options) {
+  moveToPosition: function(position, radius, options) {
     var southWest = sphericalUtil.computeOffset(position, radius * Math.sqrt(2.0), 225);
     var northEast = sphericalUtil.computeOffset(position, radius * Math.sqrt(2.0), 45);
-    this.moveCameraToRegion({northEast: northEast, southWest: southWest}, options);
+    this.moveToRegion({northEast: northEast, southWest: southWest}, options);
   },
-  moveCameraToRegion: function(region, options) {
-    this._nativeCall("moveCameraToRegion", {
+  moveToRegion: function(region, options) {
+    this._nativeCall("moveToRegion", {
       region: region,
       options: options
     });

@@ -37,7 +37,7 @@ import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   public static final String WIDGET_TYPE = "tabris.Map";
-  private static final String METHOD_MOVE_CAMERA_TO_REGION = "moveCameraToRegion";
+  private static final String METHOD_MOVE_TO_REGION = "moveToRegion";
   private static final String PROP_OPTIONS = "options";
   private static final String PROP_ANIMATE = "animate";
   private static final String PROP_PADDING = "padding";
@@ -111,7 +111,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @Override
   public Object call( MapHolderView mapHolderView, String method, Properties properties ) {
     switch( method ) {
-      case METHOD_MOVE_CAMERA_TO_REGION:
+      case METHOD_MOVE_TO_REGION:
         moveCameraToRegion( mapHolderView, properties );
         break;
     }
