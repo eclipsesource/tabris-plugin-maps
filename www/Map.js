@@ -48,12 +48,6 @@ tabris.registerWidget("ESMap", {
       options: options
     });
   },
-  animateCameraToPointGroup: function(latLngPointGroup) {
-    // TODO check types
-    this._nativeCall("animateCameraToPointGroup", {
-      "latLngPointGroup": latLngPointGroup
-    });
-  },
   createMarker: function (mapOptions) {
     return tabris.create("_ESMarker", mapOptions).appendTo(this);
   },

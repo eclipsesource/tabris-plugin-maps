@@ -8,7 +8,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import com.eclipsesource.tabris.android.AbstractTabrisOperator;
@@ -37,9 +36,6 @@ import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   public static final String WIDGET_TYPE = "tabris.Map";
-  private static final String LOG_TAG = WIDGET_TYPE;
-  private static final int DEFAULT_CAMERA_PADDING = 32;
-  private static final String METHOD_ANIMATE_CAMERA_TO_POINT_GROUP = "animateCameraToPointGroup";
   private static final String METHOD_MOVE_CAMERA_TO_BOUNDING_BOX = "moveCameraToBoundingBox";
   private static final String PROP_OPTIONS = "options";
   private static final String PROP_ANIMATE = "animate";
@@ -70,7 +66,6 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @TargetApi( Build.VERSION_CODES.JELLY_BEAN_MR1 )
   @Override
   public MapHolderView create( Properties properties ) {
-    Log.d( LOG_TAG, String.format( "Creating new map holder. %s", properties ) );
     MapHolderView mapHolderView = new MapHolderView( activity, tabrisContext );
     mapHolderView.createMap();
     return mapHolderView;
@@ -114,18 +109,24 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @Override
   public Object call( MapHolderView mapHolderView, String method, Properties properties ) {
     switch( method ) {
-      case METHOD_ANIMATE_CAMERA_TO_POINT_GROUP:
-        animateCameraToPointGroup( mapHolderView, properties );
-        break;
       case METHOD_MOVE_CAMERA_TO_BOUNDING_BOX:
-        if( getAnimateFromOptions( properties ) ) {
-          animateCameraToBoundingBox( mapHolderView, properties );
-        } else {
-          moveCameraToBoundingBox( mapHolderView, properties );
-        }
+        moveCameraToBoundingBox( mapHolderView, properties );
         break;
     }
     return null;
+  }
+
+  private void moveCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
+    LatLngBounds bounds = createBoundsFromBoundingBox( properties );
+    int padding = getPaddingFromOptions( properties );
+    GoogleMap googleMap = mapHolderView.getGoogleMap();
+    if( getAnimateFromOptions( properties ) ) {
+      googleMap.animateCamera( CameraUpdateFactory.newLatLngBounds( bounds, padding ),
+          new UserInitiationCallback( mapHolderView ) );
+    } else {
+      mapHolderView.setChangeUserInitiated( false );
+      googleMap.moveCamera( CameraUpdateFactory.newLatLngBounds( bounds, padding ) );
+    }
   }
 
   private boolean getAnimateFromOptions( Properties properties ) {
@@ -134,20 +135,6 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
       return optionProperties.getBooleanSafe( PROP_ANIMATE );
     }
     return false;
-  }
-
-  private void animateCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
-    LatLngBounds bounds = createBoundsFromBoundingBox( properties );
-    mapHolderView.getGoogleMap().animateCamera( CameraUpdateFactory.newLatLngBounds( bounds,
-        getPaddingFromOptions( properties ) ),
-        new UserInitiationCallback( mapHolderView ) );
-  }
-
-  private void moveCameraToBoundingBox( MapHolderView mapHolderView, Properties properties ) {
-    mapHolderView.setChangeUserInitiated( false );
-    LatLngBounds bounds = createBoundsFromBoundingBox( properties );
-    mapHolderView.getGoogleMap().moveCamera( CameraUpdateFactory.newLatLngBounds( bounds,
-        getPaddingFromOptions( properties ) ) );
   }
 
   private LatLngBounds createBoundsFromBoundingBox( Properties properties ) {
@@ -172,23 +159,6 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
       }
     }
     return 0;
-  }
-
-  private void animateCameraToPointGroup( final MapHolderView mapHolderView, Properties properties ) {
-    GoogleMap googleMap = mapHolderView.getGoogleMap();
-    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-    List<Double> latLngPointGroup = properties.getList( "latLngPointGroup", Double.class );
-    for( int i = 0; i < latLngPointGroup.size(); i += 2 ) {
-      builder.include( new LatLng( latLngPointGroup.get( i ), latLngPointGroup.get( i + 1 ) ) );
-    }
-    googleMap.animateCamera( CameraUpdateFactory.newLatLngBounds( builder.build(), getCameraPadding() ),
-        new UserInitiationCallback( mapHolderView ) );
-  }
-
-  private int getCameraPadding() {
-    DisplayMetrics metrics = new DisplayMetrics();
-    activity.getWindowManager().getDefaultDisplay().getMetrics( metrics );
-    return Math.round( metrics.density * DEFAULT_CAMERA_PADDING );
   }
 
   @Override
