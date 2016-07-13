@@ -6,13 +6,9 @@ tabris.registerWidget("ESMap", {
   _type: "tabris.Map",
   _supportsChildren: true,
   _properties: {
-    liteMode: {type: "boolean", default: false},
     position: {type: "array", nocache: true},
     region: {type: "any", nocache:true},
     camera: {type: "any", nocache: true},
-    zoom: {type: "any", nocache: true},
-    minZoomLevel: {type: "any", nocache: true},
-    maxZoomLevel: {type: "any", nocache: true},
     showMyLocation: {type: "boolean", default: false},
     showMyLocationButton: {type: "boolean", default: false},
     myLocation: {type: "array", nocache: true},

@@ -29,9 +29,6 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
 
   private static final String PROP_POSITION = "position";
   private static final String PROP_CAMERA = "camera";
-  private static final String PROP_MIN_ZOOM_LEVEL = "minZoomLevel";
-  private static final String PROP_MAX_ZOOM_LEVEL = "maxZoomLevel";
-  private static final String PROP_ZOOM = "zoom";
   private static final String PROP_MAP_TYPE = "mapType";
   private static final String PROP_SHOW_MY_LOCATION = "showMyLocation";
   private static final String PROP_SHOW_MY_LOCATION_BUTTON = "showMyLocationButton";
@@ -78,9 +75,6 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
       case PROP_REGION:
         setRegion( mapHolderView, properties );
         break;
-      case PROP_ZOOM:
-        setZoom( mapHolderView.getGoogleMap(), properties );
-        break;
       case PROP_MAP_TYPE:
         setMapType( mapHolderView.getGoogleMap(), properties );
         break;
@@ -119,13 +113,6 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
     mapHolderView.moveCamera( CameraUpdateFactory.newLatLng( latLng ) );
   }
 
-  private void setZoom( GoogleMap map, Properties properties ) {
-    if( properties.getFloat( PROP_ZOOM ) == null ) {
-      throw new IllegalArgumentException( "The 'zoom' property has to be a number but is null" );
-    }
-    map.moveCamera( CameraUpdateFactory.zoomTo( properties.getFloat( PROP_ZOOM ) ) );
-  }
-
   private void setMapType( GoogleMap map, Properties properties ) {
     String mapTypeString = properties.getString( PROP_MAP_TYPE );
     if( mapTypeString == null ) {
@@ -152,27 +139,33 @@ public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderVie
   @Override
   public Object get( MapHolderView mapHolderView, String property ) {
     switch( property ) {
-      case PROP_MIN_ZOOM_LEVEL:
-        return getGoogleMapSafely( mapHolderView ).getMinZoomLevel();
-      case PROP_MAX_ZOOM_LEVEL:
-        return getGoogleMapSafely( mapHolderView ).getMaxZoomLevel();
       case PROP_POSITION:
         return getPosition( mapHolderView );
       case PROP_CAMERA:
         return getCamera( mapHolderView );
       case PROP_REGION:
         return getRegion( mapHolderView );
-      case PROP_ZOOM:
-        return getZoom( mapHolderView );
       case PROP_SHOW_MY_LOCATION:
         return getShowMyLocation( mapHolderView );
       case PROP_SHOW_MY_LOCATION_BUTTON:
         return getShowMyLocationButton( mapHolderView );
       case PROP_MY_LOCATION:
         return getMyLocation( mapHolderView );
+      case PROP_MAP_TYPE:
+        return getMapType( mapHolderView );
       default:
         return super.get( mapHolderView, property );
     }
+  }
+
+  private Object getMapType( MapHolderView mapHolderView ) {
+    int mapType = mapHolderView.getGoogleMap().getMapType();
+    for( Map.Entry<String, Integer> entry : mapTypes.entrySet() ) {
+      if( entry.getValue() == mapType ) {
+        return entry.getKey();
+      }
+    }
+    return null;
   }
 
   private Object getRegion( MapHolderView mapHolderView ) {
