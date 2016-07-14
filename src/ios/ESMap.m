@@ -80,6 +80,7 @@
     if (self) {
         self.map = [[MKMapView alloc] init];
         self.map.delegate = self;
+        self.map.showsPointsOfInterest = NO;
         self.mapType = @"normal";
         self.tapRecognizer = nil;
         self.doubleTapRecognizer = nil;
