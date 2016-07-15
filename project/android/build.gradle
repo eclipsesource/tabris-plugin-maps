@@ -14,8 +14,8 @@ allprojects {
         mavenCentral()
         maven {
             // provides tabris from directory repository
-            url new File( System.getenv("TABRIS_CORDOVA_PLATFORM_HOME") +
-                    "/bin/templates/project/m2repository" ).toURI()
+            url new File( System.getenv('TABRIS_ANDROID_CORDOVA_PLATFORM') +
+                    '/bin/templates/project/m2repository' ).toURI()
                     .toURL().toString()
         }
     }

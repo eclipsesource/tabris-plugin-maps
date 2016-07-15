@@ -43,8 +43,8 @@ tabris.registerWidget("ESMap", {
       options: options
     });
   },
-  createMarker: function (mapOptions) {
-    return tabris.create("_ESMarker", mapOptions).appendTo(this);
-  },
+  createMarker: function (options) {
+    return tabris.create("_ESMarker", options).appendTo(this);
+  }
 
 });
