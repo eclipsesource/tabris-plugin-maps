@@ -234,7 +234,7 @@ The `Marker` API is preliminary and subject to change.
 
 Compatible with [Tabris.js 1.8.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.8.0)
 
-x## Development of the widget
+## Development of the widget
 
 While not required by the consumer of the widget, this repository provides Android specific development artifacts. These artifacts allow to more easily consume the native source code when developing the native parts of the widget.
 
