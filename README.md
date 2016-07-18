@@ -72,7 +72,7 @@ The following properties can be applied on top of the [common Tabris.js properti
   
 ##### `region` : _object_
 
-* Describes the currently visible rectangle of the map. A region object has the two properties `southEast` and `northWest` to span the visible region of the map. In case the map is tilted the region is represented by the smallest possible rectangle that could contain the trapezoid representing the visible region.
+* Describes the currently visible rectangle of the map. A region object has the two properties `southEast` and `northWest` that span the visible region of the map. In case the map is tilted the region is represented by the smallest possible rectangle that could contain the trapezoid representing the visible region.
 * Example: `{southWest: [48.8644458, 2.3589976], northEast: [48.8821597,2.3856527]}`.
 
 ##### `camera` : _object_
@@ -101,7 +101,7 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 ##### `ready`
 
-* The `ready` event is fired when the map is fully initialized and ready for user interaction. The [properties](#properties) and [functions](#functions) of the widget can only be accessed after the `ready` event has fired.
+* The `ready` event is fired when the map is fully initialized and ready for user interaction. The [properties](#properties) and [functions](#functions) of the `ESMap` can only be accessed after the `ready` event has fired.
 
 ###### Parameter:
 
