@@ -1,9 +1,7 @@
 tabris.registerWidget("_EclipseSourceMapsMarker", {
   _type: "com.eclipsesource.maps.Marker",
   _properties: {
-    latLng: {type: "array", nocache: true},
-    title: {type: "string"},
-    color: {type: "string"}
+    position: {type: "array", nocache: true}
   },
   _events: {
     tap: true
