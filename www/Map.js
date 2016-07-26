@@ -48,11 +48,11 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
     });
   },
   addMarker: function (marker) {
-    this._nativeCall("addMarker", marker);
+    this._nativeCall("addMarker", {marker: marker});
     this._markers.push(marker);
   },
   removeMarker: function (marker) {
-    this._nativeCall("removeMarker", marker);
+    this._nativeCall("removeMarker", {marker: marker});
     var index = this._markers.indexOf(marker);
     if (index > -1) {
       this._markers.splice(index, 1);
