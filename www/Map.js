@@ -3,6 +3,11 @@ var PLUGIN_ID = "com.eclipsesource.tabris.maps";
 var sphericalUtil = cordova.require(PLUGIN_ID + ".sphericalutil");
 
 tabris.registerWidget("_EclipseSourceMapsMap", {
+  _create: function () {
+    this._super("_create", arguments);
+    this._markers = [];
+    return this;
+  },
   _type: "com.eclipsesource.maps.Map",
   _supportsChildren: true,
   _properties: {
@@ -43,8 +48,26 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
       options: options
     });
   },
-  createMarker: function (options) {
-    return new eclipsesource.maps.Marker(options).appendTo(this);
+  addMarker: function (marker) {
+    this._nativeCall("addMarker", marker);
+    this._markers.push(marker);
+  },
+  removeMarker: function (marker) {
+    this._nativeCall("removeMarker", marker);
+    var index = this._markers.indexOf(marker);
+    if (index > -1) {
+      this._markers.splice(index, 1);
+    }
+  },
+  getMarkers: function() {
+    return this._markers;
+  },
+  dispose: function() {
+    this._markers.forEach(function(marker) {
+      marker.dispose();
+    });
+    this._markers = [];
+    this._dispose();
   }
 
 });

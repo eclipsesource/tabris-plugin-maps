@@ -197,9 +197,17 @@ map.moveToRegion({southWest: [48.8644458, 2.3589976], northEast: [48.8821597,2.3
     * `animate` : _boolean_
       * Whether to place the camera directly at the given position or to move the camera in an animated fashion.
 
-#### `Marker createMarker(options)`
+#### `addMarker(marker)`
 
-The function `createMarker()` creates a marker at the given position contained in the options object.
+The function `addMarker(marker)` adds a marker to the map. When a map gets disposed all of its previously added markers are disposed with it.
+
+#### `removeMarker(marker)`
+
+The function `removeMarker(marker)` removes a marker from the map.
+
+#### `getMarkers()`
+
+The function `getMarkers()` returns an `array` of all currently added markers.
 
 ##### Parameter
 
