@@ -67,9 +67,6 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
     return this._markers;
   },
   dispose: function() {
-    this._markers.forEach(function(marker) {
-      marker.dispose();
-    });
     this._markers = [];
     this._dispose();
   }
