@@ -218,8 +218,6 @@ The function `getMarkers()` returns an `array` of all currently added markers.
 
 A `Marker` is used to indicate places and positions on the Map.
 
-The `Marker` API is preliminary and subject to change.
-
 #### Properties
 
 ##### `position` : _number[]_ 
