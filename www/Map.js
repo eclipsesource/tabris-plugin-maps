@@ -9,7 +9,6 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
     return this;
   },
   _type: "com.eclipsesource.maps.Map",
-  _supportsChildren: true,
   _properties: {
     position: {type: "array", nocache: true},
     region: {type: "any", nocache:true},
