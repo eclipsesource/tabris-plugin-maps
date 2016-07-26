@@ -1,4 +1,4 @@
-tabris.registerWidget("_ESMarker", {
+tabris.registerWidget("_EclipseSourceMapsMarker", {
   _type: "com.eclipsesource.maps.Marker",
   _properties: {
     latLng: {type: "array", nocache: true},
@@ -7,3 +7,5 @@ tabris.registerWidget("_ESMarker", {
   },
   _events: {tap: true}
 });
+
+module.exports = tabris._EclipseSourceMapsMarker;

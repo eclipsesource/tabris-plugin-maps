@@ -2,7 +2,7 @@ var PLUGIN_ID = "com.eclipsesource.tabris.maps";
 
 var sphericalUtil = cordova.require(PLUGIN_ID + ".sphericalutil");
 
-tabris.registerWidget("ESMap", {
+tabris.registerWidget("_EclipseSourceMapsMap", {
   _type: "com.eclipsesource.maps.Map",
   _supportsChildren: true,
   _properties: {
@@ -44,7 +44,9 @@ tabris.registerWidget("ESMap", {
     });
   },
   createMarker: function (options) {
-    return tabris.create("_ESMarker", options).appendTo(this);
+    return new eclipsesource.maps.Marker(options).appendTo(this);
   }
 
 });
+
+module.exports = tabris._EclipseSourceMapsMap;

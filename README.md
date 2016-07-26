@@ -14,7 +14,7 @@ var page =  new tabris.Page( {
   topLevel: true
 });
 
-new tabris.ESMap({
+new eclipsesource.maps.Map({
   left: 0, right: 0, top: 0, bottom: 0
 }).on("ready", function() {
   // show paris with a radius of 2000 meters
@@ -57,9 +57,9 @@ cordova plugin add <tabris-maps-plugin> --variable API_KEY_FOR_ANDROID=`your-and
 
 ## API documentation
 
-The API consists of two objects: The `ESMap` and the `Marker` that can be created on an `ESMap`. Note that the properties and functions of the `ESMap` *can only be accessed _after_ the [`ready`](#ready) callback has fired*.
+The API consists of two objects: The `eclipsesource.maps.Map` and the `eclipsesource.maps.Marker` that can be created on an `Map`. Note that the properties and functions of the `Map` *can only be accessed _after_ the [`ready`](#ready) callback has fired*.
 
-### `ESMap`
+### `Map`
 
 #### Properties
 
@@ -101,12 +101,12 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 ##### `ready`
 
-* The `ready` event is fired when the map is fully initialized and ready for user interaction. The [properties](#properties) and [functions](#functions) of the `ESMap` can only be accessed after the `ready` event has fired.
+* The `ready` event is fired when the map is fully initialized and ready for user interaction. The [properties](#properties) and [functions](#functions) of the `Map` can only be accessed after the `ready` event has fired.
 
 ###### Parameter:
 
-* `widget` : _ESMap_
-  * The `ESMap` widget that is ready
+* `widget` : _Map_
+  * The `Map` widget that is ready
 
 ##### `tap`
 
@@ -114,8 +114,8 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 ###### Parameter:
 
-* `widget` : _ESMap_
-  * The `ESMap` widget the tap occurred on
+* `widget` : _Map_
+  * The `Map` widget the tap occurred on
 * `position` : _number[]_
   * A position array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
 
@@ -125,8 +125,8 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 ###### Parameter:
 
-* `widget` : _ESMap_
-  * The `ESMap` widget the long press occurred on
+* `widget` : _Map_
+  * The `Map` widget the long press occurred on
 * `position` : _number[]_
   * A position array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
 
@@ -136,8 +136,8 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 ###### Parameter:
 
-* `widget` : _ESMap_
-  * The `ESMap` widget whose the camera position has changed
+* `widget` : _Map_
+  * The `Map` widget whose the camera position has changed
 * `camera` : _object_
   * The `camera` object consists of the same properties as the [`camera`](#camera) property and contains the new orientation of the camera
 
@@ -147,8 +147,8 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 ###### Parameter:
 
-* `widget` : _ESMap_
-  * The `ESMap` widget whose the camera position has changed
+* `widget` : _Map_
+  * The `Map` widget whose the camera position has changed
 * `camera` : _object_
   * The `camera` object consists of the same properties as the [`camera`](#camera) property and contains the new orientation of the camera
   
