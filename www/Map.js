@@ -57,9 +57,9 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
   },
   removeMarker: function (marker) {
     marker._map = null;
-    this._nativeCall("removeMarker", {marker: marker});
     var index = this._markers.indexOf(marker);
     if (index > -1) {
+      this._nativeCall("removeMarker", {marker: marker});
       this._markers.splice(index, 1);
     }
   },
