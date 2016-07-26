@@ -45,14 +45,14 @@ The API key can be configured inside your apps `config.xml`:
 
 ```xml
 <plugin name="com.eclipsesource.tabris.maps" spec="https://github.com/eclipsesource/tabris-maps.git">
-  <variable name="API_KEY_FOR_ANDROID" value="your-android-maps-api-key" />
+  <variable name="ANDROID_API_KEY" value="your-android-maps-api-key" />
 </plugin>
 ```
 
 Alternatively the API key can be added during the `cordova plugin add` command:
 
 ```bash
-cordova plugin add <tabris-maps-plugin> --variable API_KEY_FOR_ANDROID=`your-android-maps-api-key`
+cordova plugin add <tabris-maps-plugin> --variable ANDROID_API_KEY=`your-android-maps-api-key`
 ```
 
 ## API documentation

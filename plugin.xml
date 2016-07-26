@@ -25,14 +25,14 @@
 
     <platform name="android">
 
-        <info>Make sure to provide the Google Maps API key via the variable API_KEY_FOR_ANDROID</info>
+        <info>Make sure to provide the Google Maps API key via the variable ANDROID_API_KEY</info>
 
-        <preference name="API_KEY_FOR_ANDROID" />
+        <preference name="ANDROID_API_KEY" />
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data
               android:name="com.google.android.maps.v2.API_KEY"
-              android:value="$API_KEY_FOR_ANDROID" />
+              android:value="$ANDROID_API_KEY" />
             <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
             <meta-data
               android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps"
