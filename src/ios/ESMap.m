@@ -89,6 +89,8 @@
         self.gestureWasRecognized = NO;
         self.readyEventToken = 0;
         [self registerSelector:@selector(moveToRegion:) forCall:@"moveToRegion"];
+        [self registerSelector:@selector(addMarker:) forCall:@"addMarker"];
+        [self registerSelector:@selector(removeMarker:) forCall:@"removeMarker"];
     }
     return self;
 }
@@ -300,12 +302,30 @@
              };
 }
 
-- (void)addMarker:(ESMarker *)marker {
-    [self.map addAnnotation:marker];
+- (void)addMarker:(NSDictionary *)properties {
+    ESMarker *marker = [self getMarkerFrom:properties];
+    if (marker) {
+        [self.map addAnnotation:(ESMarker *) marker];
+    }
 }
 
-- (void)removeMarker:(ESMarker *)marker {
-    [self.map removeAnnotation:marker];
+- (void)removeMarker:(NSDictionary *)properties {
+    ESMarker *marker = [self getMarkerFrom:properties];
+    if (marker) {
+        [self.map removeAnnotation:(ESMarker *) marker];
+    }
+}
+
+- (ESMarker *)getMarkerFrom:(NSDictionary *)properties {
+    NSString *markerId = [properties objectForKey:@"marker"];
+    if (!markerId) {
+        return nil;
+    }
+    id<RemoteObject> marker = [self.client objectById:markerId];
+    if(![marker isKindOfClass:[ESMarker class]]) {
+        return nil;
+    }
+    return (ESMarker *) marker;
 }
 
 - (void)didTap:(UITapGestureRecognizer *)sender {
@@ -353,6 +373,13 @@
     }
     ESMarker *marker = (ESMarker *)view.annotation;
     [marker tapped];
+}
+
+- (void)destroy {
+    for (ESMarker *marker in self.map.annotations) {
+        [marker destroy];
+    }
+    [super destroy];
 }
 
 @end

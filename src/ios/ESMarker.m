@@ -15,7 +15,7 @@
 
 @implementation ESMarker
 
-@synthesize latLng = _latLng;
+@synthesize position = _position;
 @synthesize tapListener = _tapListener;
 @synthesize coordinate = _coordinate;
 @synthesize title = _title;
@@ -25,14 +25,9 @@
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
     self = [super initWithObjectId:objectId properties:properties andClient:client];
     if (self) {
-        NSArray *coordinates = [properties objectForKey:@"latLng"];
+        NSArray *coordinates = [properties objectForKey:@"position"];
         if (coordinates) {
             self.coordinate = CLLocationCoordinate2DMake([[coordinates objectAtIndex:0] floatValue], [[coordinates objectAtIndex:1] floatValue]);
-        }
-        NSString *parentId = [properties objectForKey:@"parent"];
-        if (parentId) {
-            self.map = (ESMap *)[self.client objectById:parentId];
-            [self.map addMarker:self];
         }
     }
     return self;
@@ -52,7 +47,7 @@
 
 + (NSMutableSet *)remoteObjectProperties {
     NSMutableSet *set = [super remoteObjectProperties];
-    [set addObject:@"latLng"];
+    [set addObject:@"position"];
     return set;
 }
 
@@ -65,12 +60,6 @@
         Message<Notification> *message = [[self notifications] forObject:self];
         [message fireEvent:@"tap" withAttributes:@{}];
     }
-}
-
-- (void)destroy {
-    [self.map removeMarker:self];
-    self.map = nil;
-    [super destroy];
 }
 
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate {

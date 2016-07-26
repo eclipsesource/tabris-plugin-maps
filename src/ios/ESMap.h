@@ -21,7 +21,7 @@
 @property (strong) NSDictionary *camera;
 @property (readonly, strong) NSArray *myLocation;
 @property (strong) NSDictionary *region;
-- (void)addMarker:(ESMarker *)marker;
-- (void)removeMarker:(ESMarker *)marker;
+- (void)addMarker:(NSDictionary *)properties;
+- (void)removeMarker:(NSDictionary *)properties;
 - (void)moveToRegion: (NSDictionary *)properties;
 @end

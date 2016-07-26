@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 
 @interface ESMarker : BasicWidget <MKAnnotation>
-@property (strong) NSArray *latLng;
+@property (strong) NSArray *position;
 @property (assign) BOOL tapListener;
 - (void)tapped;
 @end
