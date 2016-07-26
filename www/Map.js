@@ -52,14 +52,14 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
       throw new Error("Marker is already attached to a map");
     }
     marker._map = this;
-    this._nativeCall("addMarker", {marker: marker});
+    this._nativeCall("addMarker", {marker: marker.cid});
     this._markers.push(marker);
   },
   removeMarker: function (marker) {
     marker._map = null;
     var index = this._markers.indexOf(marker);
     if (index > -1) {
-      this._nativeCall("removeMarker", {marker: marker});
+      this._nativeCall("removeMarker", {marker: marker.cid});
       this._markers.splice(index, 1);
     }
   },
