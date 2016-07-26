@@ -342,7 +342,7 @@
     if (self.tapListener) {
         CLLocationCoordinate2D coordinate = [self.map convertPoint:touchPoint toCoordinateFromView:self.map];
         Message<Notification> *message = [[self notifications] forObject:self];
-        [message fireEvent:@"tap" withAttributes:@{@"latLng":@[@(coordinate.latitude), @(coordinate.longitude)]}];
+        [message fireEvent:@"tap" withAttributes:@{@"position":@[@(coordinate.latitude), @(coordinate.longitude)]}];
     }
 }
 
