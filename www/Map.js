@@ -48,10 +48,15 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
     });
   },
   addMarker: function (marker) {
+    if (marker._map) {
+      throw new Error("Marker is already attached to a map");
+    }
+    marker._map = this;
     this._nativeCall("addMarker", {marker: marker});
     this._markers.push(marker);
   },
   removeMarker: function (marker) {
+    marker._map = null;
     this._nativeCall("removeMarker", {marker: marker});
     var index = this._markers.indexOf(marker);
     if (index > -1) {

@@ -5,7 +5,15 @@ tabris.registerWidget("_EclipseSourceMapsMarker", {
     title: {type: "string"},
     color: {type: "string"}
   },
-  _events: {tap: true}
+  _events: {
+    tap: true
+  },
+  dispose: function() {
+    if (this._map) {
+      this._map.removeMarker(this); 
+    }
+    this._dispose();
+  }
 });
 
 module.exports = tabris._EclipseSourceMapsMarker;
