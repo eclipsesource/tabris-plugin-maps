@@ -64,6 +64,7 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   @Override
   public void onMapReady( GoogleMap googleMap ) {
     this.googleMap = googleMap;
+    googleMap.setOnMarkerClickListener( new MarkerTapListener( this, tabrisContext.getObjectRegistry() ) );
     tabrisContext.getObjectRegistry().getRemoteObjectForObject( this ).notify( EVENT_READY );
   }
 

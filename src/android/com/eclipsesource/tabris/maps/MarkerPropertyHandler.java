@@ -1,36 +1,21 @@
 package com.eclipsesource.tabris.maps;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.eclipsesource.tabris.android.TabrisContext;
 import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 import com.eclipsesource.tabris.client.core.model.Properties;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.LatLng;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
+import static java.util.Arrays.asList;
 
 public class MarkerPropertyHandler<T extends MapMarker> implements TabrisPropertyHandler<T> {
 
-  private static final String LOG_TAG = "marker.properties";
-  private static final String PROPERTY_TITLE = "title";
-  private static final String PROPERTY_COLOR = "color";
-  private static final Map<String, Float> COLOR_MAP = new HashMap<String, Float>();
-
-  static {
-    COLOR_MAP.put( "azure", BitmapDescriptorFactory.HUE_AZURE );
-    COLOR_MAP.put( "cyan", BitmapDescriptorFactory.HUE_CYAN );
-    COLOR_MAP.put( "blue", BitmapDescriptorFactory.HUE_BLUE );
-    COLOR_MAP.put( "green", BitmapDescriptorFactory.HUE_GREEN );
-    COLOR_MAP.put( "magenta", BitmapDescriptorFactory.HUE_MAGENTA );
-    COLOR_MAP.put( "orange", BitmapDescriptorFactory.HUE_ORANGE );
-    COLOR_MAP.put( "red", BitmapDescriptorFactory.HUE_RED );
-    COLOR_MAP.put( "rose", BitmapDescriptorFactory.HUE_ROSE );
-    COLOR_MAP.put( "violet", BitmapDescriptorFactory.HUE_VIOLET );
-    COLOR_MAP.put( "yellow", BitmapDescriptorFactory.HUE_YELLOW );
-  }
+  private static final String PROP_POSITION = "position";
+  private static final String PROP_TITLE = "title";
+  private static final String PROP_SUBTITLE = "subtitle";
 
   private final Activity activity;
   private final TabrisContext context;
@@ -41,38 +26,48 @@ public class MarkerPropertyHandler<T extends MapMarker> implements TabrisPropert
   }
 
   @Override
+  public void set( T marker, Properties properties ) {
+    setPosition( marker, properties );
+    setTitle( marker, properties );
+    setSubtitle( marker, properties );
+    marker.updateMarker();
+  }
+
+  private void setPosition( T marker, Properties properties ) {
+    List<Double> position = properties.getList( PROP_POSITION, Double.class );
+    if( position == null || position.size() != 2 ) {
+      throw new IllegalArgumentException( "The 'position' property has to be a 2 element tuple but is " + position );
+    }
+    marker.setPosition( new LatLng( position.get( 0 ), position.get( 1 ) ) );
+  }
+
+  private void setTitle( T marker, Properties properties ) {
+    if( properties.hasProperty( PROP_TITLE ) ) {
+      marker.getMarker().setTitle( properties.getString( PROP_TITLE ) );
+    }
+  }
+
+  private void setSubtitle( T marker, Properties properties ) {
+    if( properties.hasProperty( PROP_SUBTITLE ) ) {
+      marker.getMarker().setTitle( properties.getString( PROP_SUBTITLE ) );
+    }
+  }
+
+  @Override
   public Object get( T marker, String property ) {
-    Log.d( LOG_TAG, String.format( "get \"%s\" from %s", property, marker ) );
     switch( property ) {
-      case "title":
-        return marker.getMarker().getTitle();
+      case PROP_POSITION:
+        return getPosition( marker );
     }
     return null;
   }
 
-  @Override
-  public void set( T marker, Properties properties ) {
-    Log.d( LOG_TAG, String.format( "set \"%s\" on %s", properties, marker ) );
-    setTitle( marker, properties );
-    setMarkerColor( marker, properties );
-  }
-
-  private void setMarkerColor( T marker, Properties properties ) {
-    if( properties.hasProperty( PROPERTY_COLOR ) ) {
-      String markerColorName = properties.getString( PROPERTY_COLOR );
-      Float markerColor = COLOR_MAP.get( markerColorName );
-      if( markerColor == null ) {
-        Log.e( LOG_TAG, String.format( "Color \"%s\" not available!", markerColorName ) );
-      } else {
-        marker.getMarker().setIcon( BitmapDescriptorFactory.defaultMarker( markerColor ) );
-      }
+  private Object getPosition( T marker ) {
+    LatLng position = marker.getPosition();
+    if( position != null ) {
+      return asList( position.latitude, position.longitude );
     }
-  }
-
-  private void setTitle( T marker, Properties properties ) {
-    if( properties.hasProperty( PROPERTY_TITLE ) ) {
-      marker.getMarker().setTitle( properties.getString( PROPERTY_TITLE ) );
-    }
+    return null;
   }
 
 }

@@ -14,7 +14,7 @@ import com.eclipsesource.tabris.android.AbstractTabrisOperator;
 import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.TabrisContext;
 import com.eclipsesource.tabris.android.TabrisPropertyHandler;
-import com.eclipsesource.tabris.client.core.ObjectRegistry;
+import com.eclipsesource.tabris.client.core.ObjectRegistry.RegistryEntry;
 import com.eclipsesource.tabris.client.core.OperatorRegistry;
 import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,11 +22,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
 import static com.eclipsesource.tabris.maps.MapCameraChangeListener.*;
-import static com.eclipsesource.tabris.maps.MapClickListener.EVENT_TAP;
+import static com.eclipsesource.tabris.maps.MapTapListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
 import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
@@ -35,6 +37,8 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   public static final String WIDGET_TYPE = "com.eclipsesource.maps.Map";
   private static final String METHOD_MOVE_TO_REGION = "moveToRegion";
+  private static final String METHOD_ADD_MARKER = "addMarker";
+  private static final String METHOD_REMOVE_MARKER = "removeMarker";
   private static final String PROP_OPTIONS = "options";
   private static final String PROP_ANIMATE = "animate";
   private static final String PROP_PADDING = "padding";
@@ -111,6 +115,12 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
       case METHOD_MOVE_TO_REGION:
         moveCameraToRegion( mapHolderView, properties );
         break;
+      case METHOD_ADD_MARKER:
+        addMarker( mapHolderView, properties );
+        break;
+      case METHOD_REMOVE_MARKER:
+        removeMarker( properties );
+        break;
     }
     return null;
   }
@@ -159,15 +169,39 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
     return 0;
   }
 
+  private void addMarker( MapHolderView mapHolderView, Properties properties ) {
+    String markerId = properties.getString( "marker" );
+    if( markerId != null ) {
+      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject( markerId, MapMarker.class );
+      MarkerOptions markerOptions = new MarkerOptions();
+      markerOptions.position( mapMarker.getPosition() );
+      Marker marker = mapHolderView.getGoogleMap().addMarker( markerOptions );
+      mapMarker.setMarker( marker );
+      mapMarker.setMapId( tabrisContext.getObjectRegistry().getRemoteObjectForObject( mapHolderView ).getId() );
+      mapMarker.updateMarker();
+    }
+  }
+
+  private void removeMarker( Properties properties ) {
+    String markerId = properties.getString( "marker" );
+    if( markerId != null ) {
+      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject( markerId, MapMarker.class );
+      mapMarker.getMarker().remove();
+      mapMarker.setMarker( null );
+      mapMarker.setMapId( null );
+    }
+  }
+
   @Override
   public void destroy( MapHolderView mapHolderView ) {
     ( ( ViewGroup )mapHolderView.getParent() ).removeView( mapHolderView );
     String mapId = tabrisContext.getObjectRegistry().getRemoteObjectForObject( mapHolderView ).getId();
-    for( ObjectRegistry.RegistryEntry registryEntry : tabrisContext.getObjectRegistry().getEntries() ) {
+    for( RegistryEntry registryEntry : tabrisContext.getObjectRegistry().getEntries() ) {
       Object object = registryEntry.getObject();
       if( object instanceof MapMarker ) {
         MapMarker mapMarker = ( MapMarker )object;
-        if( mapMarker.getMapId().equals( mapId ) ) {
+        String markerMapId = mapMarker.getMapId();
+        if( markerMapId != null && markerMapId.equals( mapId ) ) {
           OperatorRegistry operatorRegistry = ( ( TabrisActivity )activity ).getWidgetToolkit().getOperatorRegistry();
           MarkerOperator operator = ( MarkerOperator )operatorRegistry.get( MarkerOperator.TYPE );
           operator.destroy( mapMarker );
@@ -177,38 +211,35 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   }
 
   private void attachOnMapClickListener( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
-    googleMap.setOnMapClickListener( new MapClickListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
+    getGoogleMapSafely( mapHolderView )
+        .setOnMapClickListener( new MapTapListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
   }
 
   private void removeOnMapClickListener( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
-    googleMap.setOnMapClickListener( null );
+    getGoogleMapSafely( mapHolderView ).setOnMapClickListener( null );
   }
 
   private void attachOnMapLongClickListener( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
-    googleMap.setOnMapLongClickListener( new MapLongClickListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
+    getGoogleMapSafely( mapHolderView )
+        .setOnMapLongClickListener( new MapLongClickListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
   }
 
   private void removeOnMapLongClickListener( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
-    googleMap.setOnMapLongClickListener( null );
+    getGoogleMapSafely( mapHolderView ).setOnMapLongClickListener( null );
   }
 
   private void attachOnCameraChangeListener( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
-    googleMap.setOnCameraChangeListener( new MapCameraChangeListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
+    getGoogleMapSafely( mapHolderView )
+        .setOnCameraChangeListener( new MapCameraChangeListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
   }
 
   private void removeOnCameraChangeListener( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
-    googleMap.setOnCameraChangeListener( null );
+    getGoogleMapSafely( mapHolderView ).setOnCameraChangeListener( null );
   }
 
   private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap( googleMap, "Listeners must be attached in the 'mapReady' event callback." );
+    validateGoogleMap( googleMap, "Can not get map before 'mapReady' event has fired." );
     return googleMap;
   }
 
