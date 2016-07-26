@@ -222,9 +222,9 @@ The `Marker` API is preliminary and subject to change.
 
 #### Properties
 
-##### `title` : _string_
+##### `position` : _number[]_ 
 
-* A title to associate with the marker.
+* The current position of the marker if set. The position is an array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
 
 #### Events
 
