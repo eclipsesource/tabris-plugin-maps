@@ -30,7 +30,7 @@ import java.util.List;
 import static com.eclipsesource.tabris.maps.MapCameraChangeListener.*;
 import static com.eclipsesource.tabris.maps.MapTapListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
-import static com.eclipsesource.tabris.maps.MapLongClickListener.EVENT_LONGPRESS;
+import static com.eclipsesource.tabris.maps.MapLongPressListener.EVENT_LONGPRESS;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
@@ -221,7 +221,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   private void attachOnMapLongClickListener( MapHolderView mapHolderView ) {
     getGoogleMapSafely( mapHolderView )
-        .setOnMapLongClickListener( new MapLongClickListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
+        .setOnMapLongClickListener( new MapLongPressListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
   }
 
   private void removeOnMapLongClickListener( MapHolderView mapHolderView ) {

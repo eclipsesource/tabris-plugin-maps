@@ -20,10 +20,10 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
   },
   _events: {
     tap: {
-      trigger: function(event) {this.trigger("tap", this, event.latLng);}
+      trigger: function(event) {this.trigger("tap", this, event.position);}
     },
     longpress: {
-      trigger: function(event) {this.trigger("longpress", this, event.latLng);}
+      trigger: function(event) {this.trigger("longpress", this, event.position);}
     },
     ready: {
       trigger: function() {this.trigger("ready", this);}
