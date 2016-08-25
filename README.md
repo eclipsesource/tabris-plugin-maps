@@ -24,7 +24,7 @@ new esmaps.Map({
 page.open();
 ```
 
-The [tabris-maps-example](https://github.com/eclipsesource/tabris-maps-example) project provides a Tabris.js project that demonstrates different features of the `tabris-maps` custom widget.
+A more elaborate example can be found in the [example](example/) folder. It provides a Tabris.js cordova project that demonstrates the various features of the `tabris-maps` widget. When building the example project don't forget to run `npm install` inside the `www` folder to fetch the Tabris.js dependencies.
 
 ## Integrating the plugin
 Using the plugin follows the standard cordova plugin mechanism. The Tabris.js website provides detailed information on how to [integrate custom widgets](https://tabrisjs.com/documentation/latest/build#adding-plugins) in your Tabris.js based app.

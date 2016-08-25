@@ -1,0 +1,8 @@
+{
+  "title": "Tabris Maps Example",
+  "description": "Example for the Tabris maps custom widget.",
+  "main": "app.js",
+  "dependencies": {
+    "tabris": "^1.8.x"
+  }
+}
