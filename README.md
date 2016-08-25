@@ -253,7 +253,7 @@ In order to reference the Tabris.js specific APIs, the environment variable `TAB
 ```bash
 export TABRIS_ANDROID_CORDOVA_PLATFORM=/home/user/tabris-android-cordova
 ```
- The environment variable is consumed in the gradle projects [build.gradle](project/android/build.gradle) file.
+ The environment variable is consumed in the gradle projects [build.gradle](plugin/project/android/build.gradle) file.
 
 ## Copyright
 
