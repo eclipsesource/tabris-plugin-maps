@@ -14,7 +14,7 @@ var page =  new tabris.Page( {
   topLevel: true
 });
 
-new eclipsesource.maps.Map({
+new esmaps.Map({
   left: 0, right: 0, top: 0, bottom: 0
 }).on("ready", function() {
   // show paris with a radius of 2000 meters
@@ -57,7 +57,7 @@ cordova plugin add <tabris-maps-plugin> --variable ANDROID_API_KEY=`your-android
 
 ## API documentation
 
-The API consists of two objects: The `eclipsesource.maps.Map` and the `eclipsesource.maps.Marker` that can be created on an `Map`. Note that the properties and functions of the `Map` *can only be accessed _after_ the [`ready`](#ready) callback has fired*.
+The API consists of two objects: The `esmaps.Map` and the `esmaps.Marker` that can be created on an `Map`. Note that the properties and functions of the `Map` *can only be accessed _after_ the [`ready`](#ready) callback has fired*.
 
 ### `Map`
 

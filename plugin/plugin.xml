@@ -16,10 +16,10 @@
     </engines>
 
     <js-module src="www/Map.js" name="map">
-        <clobbers target="eclipsesource.maps.Map" />
+        <clobbers target="esmaps.Map" />
     </js-module>
     <js-module src="www/Marker.js" name="marker">
-	    <clobbers target="eclipsesource.maps.Marker" />
+	    <clobbers target="esmaps.Marker" />
     </js-module>
     <js-module src="www/sphericalutil.js" name="sphericalutil" />
 
