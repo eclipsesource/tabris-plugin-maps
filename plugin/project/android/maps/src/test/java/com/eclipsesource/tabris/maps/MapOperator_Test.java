@@ -20,7 +20,7 @@ public class MapOperator_Test {
 
     String type = operator.getType();
 
-    assertEquals( "ESMap", type );
+    assertEquals( "com.eclipsesource.maps.Map", type );
   }
 
   @Test
