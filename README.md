@@ -34,7 +34,7 @@ Using the plugin follows the standard cordova plugin mechanism. The Tabris.js we
 The plugin can be added like any other cordova plugin. Either via the `cordova plugin add` command or as an entry in the apps `config.xml` (recommended):
 
 ```xml
-<plugin name="com.eclipsesource.tabris.maps" spec="https://github.com/eclipsesource/tabris-maps.git" />
+<plugin name="com.eclipsesource.tabris.maps" spec="https://github.com/eclipsesource/tabris-maps.git#:/plugin" />
 ```
 
 #### Android
@@ -44,7 +44,7 @@ On Android a Google Maps API key has to be provided when adding the plugin to yo
 The API key can be configured inside your apps `config.xml`:
 
 ```xml
-<plugin name="com.eclipsesource.tabris.maps" spec="https://github.com/eclipsesource/tabris-maps.git">
+<plugin name="com.eclipsesource.tabris.maps" spec="https://github.com/eclipsesource/tabris-maps.git#:/plugin">
   <variable name="ANDROID_API_KEY" value="your-android-maps-api-key" />
 </plugin>
 ```
@@ -52,7 +52,7 @@ The API key can be configured inside your apps `config.xml`:
 Alternatively the API key can be added during the `cordova plugin add` command:
 
 ```bash
-cordova plugin add <tabris-maps-plugin> --variable ANDROID_API_KEY=`your-android-maps-api-key`
+cordova plugin add <path-to-tabris-maps-plugin> --variable ANDROID_API_KEY=`your-android-maps-api-key`
 ```
 
 ## API documentation
