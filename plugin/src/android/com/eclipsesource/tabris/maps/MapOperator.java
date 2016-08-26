@@ -81,7 +81,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
         if( listen ) {
           mapHolderView.setOnMapReadyListener();
         } else {
-          throw new IllegalStateException( "'mapReady' event listeners cannot be removed." );
+          throw new IllegalStateException( "'ready' event listeners cannot be removed." );
         }
         break;
       case EVENT_TAP:
@@ -239,7 +239,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap( googleMap, "Can not get map before 'mapReady' event has fired." );
+    validateGoogleMap( googleMap, "Can not get map before 'ready' event has fired." );
     return googleMap;
   }
 
