@@ -68,39 +68,12 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
     tabrisContext.getObjectRegistry().getRemoteObjectForObject( this ).notify( EVENT_READY );
   }
 
-  public boolean isChangeUserInitiated() {
-    return changeUserInitiated;
-  }
-
-  public void setChangeUserInitiated( boolean changeUserInitiated ) {
-    this.changeUserInitiated = changeUserInitiated;
-  }
-
   public void moveCamera( CameraUpdate cameraUpdate ) {
-    setChangeUserInitiated( false );
     getGoogleMap().moveCamera( cameraUpdate );
   }
 
   public void animateCamera( CameraUpdate cameraUpdate ) {
-    getGoogleMap().animateCamera( cameraUpdate, new UserInitiationCallback( this ) );
+    getGoogleMap().animateCamera( cameraUpdate );
   }
 
-  private static class UserInitiationCallback implements GoogleMap.CancelableCallback {
-
-    private final MapHolderView mapHolderView;
-
-    UserInitiationCallback( MapHolderView mapHolderView ) {
-      this.mapHolderView = mapHolderView;
-    }
-
-    @Override
-    public void onFinish() {
-      mapHolderView.setChangeUserInitiated( true );
-    }
-
-    @Override
-    public void onCancel() {
-      mapHolderView.setChangeUserInitiated( false );
-    }
-  }
 }

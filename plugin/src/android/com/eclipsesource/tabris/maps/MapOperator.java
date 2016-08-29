@@ -28,9 +28,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 import static com.eclipsesource.tabris.maps.MapCameraChangeListener.*;
-import static com.eclipsesource.tabris.maps.MapTapListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapHolderView.EVENT_READY;
 import static com.eclipsesource.tabris.maps.MapLongPressListener.EVENT_LONGPRESS;
+import static com.eclipsesource.tabris.maps.MapTapListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
@@ -99,7 +99,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
         }
         break;
       case EVENT_CAMERA_MOVE:
-      case EVENT_CAMERA_MOVE_PROGRAMMATIC:
+      case EVENT_CHANGE_CAMERA:
         if( listen ) {
           attachOnCameraChangeListener( mapHolderView );
         } else {
@@ -229,12 +229,15 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   }
 
   private void attachOnCameraChangeListener( MapHolderView mapHolderView ) {
-    getGoogleMapSafely( mapHolderView )
-        .setOnCameraChangeListener( new MapCameraChangeListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
+    MapCameraChangeListener listener = new MapCameraChangeListener( tabrisContext.getObjectRegistry(), mapHolderView );
+    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
+    googleMap.setOnCameraMoveStartedListener( listener );
+    googleMap.setOnCameraIdleListener( listener );
   }
 
   private void removeOnCameraChangeListener( MapHolderView mapHolderView ) {
-    getGoogleMapSafely( mapHolderView ).setOnCameraChangeListener( null );
+    getGoogleMapSafely( mapHolderView ).setOnCameraMoveStartedListener( null );
+    getGoogleMapSafely( mapHolderView ).setOnCameraIdleListener( null );
   }
 
   private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
