@@ -262,18 +262,19 @@
     return @[@(latitude), @(longitude)];
 }
 
-- (void)setPosition:(NSArray *)center {
-    if ([center count] < 2) {
+- (void)setPosition:(NSArray *)position {
+    if ([position count] < 2) {
         return;
     }
-    self.map.centerCoordinate = CLLocationCoordinate2DMake([[center objectAtIndex:0] floatValue], [[center objectAtIndex:1] floatValue]);
+    self.map.centerCoordinate = CLLocationCoordinate2DMake([[position objectAtIndex:0] floatValue], [[position objectAtIndex:1] floatValue]);
+    [self handleProgrammaticCameraChange];
 }
 
 - (NSArray *)position {
     return @[@(self.map.centerCoordinate.latitude), @(self.map.centerCoordinate.longitude)];
 }
 
-- (void) setCamera:(NSDictionary *)camera {
+- (void)setCamera:(NSDictionary *)camera {
     self.position = [camera objectForKey:@"position"];
 }
 
@@ -288,6 +289,14 @@
         return;
     }
     [self.map setVisibleMapRect:[self getRectangleFromCoordinates:northEastCoordinate southWestCoordinate:southWestCoordinate]];
+    [self handleProgrammaticCameraChange];
+}
+
+- (void)handleProgrammaticCameraChange {
+    // Prevent canceled gestures from being handled.
+    if (self.gestureWasRecognized) {
+        self.gestureWasRecognized = NO;
+    }
 }
 
 - (NSDictionary *)region {
