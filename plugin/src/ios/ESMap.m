@@ -45,7 +45,7 @@
 @synthesize tapListener = _tapListener;
 @synthesize readyListener = _readyListener;
 @synthesize cameramoveListener = _cameramoveListener;
-@synthesize cameramoveprogrammaticListener = _cameramoveprogrammaticListener;
+@synthesize changecameraListener = _changecameraListener;
 @synthesize showMyLocation = _showMyLocation;
 
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
@@ -110,7 +110,7 @@
     [set addObject:@"tapListener"];
     [set addObject:@"readyListener"];
     [set addObject:@"cameramoveListener"];
-    [set addObject:@"cameramoveprogrammaticListener"];
+    [set addObject:@"changecameraListener"];
     return set;
 }
 
@@ -356,9 +356,9 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    if (self.cameramoveprogrammaticListener) {
+    if (self.changecameraListener) {
         Message<Notification> *message = [[self notifications] forObject:self];
-        [message fireEvent:@"cameramoveprogrammatic" withAttributes:self.camera];
+        [message fireEvent:@"changecamera" withAttributes:self.camera];
     }
     if (self.cameramoveListener && self.gestureWasRecognized) {
         self.gestureWasRecognized = NO;
