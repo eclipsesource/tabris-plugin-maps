@@ -11,8 +11,15 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
   _type: "com.eclipsesource.maps.Map",
   _properties: {
     position: {type: "array", nocache: true},
-    region: {type: "any", nocache:true},
-    camera: {type: "any", nocache: true},
+    region: {type: "any", nocache: true},
+    camera: {
+      type: "any", nocache: true,
+      access: {
+        set: function(name, camera) {
+          this._nativeSet(name, camera);
+        }
+      }
+    },
     showMyLocation: {type: "boolean", default: false},
     showMyLocationButton: {type: "boolean", default: false},
     myLocation: {type: "array", nocache: true},
@@ -32,7 +39,7 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
       trigger: function(event) {this.trigger("cameramove", this, event);}
     },
     "change:camera": {
-      name: "cameramoveprogrammatic",
+      name: "changecamera",
       trigger: function(event) {this.trigger("change:camera", this, event);}
     }
   },
