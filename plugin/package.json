@@ -1,5 +1,5 @@
 {
-  "name": "Tabris.js Maps Plugin",
+  "name": "tabris-plugin-maps",
   "version": "2.0.0",
   "description": "A map widget for Tabris.js. It is based on Google Maps on Android and MapKit on iOS.",
   "cordova": {
