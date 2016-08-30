@@ -1,6 +1,8 @@
-# Running the Example
+# Tabris.js Maps Example
 
-1. Download and extract a current [Tabris.js platform](https://tabrisjs.com/download). Then run:
+## Running the Example
+
+Download and extract a current [Tabris.js platform](https://tabrisjs.com/download). Then run:
 
 ```sh
 $ cd www
