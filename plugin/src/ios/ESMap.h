@@ -12,6 +12,7 @@
 
 @interface ESMap : BasicWidget
 @property (assign) BOOL tapListener;
+@property (assign) BOOL longpressListener;
 @property (assign) BOOL readyListener;
 @property (assign) BOOL cameramoveListener;
 @property (assign) BOOL changecameraListener;

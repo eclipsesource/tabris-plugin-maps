@@ -24,6 +24,7 @@
 @property (strong) MKMapView *map;
 @property (assign) dispatch_once_t readyEventToken;
 @property (strong) UITapGestureRecognizer *tapRecognizer;
+@property (strong) UILongPressGestureRecognizer *longpressRecognizer;
 @property (strong) UITapGestureRecognizer *doubleTapRecognizer;
 @property (strong) UIPanGestureRecognizer *panRecognizer;
 @property (strong) UIPinchGestureRecognizer *pinchRecognizer;
@@ -35,6 +36,7 @@
 @synthesize map = _map;
 @synthesize readyEventToken = _readyEventToken;
 @synthesize tapRecognizer = _tapRecognizer;
+@synthesize longpressRecognizer = _longpressRecognizer;
 @synthesize doubleTapRecognizer = _doubleTapRecognizer;
 @synthesize panRecognizer = _panRecognizer;
 @synthesize pinchRecognizer = _pinchRecognizer;
@@ -43,6 +45,7 @@
 @synthesize region = _region;
 @synthesize myLocation = _myLocation;
 @synthesize tapListener = _tapListener;
+@synthesize longpressListener = _longpressListener;
 @synthesize readyListener = _readyListener;
 @synthesize cameramoveListener = _cameramoveListener;
 @synthesize changecameraListener = _changecameraListener;
@@ -83,6 +86,7 @@
         self.map.showsPointsOfInterest = NO;
         self.mapType = @"normal";
         self.tapRecognizer = nil;
+        self.longpressRecognizer = nil;
         self.doubleTapRecognizer = nil;
         self.panRecognizer = nil;
         self.pinchRecognizer = nil;
@@ -108,6 +112,7 @@
     [set addObject:@"region"];
     [set addObject:@"showMyLocation"];
     [set addObject:@"tapListener"];
+    [set addObject:@"longpressListener"];
     [set addObject:@"readyListener"];
     [set addObject:@"cameramoveListener"];
     [set addObject:@"changecameraListener"];
@@ -194,6 +199,24 @@
 
 - (BOOL)tapListener {
     return _tapListener;
+}
+
+- (void)setLongpressListener:(BOOL)longpressListener {
+    _longpressListener = longpressListener;
+    if (longpressListener) {
+        if (self.longpressRecognizer != nil) {
+            self.longpressRecognizer.enabled = YES;
+        } else {
+            self.longpressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongpress:)];
+            [self.map addGestureRecognizer:self.longpressRecognizer];
+        }
+    } else {
+        self.longpressRecognizer.enabled = NO;
+    }
+}
+
+- (BOOL)longpressListener {
+    return _longpressListener;
 }
 
 - (void)setCameramoveListener:(BOOL)cameramoveListener {
@@ -352,6 +375,15 @@
         CLLocationCoordinate2D coordinate = [self.map convertPoint:touchPoint toCoordinateFromView:self.map];
         Message<Notification> *message = [[self notifications] forObject:self];
         [message fireEvent:@"tap" withAttributes:@{@"position":@[@(coordinate.latitude), @(coordinate.longitude)]}];
+    }
+}
+
+- (void)didLongpress:(UILongPressGestureRecognizer *)sender {
+    CGPoint touchPoint = [sender locationInView:self.map];
+    if (self.longpressListener && sender.state == UIGestureRecognizerStateBegan) {
+        CLLocationCoordinate2D coordinate = [self.map convertPoint:touchPoint toCoordinateFromView:self.map];
+        Message<Notification> *message = [[self notifications] forObject:self];
+        [message fireEvent:@"longpress" withAttributes:@{@"position":@[@(coordinate.latitude), @(coordinate.longitude)]}];
     }
 }
 
