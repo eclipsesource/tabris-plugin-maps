@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-tabris-maps"
+        id="tabris-plugin-maps"
         version="2.0.0">
 
   <name>Tabris.js Maps Plugin</name>
   <description>A map widget for Tabris.js. It is based on Google Maps on Android and MapKit on iOS.</description>
     <author>EclipseSource</author>
   <license>Revised BSD License (3-clause license)</license>
-  <repo>https://github.com/eclipsesource/cordova-plugin-tabris-maps.git</repo>
-  <issue>https://github.com/eclipsesource/cordova-plugin-tabris-maps/issues</issue>
+  <repo>https://github.com/eclipsesource/tabris-plugin-maps.git</repo>
+  <issue>https://github.com/eclipsesource/tabris-plugin-maps/issues</issue>
 
     <!-- cordova -->
     <engines>

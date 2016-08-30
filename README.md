@@ -1,12 +1,12 @@
 # Tabris.js Maps Plugin
 
-The `cordova-plugin-tabris-maps` plugin project provides a [Tabris.js](https://tabrisjs.com) API to show and interact with a map widget. The plugin currently suports Android (via [Google Maps](https://developers.google.com/maps/)) and iOS (via [Map Kit](https://developer.apple.com/maps/)).
+The `tabris-plugin-maps` plugin project provides a [Tabris.js](https://tabrisjs.com) API to show and interact with a map widget. The plugin currently suports Android (via [Google Maps](https://developers.google.com/maps/)) and iOS (via [Map Kit](https://developer.apple.com/maps/)).
 
 ![Tabris maps on iOS and Android](assets/screenshots/maps.png)
 
 ## Example
 
-The following snippet shows how the `cordova-plugin-tabris-maps` plugin can be used in a Tabris.js app:
+The following snippet shows how the `tabris-plugin-maps` plugin can be used in a Tabris.js app:
 
 ```javascript
 var page =  new tabris.Page( {
@@ -24,7 +24,7 @@ new esmaps.Map({
 page.open();
 ```
 
-A more elaborate example can be found in the [example](example/) folder. It provides a Tabris.js cordova project that demonstrates the various features of the `cordova-plugin-tabris-maps` widget. When building the example project don't forget to run `npm install` inside the `www` folder to fetch the Tabris.js dependencies.
+A more elaborate example can be found in the [example](example/) folder. It provides a Tabris.js cordova project that demonstrates the various features of the `tabris-plugin-maps` widget. When building the example project don't forget to run `npm install` inside the `www` folder to fetch the Tabris.js dependencies.
 
 ## Integrating the plugin
 Using the plugin follows the standard cordova plugin mechanism. The Tabris.js website provides detailed information on how to [integrate custom widgets](https://tabrisjs.com/documentation/latest/build#adding-plugins) in your Tabris.js based app.
@@ -34,13 +34,13 @@ Using the plugin follows the standard cordova plugin mechanism. The Tabris.js we
 The plugin can be added like any other cordova plugin. Either via the `cordova plugin add` command or as an entry in the apps `config.xml` (recommended):
 
 ```xml
-<plugin name="cordova-plugin-tabris-maps" spec="2.0.0" />
+<plugin name="tabris-plugin-maps" spec="2.0.0" />
 ```
 
 To fetch the latest development version use the GitHub url:
 
 ```xml
-<plugin name="cordova-plugin-tabris-maps" spec="https://github.com/eclipsesource/cordova-plugin-tabris-maps.git#:/plugin" />
+<plugin name="tabris-plugin-maps" spec="https://github.com/eclipsesource/tabris-plugin-maps.git#:/plugin" />
 ```
 
 #### Android
@@ -50,7 +50,7 @@ On Android a Google Maps API key has to be provided when adding the plugin to yo
 The API key can be configured inside your apps `config.xml`:
 
 ```xml
-<plugin name="cordova-plugin-tabris-maps" spec="2.0.0">
+<plugin name="tabris-plugin-maps" spec="2.0.0">
   <variable name="ANDROID_API_KEY" value="your-android-maps-api-key" />
 </plugin>
 ```

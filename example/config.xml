@@ -1,19 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget xmlns="http://www.w3.org/ns/widgets"
-        id="com.eclipsesource.tabris.maps.example"
-        version="2.0.0"
-        android-packageName="com.eclipsesource.tabris.maps.example"
-        android-versionCode="2">
-  <name>Tabris.js Maps Plugin Example</name>
-  <description>Examples for the Tabris.js maps custom widget.</description>
-  <author email="tabris@eclipsesource.com" href="https://tabrisjs.com">EclipseSource</author>
-
-  <preference name="EnableDeveloperConsole" value="true" />
-
-  <!-- Comment out if you want to add the plugin manually -->
-  <plugin name="cordova-plugin-tabris-maps" spec="2.0.0">
-    <variable name="ANDROID_API_KEY" value="ANDROID_API_KEY" />
-  </plugin>
-
-  <hook src="hooks/api_key_hook.js" type="before_platform_add" />
+<widget android-packageName="com.eclipsesource.tabris.maps.example" android-versionCode="2"
+        id="com.eclipsesource.tabris.maps.example" version="2.0.0" xmlns="http://www.w3.org/ns/widgets">
+    <name>Tabris.js Maps Plugin Example</name>
+    <description>Examples for the Tabris.js maps custom widget.</description>
+    <author email="tabris@eclipsesource.com" href="https://tabrisjs.com">EclipseSource</author>
+    <preference name="EnableDeveloperConsole" value="true" />
+    <plugin name="tabris-plugin-maps" spec="2.0.0">
+        <variable name="ANDROID_API_KEY" value="undefined" />
+    </plugin>
+    <hook src="hooks/api_key_hook.js" type="before_platform_add" />
 </widget>
