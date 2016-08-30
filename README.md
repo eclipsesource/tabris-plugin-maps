@@ -1,6 +1,6 @@
 # Tabris.js Maps Plugin
 
-The `tabris-plugin-maps` plugin project provides a [Tabris.js](https://tabrisjs.com) API to show and interact with a map widget. The plugin currently suports Android (via [Google Maps](https://developers.google.com/maps/)) and iOS (via [Map Kit](https://developer.apple.com/maps/)).
+The `tabris-plugin-maps` plugin project provides a [Tabris.js](https://tabrisjs.com) API to show and interact with a map widget. The plugin currently supports Android (via [Google Maps](https://developers.google.com/maps/)) and iOS (via [Map Kit](https://developer.apple.com/maps/)).
 
 ![Tabris maps on iOS and Android](assets/screenshots/maps.png)
 
