@@ -10,8 +10,8 @@
 
   <preference name="EnableDeveloperConsole" value="true" />
 
-  <plugin name="com.eclipsesource.tabris.maps"
-          spec="https://github.com/eclipsesource/cordova-plugin-tabris-maps.git#:/plugin">
+  <!-- Comment out if you want to add the plugin manually -->
+  <plugin name="cordova-plugin-tabris-maps" spec="2.0.0">
     <variable name="ANDROID_API_KEY" value="ANDROID_API_KEY" />
   </plugin>
 
