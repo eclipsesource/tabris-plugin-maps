@@ -1,0 +1,15 @@
+Change Log
+==========
+
+## Version 2.0.0
+
+_2016-08-30_
+
+  *  Complete rewrite of public js API
+      * New namespace `esmaps` for `Map` and `Marker` 
+      * New properties `position`, `camera` and `region` 
+      * New ways of positioning the camera via `moveToPosition` and `moveToRegion`
+      * New Marker API when creating and adding markers
+      * Allow to get users location from `Map`
+      * Allow to show and move to users location on `Map`
+  * Ensure same behavior on Android and iOS for all documented features
