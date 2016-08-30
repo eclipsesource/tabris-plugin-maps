@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 2.0.1
+
+_2016-08-30_
+
+* Restructure project to be more friendly on npmjs.com
+
 ## Version 2.0.0
 
 _2016-08-30_
