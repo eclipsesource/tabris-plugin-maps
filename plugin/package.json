@@ -1,0 +1,36 @@
+{
+  "name": "Tabris.js Maps Plugin",
+  "version": "2.0.0",
+  "description": "A map widget for Tabris.js. It is based on Google Maps on Android and MapKit on iOS.",
+  "cordova": {
+    "id": "cordova-plugin-tabris-maps",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eclipsesource/cordova-plugin-tabris-maps.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "tabris",
+    "tabris.js",
+    "maps"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.8.0"
+    }
+  ],
+  "author": "EclipseSource",
+  "license": "Revised BSD License (3-clause license)",
+  "bugs": {
+    "url": "https://github.com/eclipsesource/cordova-plugin-tabris-maps/issues"
+  },
+  "homepage": "https://github.com/eclipsesource/cordova-plugin-tabris-maps#readme"
+}
