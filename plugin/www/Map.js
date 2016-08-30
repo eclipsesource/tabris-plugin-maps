@@ -1,4 +1,4 @@
-var PLUGIN_ID = "com.eclipsesource.tabris.maps";
+var PLUGIN_ID = "cordova-plugin-tabris-maps";
 
 var sphericalUtil = cordova.require(PLUGIN_ID + ".sphericalutil");
 
