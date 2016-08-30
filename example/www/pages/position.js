@@ -49,7 +49,15 @@ function createExample(page) {
 
   function updatePositionTextView() {
     var position = map.get("position");
-    positionTextView.set("text", "Latitude: <b>" + position[0] + "</b><br/>"
-      + "Longitude: <b>" + position[1] + "</b>");
+    positionTextView.set("text", "Latitude: <b>" + truncate(position[0]) + "</b><br/>"
+      + "Longitude: <b>" + truncate(position[1]) + "</b>");
   }
+
+  function truncate(number) {
+    var multiplier = Math.pow(10, 6),
+      adjustedNum = number * multiplier,
+      truncatedNum = Math[adjustedNum < 0 ? 'ceil' : 'floor'](adjustedNum);
+    return truncatedNum / multiplier;
+  }
+
 }
