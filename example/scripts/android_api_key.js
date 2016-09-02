@@ -1,4 +1,7 @@
 module.exports = function(context) {
+  if (!process.env.ANDROID_API_KEY) {
+    return;
+  }
   var cordovaUtil = context.requireCordovaModule("cordova-lib/src/cordova/util");
   var cordovaCommon = context.requireCordovaModule("cordova-common");
   var projectRoot = cordovaUtil.isCordova();

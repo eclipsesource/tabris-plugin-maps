@@ -14,5 +14,5 @@
     <variable name="ANDROID_API_KEY" value="ANDROID_API_KEY" />
   </plugin>
 
-  <hook src="hooks/api_key_hook.js" type="before_platform_add" />
+  <hook src="scripts/android_api_key.js" type="before_platform_add" />
 </widget>
