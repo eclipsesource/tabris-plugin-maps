@@ -9,19 +9,12 @@ The `tabris-plugin-maps` plugin project provides a [Tabris.js](https://tabrisjs.
 The following snippet shows how the `tabris-plugin-maps` plugin can be used in a Tabris.js app:
 
 ```javascript
-var page =  new tabris.Page( {
-  title: "Tabris Maps",
-  topLevel: true
-});
-
 new esmaps.Map({
   left: 0, right: 0, top: 0, bottom: 0
-}).on("ready", function() {
+}).on('ready', function() {
   // show paris with a radius of 2000 meters
   this.moveToPosition([48.8644458, 2.3589976], 2000);
-}).appendTo(page);
-
-page.open();
+}).appendTo(tabris.ui.contentView);
 ```
 
 A more elaborate example can be found in the [example](example/) folder. It provides a Tabris.js cordova project that demonstrates the various features of the `tabris-plugin-maps` widget. When building the example project don't forget to run `npm install` inside the `www` folder to fetch the Tabris.js dependencies.
