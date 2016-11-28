@@ -1,35 +1,35 @@
-var PLUGIN_ID = "tabris-plugin-maps";
+var PLUGIN_ID = 'tabris-plugin-maps';
 
-var sphericalUtil = cordova.require(PLUGIN_ID + ".sphericalutil");
+var sphericalUtil = cordova.require(PLUGIN_ID + '.sphericalutil');
 
 module.exports = tabris.Widget.extend({
 
-  _type: "com.eclipsesource.maps.Map",
+  _type: 'com.eclipsesource.maps.Map',
 
-  _name: "Map",
+  _name: 'Map',
 
   _create: function() {
-    this._super("_create", arguments);
+    this._super('_create', arguments);
     this._markers = [];
     return this;
   },
 
   _properties: {
-    position: {type: "array", nocache: true},
-    region: {type: "any", nocache: true},
+    position: {type: 'array', nocache: true},
+    region: {type: 'any', nocache: true},
     camera: {
-      type: "any", nocache: true,
+      type: 'any', nocache: true,
       access: {
         set: function(name, camera) {
           this._nativeSet(name, camera);
         }
       }
     },
-    showMyLocation: {type: "boolean", default: false},
-    showMyLocationButton: {type: "boolean", default: false},
-    myLocation: {type: "array", nocache: true},
+    showMyLocation: {type: 'boolean', default: false},
+    showMyLocationButton: {type: 'boolean', default: false},
+    myLocation: {type: 'array', nocache: true},
     mapType: {
-      type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain", "satelliteflyover", "hybridflyover"]],
+      type: ['choice', ['none', 'hybrid', 'normal', 'satellite', 'terrain', 'satelliteflyover', 'hybridflyover']],
       nocache: true
     }
   },
@@ -37,28 +37,28 @@ module.exports = tabris.Widget.extend({
   _events: {
     tap: {
       trigger: function(event) {
-        this.trigger("tap", this, event.position);
+        this.trigger('tap', this, event.position);
       }
     },
     longpress: {
       trigger: function(event) {
-        this.trigger("longpress", this, event.position);
+        this.trigger('longpress', this, event.position);
       }
     },
     ready: {
       trigger: function() {
-        this.trigger("ready", this);
+        this.trigger('ready', this);
       }
     },
     cameramove: {
       trigger: function(event) {
-        this.trigger("cameramove", this, event);
+        this.trigger('cameramove', this, event);
       }
     },
-    "change:camera": {
-      name: "changecamera",
+    'change:camera': {
+      name: 'changecamera',
       trigger: function(event) {
-        this.trigger("change:camera", this, event);
+        this.trigger('change:camera', this, event);
       }
     }
   },
@@ -70,7 +70,7 @@ module.exports = tabris.Widget.extend({
   },
 
   moveToRegion: function(region, options) {
-    this._nativeCall("moveToRegion", {
+    this._nativeCall('moveToRegion', {
       region: region,
       options: options
     });
@@ -78,10 +78,10 @@ module.exports = tabris.Widget.extend({
 
   addMarker: function(marker) {
     if (marker._map) {
-      throw new Error("Marker is already attached to a map");
+      throw new Error('Marker is already attached to a map');
     }
     marker._map = this;
-    this._nativeCall("addMarker", {marker: marker.cid});
+    this._nativeCall('addMarker', {marker: marker.cid});
     this._markers.push(marker);
   },
 
@@ -89,7 +89,7 @@ module.exports = tabris.Widget.extend({
     marker._map = null;
     var index = this._markers.indexOf(marker);
     if (index > -1) {
-      this._nativeCall("removeMarker", {marker: marker.cid});
+      this._nativeCall('removeMarker', {marker: marker.cid});
       this._markers.splice(index, 1);
     }
   },

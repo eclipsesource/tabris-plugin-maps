@@ -23,7 +23,7 @@ module.exports = {
     return [toDegrees(Math.asin(sinLat)), toDegrees(fromLng + dLng)];
   }
 
-}
+};
 
 function toDegrees(angrad) {
   return angrad * 180 / Math.PI;

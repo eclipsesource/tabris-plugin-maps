@@ -1,11 +1,11 @@
 module.exports = tabris.Widget.extend({
 
-  _type: "com.eclipsesource.maps.Marker",
+  _type: 'com.eclipsesource.maps.Marker',
 
-  _name: "Marker",
+  _name: 'Marker',
 
   _properties: {
-    position: {type: "array", nocache: true}
+    position: {type: 'array', nocache: true}
   },
 
   _events: {
