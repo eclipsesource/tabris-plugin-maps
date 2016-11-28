@@ -11,7 +11,7 @@ import android.location.Location;
 import android.support.v4.content.ContextCompat;
 
 import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.android.TabrisWidgetPropertyHandler;
+import com.eclipsesource.tabris.android.TabrisViewPropertyHandler;
 import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +25,7 @@ import java.util.Map;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 import static java.util.Arrays.asList;
 
-public class MapPropertyHandler extends TabrisWidgetPropertyHandler<MapHolderView> {
+public class MapPropertyHandler extends TabrisViewPropertyHandler<MapHolderView> {
 
   private static final String PROP_POSITION = "position";
   private static final String PROP_CAMERA = "camera";

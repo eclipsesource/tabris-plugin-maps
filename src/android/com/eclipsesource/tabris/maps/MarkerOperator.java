@@ -21,7 +21,7 @@ public class MarkerOperator extends AbstractTabrisOperator<MapMarker> {
   }
 
   @Override
-  public TabrisPropertyHandler<MapMarker> getPropertyHandler() {
+  public TabrisPropertyHandler<MapMarker> getPropertyHandler( MapMarker object ) {
     return markerPropertyHandler;
   }
 
@@ -31,7 +31,7 @@ public class MarkerOperator extends AbstractTabrisOperator<MapMarker> {
   }
 
   @Override
-  public MapMarker create( Properties properties ) {
+  public MapMarker create( String id, Properties properties ) {
     return new MapMarker();
   }
 

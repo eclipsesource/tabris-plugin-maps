@@ -35,7 +35,7 @@ import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
 public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
-  public static final String WIDGET_TYPE = "com.eclipsesource.maps.Map";
+  private static final String TYPE = "com.eclipsesource.maps.Map";
   private static final String METHOD_MOVE_TO_REGION = "moveToRegion";
   private static final String METHOD_ADD_MARKER = "addMarker";
   private static final String METHOD_REMOVE_MARKER = "removeMarker";
@@ -57,25 +57,25 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   }
 
   @Override
-  public TabrisPropertyHandler<MapHolderView> getPropertyHandler() {
+  public TabrisPropertyHandler<MapHolderView> getPropertyHandler( MapHolderView object ) {
     return mapPropertyHandler;
   }
 
   @Override
   public String getType() {
-    return WIDGET_TYPE;
+    return TYPE;
   }
 
   @TargetApi( Build.VERSION_CODES.JELLY_BEAN_MR1 )
   @Override
-  public MapHolderView create( Properties properties ) {
+  public MapHolderView create( String id, Properties properties ) {
     MapHolderView mapHolderView = new MapHolderView( activity, tabrisContext );
     mapHolderView.createMap();
     return mapHolderView;
   }
 
   @Override
-  public void listen( final MapHolderView mapHolderView, String event, boolean listen ) {
+  public void listen( String id, MapHolderView mapHolderView, String event, boolean listen ) {
     switch( event ) {
       case EVENT_READY:
         if( listen ) {
