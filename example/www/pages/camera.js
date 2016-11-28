@@ -2,8 +2,7 @@ var MARGIN = 16;
 
 exports.create = function() {
   return new tabris.Page({
-    title: 'Camera',
-    topLevel: true
+    title: 'Camera'
   }).once('appear', createExample);
 };
 
@@ -23,21 +22,21 @@ function createExample(page) {
     }).on('cameramove', function() {
       updateCameraTextView('Camera changed by user');
     });
-    this.set('camera', {position: [48.8644458, 2.3589976]});
+    this.camera = {position: [48.8644458, 2.3589976]};
   }).appendTo(page);
 
   var paris = new tabris.Button({
-    left: MARGIN, right: ['50%', 8], top: MARGIN,
+    left: MARGIN, right: '50% 8', top: MARGIN,
     text: 'Show Paris'
   }).on('select', function() {
-    map.set('camera', {position: [48.8644458, 2.3589976]});
+    map.camera = {position: [48.8644458, 2.3589976]};
   }).appendTo(controls);
 
   new tabris.Button({
-    left: ['50%', 8], right: MARGIN, top: MARGIN,
+    left: '50% 8', right: MARGIN, top: MARGIN,
     text: 'Show Sydney'
   }).on('select', function() {
-    map.set('camera', {position: [-33.867, 151.206]});
+    map.camera = {position: [-33.867, 151.206]};
   }).appendTo(controls);
 
   var cameraTextView = new tabris.TextView({
@@ -51,9 +50,9 @@ function createExample(page) {
     if (source) {
       text = '<b>' + source + '</b><br/>';
     }
-    var position = map.get('camera').position;
+    var position = map.camera.position;
     text += 'Position: [ ' + truncate(position[0]) + ', ' + truncate(position[1]) + ' ]';
-    cameraTextView.set('text', text);
+    cameraTextView.text = text;
   }
 
   function truncate(number) {

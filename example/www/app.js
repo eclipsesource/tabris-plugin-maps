@@ -21,7 +21,7 @@ function createPageButton(pageConstructor) {
   var page = pageConstructor.create();
   new tabris.Button({
     left: 16, top: 'prev() 16', right: 16,
-    text: 'Show \'' + page.title + '\' example'
+    text: 'Show \'' + page.title.toLowerCase() + '\' example'
   }).on('select', function() {
     navigationView.stack.push(page);
   }).appendTo(mainPage);
