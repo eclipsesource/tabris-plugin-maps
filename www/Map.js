@@ -6,6 +6,8 @@ module.exports = tabris.Widget.extend({
 
   _type: "com.eclipsesource.maps.Map",
 
+  _name: "Map",
+
   _create: function() {
     this._super("_create", arguments);
     this._markers = [];
