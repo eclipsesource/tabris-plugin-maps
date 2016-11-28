@@ -34,7 +34,7 @@ Using the plugin follows the standard cordova plugin mechanism. The Tabris.js we
 The plugin can be added like any other cordova plugin. Either via the `cordova plugin add` command or as an entry in the apps `config.xml` (recommended):
 
 ```xml
-<plugin name="tabris-plugin-maps" spec="2.0.1" />
+<plugin name="tabris-plugin-maps" spec="3.0.0" />
 ```
 
 To fetch the latest development version use the GitHub url:
@@ -50,7 +50,7 @@ On Android a Google Maps API key has to be provided when adding the plugin to yo
 The API key can be configured inside your apps `config.xml`:
 
 ```xml
-<plugin name="tabris-plugin-maps" spec="2.0.1">
+<plugin name="tabris-plugin-maps" spec="3.0.0">
   <variable name="ANDROID_API_KEY" value="your-android-maps-api-key" />
 </plugin>
 ```
@@ -244,7 +244,7 @@ A `Marker` is used to indicate places and positions on the Map.
 
 ## Compatibility
 
-Compatible with [Tabris.js 1.8.0](https://github.com/eclipsesource/tabris-js/releases/tag/v1.8.0)
+Compatible with [Tabris.js 2.0.0](https://github.com/eclipsesource/tabris-js/releases/tag/v2.0.0)
 
 ## Development of the widget
 

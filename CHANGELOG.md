@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 3.0.0
+
+_TBD_
+
+* Migrate tabris-plugin-maps to Tabris.js 2 API (breaks compatibility with Tabris.js 1.x)
+
 ## Version 2.0.1
 
 _2016-08-30_
