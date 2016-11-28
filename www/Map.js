@@ -2,13 +2,16 @@ var PLUGIN_ID = "tabris-plugin-maps";
 
 var sphericalUtil = cordova.require(PLUGIN_ID + ".sphericalutil");
 
-tabris.registerWidget("_EclipseSourceMapsMap", {
-  _create: function () {
+module.exports = tabris.Widget.extend({
+
+  _type: "com.eclipsesource.maps.Map",
+
+  _create: function() {
     this._super("_create", arguments);
     this._markers = [];
     return this;
   },
-  _type: "com.eclipsesource.maps.Map",
+
   _properties: {
     position: {type: "array", nocache: true},
     region: {type: "any", nocache: true},
@@ -23,38 +26,55 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
     showMyLocation: {type: "boolean", default: false},
     showMyLocationButton: {type: "boolean", default: false},
     myLocation: {type: "array", nocache: true},
-    mapType: {type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain", "satelliteflyover", "hybridflyover"]], nocache: true}
+    mapType: {
+      type: ["choice", ["none", "hybrid", "normal", "satellite", "terrain", "satelliteflyover", "hybridflyover"]],
+      nocache: true
+    }
   },
+
   _events: {
     tap: {
-      trigger: function(event) {this.trigger("tap", this, event.position);}
+      trigger: function(event) {
+        this.trigger("tap", this, event.position);
+      }
     },
     longpress: {
-      trigger: function(event) {this.trigger("longpress", this, event.position);}
+      trigger: function(event) {
+        this.trigger("longpress", this, event.position);
+      }
     },
     ready: {
-      trigger: function() {this.trigger("ready", this);}
+      trigger: function() {
+        this.trigger("ready", this);
+      }
     },
     cameramove: {
-      trigger: function(event) {this.trigger("cameramove", this, event);}
+      trigger: function(event) {
+        this.trigger("cameramove", this, event);
+      }
     },
     "change:camera": {
       name: "changecamera",
-      trigger: function(event) {this.trigger("change:camera", this, event);}
+      trigger: function(event) {
+        this.trigger("change:camera", this, event);
+      }
     }
   },
+
   moveToPosition: function(position, radius, options) {
     var southWest = sphericalUtil.computeOffset(position, radius * Math.sqrt(2.0), 225);
     var northEast = sphericalUtil.computeOffset(position, radius * Math.sqrt(2.0), 45);
     this.moveToRegion({northEast: northEast, southWest: southWest}, options);
   },
+
   moveToRegion: function(region, options) {
     this._nativeCall("moveToRegion", {
       region: region,
       options: options
     });
   },
-  addMarker: function (marker) {
+
+  addMarker: function(marker) {
     if (marker._map) {
       throw new Error("Marker is already attached to a map");
     }
@@ -62,7 +82,8 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
     this._nativeCall("addMarker", {marker: marker.cid});
     this._markers.push(marker);
   },
-  removeMarker: function (marker) {
+
+  removeMarker: function(marker) {
     marker._map = null;
     var index = this._markers.indexOf(marker);
     if (index > -1) {
@@ -70,14 +91,14 @@ tabris.registerWidget("_EclipseSourceMapsMap", {
       this._markers.splice(index, 1);
     }
   },
+
   getMarkers: function() {
     return this._markers;
   },
+
   dispose: function() {
     this._markers = [];
     this._dispose();
   }
 
 });
-
-module.exports = tabris._EclipseSourceMapsMap;

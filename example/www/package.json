@@ -3,6 +3,6 @@
   "description": "Example for the Tabris maps custom widget.",
   "main": "app.js",
   "dependencies": {
-    "tabris": "^1.8.x"
+    "tabris": "https://tabrisjs.com/downloads/nightly-2.x/tabris.tgz"
   }
 }
