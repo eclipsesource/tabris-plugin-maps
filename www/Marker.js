@@ -1,4 +1,4 @@
-module.exports = tabris.Widget.extend({
+var Marker = tabris.Widget.extend({
 
   _type: 'com.eclipsesource.maps.Marker',
 
@@ -10,13 +10,15 @@ module.exports = tabris.Widget.extend({
 
   _events: {
     tap: true
-  },
-
-  dispose: function() {
-    if (this._map) {
-      this._map.removeMarker(this);
-    }
-    this._dispose();
   }
 
 });
+
+Marker.prototype.dispose = function() {
+  if (this._map) {
+    this._map.removeMarker(this);
+  }
+  this._dispose();
+}
+
+module.exports = Marker;

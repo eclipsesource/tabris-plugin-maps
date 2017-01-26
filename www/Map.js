@@ -2,17 +2,11 @@ var PLUGIN_ID = 'tabris-plugin-maps';
 
 var sphericalUtil = cordova.require(PLUGIN_ID + '.sphericalutil');
 
-module.exports = tabris.Widget.extend({
+var Map = tabris.Widget.extend({
 
   _type: 'com.eclipsesource.maps.Map',
 
   _name: 'Map',
-
-  _create: function() {
-    this._super('_create', arguments);
-    this._markers = [];
-    return this;
-  },
 
   _properties: {
     position: {type: 'array', nocache: true},
@@ -61,6 +55,16 @@ module.exports = tabris.Widget.extend({
         this.trigger('change:camera', this, event);
       }
     }
+  }
+
+});
+
+Object.assign(Map.prototype, {
+
+  _create: function() {
+    NativeObject.prototype._create.apply(this, arguments);
+    this._markers = [];
+    return this;
   },
 
   moveToPosition: function(position, radius, options) {
@@ -104,3 +108,5 @@ module.exports = tabris.Widget.extend({
   }
 
 });
+
+module.exports = Map;
