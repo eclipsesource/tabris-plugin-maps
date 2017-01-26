@@ -1,9 +1,11 @@
 .DS_Store
 .idea/
-.gradle
-build
+.gradle/
+.history/
+build/
 node_modules/
 platforms/
 plugins/
 *.iml
 local.properties
+npm-debug.log*
