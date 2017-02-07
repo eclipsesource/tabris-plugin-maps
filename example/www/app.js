@@ -13,7 +13,7 @@ var mainPage = new tabris.Page({
   title: 'Maps examples'
 });
 
-navigationView.stack.push(mainPage);
+mainPage.appendTo(navigationView);
 
 pages.forEach(createPageButton);
 
@@ -23,6 +23,6 @@ function createPageButton(pageConstructor) {
     left: 16, top: 'prev() 16', right: 16,
     text: 'Show \'' + page.title.toLowerCase() + '\' example'
   }).on('select', function() {
-    navigationView.stack.push(page);
+    page.appendTo(navigationView);
   }).appendTo(mainPage);
 }

@@ -62,7 +62,7 @@ var Map = tabris.Widget.extend({
 Object.assign(Map.prototype, {
 
   _create: function() {
-    NativeObject.prototype._create.apply(this, arguments);
+    tabris.NativeObject.prototype._create.apply(this, arguments);
     this._markers = [];
     return this;
   },
