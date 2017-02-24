@@ -1,18 +1,12 @@
-var Marker = tabris.Widget.extend({
+var Marker = tabris.NativeObject.extend('com.eclipsesource.maps.Marker', tabris.Widget);
 
-  _type: 'com.eclipsesource.maps.Marker',
-
-  _name: 'Marker',
-
-  _properties: {
-    position: {type: 'array', nocache: true}
-  },
-
-  _events: {
-    tap: true
+Marker.prototype._listen = function(name, listening) {
+  if (name === 'tap') {
+    this._nativeListen(name, listening);
+  } else {
+    tabris.Widget.prototype._listen.call(this, name, listening);
   }
-
-});
+};
 
 Marker.prototype.dispose = function() {
   if (this._map) {
@@ -20,5 +14,9 @@ Marker.prototype.dispose = function() {
   }
   this._dispose();
 }
+
+tabris.NativeObject.defineProperties(Marker.prototype, {
+  position: {type: 'array', nocache: true}
+});
 
 module.exports = Marker;

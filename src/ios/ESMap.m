@@ -404,7 +404,7 @@
     if (self.cameramoveListener && self.gestureWasRecognized) {
         self.gestureWasRecognized = NO;
         Message<Notification> *message = [[self notifications] forObject:self];
-        [message fireEvent:@"cameramove" withAttributes:self.camera];
+        [message fireEvent:@"cameramove" withAttributes:@{@"camera":self.camera}];
     }
 }
 
