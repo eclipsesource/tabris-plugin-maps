@@ -2,62 +2,27 @@ var PLUGIN_ID = 'tabris-plugin-maps';
 
 var sphericalUtil = cordova.require(PLUGIN_ID + '.sphericalutil');
 
-var Map = tabris.Widget.extend({
+var EVENT_TYPES = ['tap', 'longpress', 'ready', 'cameramove']
 
-  _type: 'com.eclipsesource.maps.Map',
+var Map = tabris.NativeObject.extend('com.eclipsesource.maps.Map', tabris.Widget);
 
-  _name: 'Map',
-
-  _properties: {
-    position: {type: 'array', nocache: true},
-    region: {type: 'any', nocache: true},
-    camera: {
-      type: 'any', nocache: true,
-      access: {
-        set: function(name, camera) {
-          this._nativeSet(name, camera);
-        }
-      }
-    },
-    showMyLocation: {type: 'boolean', default: false},
-    showMyLocationButton: {type: 'boolean', default: false},
-    myLocation: {type: 'array', nocache: true},
-    mapType: {
-      type: ['choice', ['none', 'hybrid', 'normal', 'satellite', 'terrain', 'satelliteflyover', 'hybridflyover']],
-      nocache: true
-    }
-  },
-
-  _events: {
-    tap: {
-      trigger: function(event) {
-        this.trigger('tap', this, event.position);
-      }
-    },
-    longpress: {
-      trigger: function(event) {
-        this.trigger('longpress', this, event.position);
-      }
-    },
-    ready: {
-      trigger: function() {
-        this.trigger('ready', this);
-      }
-    },
-    cameramove: {
-      trigger: function(event) {
-        this.trigger('cameramove', this, event);
-      }
-    },
-    'change:camera': {
-      name: 'changecamera',
-      trigger: function(event) {
-        this.trigger('change:camera', this, event);
-      }
-    }
+Map.prototype._listen = function(name, listening) {
+  if (EVENT_TYPES.indexOf(name) > -1) {
+    this._nativeListen(name, listening);
+  } else if (name === 'change:camera') {
+    this._nativeListen('changecamera', listening);
+  } else {
+    tabris.Widget.prototype._listen.call(this, name, listening);
   }
+}
 
-});
+Map.prototype._trigger = function(name, event) {
+  if (name === 'changecamera') {
+    this._triggerChangeEvent('camera', event);
+  } else {
+    tabris.Widget.prototype._trigger.call(this, name, event);
+  }
+}
 
 Object.assign(Map.prototype, {
 
@@ -107,6 +72,26 @@ Object.assign(Map.prototype, {
     this._dispose();
   }
 
+});
+
+tabris.NativeObject.defineProperties(Map.prototype, {
+  position: {type: 'array', nocache: true},
+  region: {type: 'any', nocache: true},
+  camera: {
+    type: 'any', nocache: true,
+    access: {
+      set: function(name, camera) {
+        this._nativeSet(name, camera);
+      }
+    }
+  },
+  showMyLocation: {type: 'boolean', default: false},
+  showMyLocationButton: {type: 'boolean', default: false},
+  myLocation: {type: 'array', nocache: true},
+  mapType: {
+    type: ['choice', ['none', 'hybrid', 'normal', 'satellite', 'terrain', 'satelliteflyover', 'hybridflyover']],
+    nocache: true
+  }
 });
 
 module.exports = Map;

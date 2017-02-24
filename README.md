@@ -68,7 +68,7 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 * The current center position of the map. The array has to be a two element tuple consisting of latitude and longitude.
 * Example: `[48.8644458, 2.3589976]`
-  
+
 ##### `region` : _object_
 
 * Describes the currently visible rectangle of the map. A region object has the two properties `southEast` and `northWest` that span the visible region of the map. In case the map is tilted the region is represented by the smallest possible rectangle that could contain the trapezoid representing the visible region.
@@ -95,36 +95,36 @@ The following properties can be applied on top of the [common Tabris.js properti
 ##### `mapType` : _string_, supported values: `none`, `hybrid`, `normal`, `satellite`, `terrain`, `satelliteflyover`, `hybridflyover`, default: `normal`
 
 * Defines how the map is visualized. The most common properties are `normal` and `sattelite`. Not all variants are supported on each platform. `hybrid`, `normal`, `satellite` are supported on Android and iOS whereas `none`, and `terrain` is only available on Android and `satelliteflyover` and `hybridflyover` is only available on iOS.
-  
+
 #### Events
 
 ##### `ready`
 
 * The `ready` event is fired when the map is fully initialized and ready for user interaction. The [properties](#properties) and [functions](#functions) of the `Map` can only be accessed after the `ready` event has fired.
 
-###### Parameter:
+###### Event Parameters:
 
-* `widget` : _Map_
+* `target` : _Map_
   * The `Map` widget that is ready
 
 ##### `tap`
 
-* The `tap` event is fired when a tap on a map is detected. 
+* The `tap` event is fired when a tap on a map is detected.
 
-###### Parameter:
+###### Event Parameters:
 
-* `widget` : _Map_
+* `target` : _Map_
   * The `Map` widget the tap occurred on
 * `position` : _number[]_
   * A position array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
 
 ##### `longpress`
 
-* The `longpress` event is fired when a long press on a map is detected. 
+* The `longpress` event is fired when a long press on a map is detected.
 
-###### Parameter:
+###### Event Parameters:
 
-* `widget` : _Map_
+* `target` : _Map_
   * The `Map` widget the long press occurred on
 * `position` : _number[]_
   * A position array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
@@ -133,9 +133,9 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 * The `cameramove` event is fired when the user changed the position of the map by interacting with the map via touch. The callback is not guaranteed to fire continuously but rather when the map has reached a resting position.
 
-###### Parameter:
+###### Event Parameters:
 
-* `widget` : _Map_
+* `target` : _Map_
   * The `Map` widget whose the camera position has changed
 * `camera` : _object_
   * The `camera` object consists of the same properties as the [`camera`](#camera) property and contains the new orientation of the camera
@@ -144,14 +144,14 @@ The following properties can be applied on top of the [common Tabris.js properti
 
 * The `change:camera` event is fired when the position of the map has reached its final destination by a programmatic camera change. E.g. by setting the [`position`](#position) or using one of the [`moveTo`](#functions) functions.
 
-###### Parameter:
+###### Event Parameters:
 
-* `widget` : _Map_
+* `target` : _Map_
   * The `Map` widget whose the camera position has changed
 * `camera` : _object_
   * The `camera` object consists of the same properties as the [`camera`](#camera) property and contains the new orientation of the camera
-  
-  
+
+
 ### Functions
 
 #### `moveToPosition(position, radius, [options])`
@@ -219,7 +219,7 @@ A `Marker` is used to indicate places and positions on the Map.
 
 #### Properties
 
-##### `position` : _number[]_ 
+##### `position` : _number[]_
 
 * The current position of the marker if set. The position is an array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
 

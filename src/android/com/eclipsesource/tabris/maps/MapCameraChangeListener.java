@@ -30,15 +30,21 @@ public class MapCameraChangeListener implements GoogleMap.OnCameraMoveStartedLis
   @Override
   public void onCameraIdle() {
     CameraPosition cameraPosition = mapHolderView.getGoogleMap().getCameraPosition();
-    notifyCameraEvent( EVENT_CHANGE_CAMERA, cameraPosition );
+    notifyChangeCameraEvent( cameraPosition );
     if( reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE ) {
-      notifyCameraEvent( EVENT_CAMERA_MOVE, cameraPosition );
+      notifyCameraMoveEvent( cameraPosition );
     }
   }
-
-  private void notifyCameraEvent( String event, CameraPosition cameraPosition ) {
+  private void notifyChangeCameraEvent( CameraPosition cameraPosition ) {
     HashMap<String, Object> arguments = new HashMap<>();
     arguments.put( "position", asList( cameraPosition.target.latitude, cameraPosition.target.longitude ) );
-    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( event, arguments );
+    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_CHANGE_CAMERA, arguments );
   }
+
+  private void notifyCameraMoveEvent( CameraPosition cameraPosition ) {
+    HashMap<String, Object> arguments = new HashMap<>();
+    arguments.put( "position", asList( cameraPosition.target.latitude, cameraPosition.target.longitude ) );
+    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_CAMERA_MOVE, "camera", arguments );
+  }
+
 }

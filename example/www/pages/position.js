@@ -3,7 +3,9 @@ var MARGIN = 16;
 exports.create = function() {
   return new tabris.Page({
     title: 'Position'
-  }).once('appear', createExample);
+  }).once('appear', function({target: page}) {
+    createExample(page);
+  });
 };
 
 function createExample(page) {
