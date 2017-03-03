@@ -19,6 +19,7 @@ pages.forEach(createPageButton);
 
 function createPageButton(pageConstructor) {
   var page = pageConstructor.create();
+  page.autoDispose = false;
   new tabris.Button({
     left: 16, top: 'prev() 16', right: 16,
     text: 'Show \'' + page.title.toLowerCase() + '\' example'
