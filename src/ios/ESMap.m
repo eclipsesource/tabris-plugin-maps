@@ -417,6 +417,7 @@
 }
 
 - (void)destroy {
+    _map.showsUserLocation = NO;
     for (ESMarker *marker in self.map.annotations) {
         [marker destroy];
     }
