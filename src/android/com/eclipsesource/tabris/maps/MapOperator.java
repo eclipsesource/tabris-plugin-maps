@@ -4,9 +4,12 @@
 
 package com.eclipsesource.tabris.maps;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
@@ -194,7 +197,19 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   @Override
   public void destroy( MapHolderView mapHolderView ) {
+    disableLocationIndicator( mapHolderView );
     ( ( ViewGroup )mapHolderView.getParent() ).removeView( mapHolderView );
+    destroyMarker( mapHolderView );
+  }
+
+  private void disableLocationIndicator( MapHolderView mapHolderView ) {
+    if( ContextCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION )
+        == PackageManager.PERMISSION_GRANTED ) {
+      mapHolderView.getGoogleMap().setMyLocationEnabled( false );
+    }
+  }
+
+  private void destroyMarker( MapHolderView mapHolderView ) {
     String mapId = tabrisContext.getObjectRegistry().getRemoteObjectForObject( mapHolderView ).getId();
     for( RegistryEntry registryEntry : tabrisContext.getObjectRegistry().getEntries() ) {
       Object object = registryEntry.getObject();
@@ -203,8 +218,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
         String markerMapId = mapMarker.getMapId();
         if( markerMapId != null && markerMapId.equals( mapId ) ) {
           OperatorRegistry operatorRegistry = ( ( TabrisActivity )activity ).getWidgetToolkit().getOperatorRegistry();
-          MarkerOperator operator = ( MarkerOperator )operatorRegistry.get( MarkerOperator.TYPE );
-          operator.destroy( mapMarker );
+          ( ( MarkerOperator )operatorRegistry.get( MarkerOperator.TYPE ) ).destroy( mapMarker );
         }
       }
     }
