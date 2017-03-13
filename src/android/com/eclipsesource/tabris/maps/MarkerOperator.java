@@ -12,8 +12,6 @@ public class MarkerOperator extends AbstractTabrisOperator<MapMarker> {
 
   public static final String TYPE = "com.eclipsesource.maps.Marker";
 
-  private static final String EVENT_TAP = "tap";
-
   private final MarkerPropertyHandler<MapMarker> markerPropertyHandler;
 
   public MarkerOperator( Activity activity, TabrisContext tabrisContext ) {

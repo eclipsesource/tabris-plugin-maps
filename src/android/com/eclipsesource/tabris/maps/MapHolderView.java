@@ -4,23 +4,19 @@
 
 package com.eclipsesource.tabris.maps;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.FragmentTransaction;
-import android.os.Build;
-import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.eclipsesource.tabris.android.TabrisContext;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 
-/**
- * This class represents one instance of the Tabris maps custom widget in the view hierarchy.
- */
+@SuppressLint( "ViewConstructor" )
 public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
 
   public static final String EVENT_READY = "ready";
@@ -28,29 +24,27 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   private final Activity activity;
   private final TabrisContext tabrisContext;
   private GoogleMap googleMap;
-  private MapFragment mapFragment;
-  private boolean changeUserInitiated;
+  private SupportMapFragment mapFragment;
 
   public MapHolderView( Activity activity, TabrisContext tabrisContext ) {
     super( activity );
     this.activity = activity;
     this.tabrisContext = tabrisContext;
+    setId( View.generateViewId() );
+    createMap();
   }
 
   public void createMap() {
-    FrameLayout mapDummy = createMapDummy();
-    mapFragment = new MapFragment();
-    FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
-    ft.replace( mapDummy.getId(), mapFragment ).commit();
-  }
-
-  @NonNull
-  @TargetApi( Build.VERSION_CODES.JELLY_BEAN_MR1 )
-  private FrameLayout createMapDummy() {
-    FrameLayout mapDummy = new FrameLayout( activity );
-    mapDummy.setId( View.generateViewId() + 1024 ); // TODO generate a clever unique ID
-    addView( mapDummy, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT );
-    return mapDummy;
+    mapFragment = new SupportMapFragment();
+    if( activity instanceof AppCompatActivity ) {
+      AppCompatActivity appCompatActivity = ( AppCompatActivity )activity;
+      appCompatActivity.getSupportFragmentManager()
+          .beginTransaction()
+          .add( getId(), mapFragment )
+          .commit();
+    } else {
+      throw new RuntimeException( "Maps plugin requires " + AppCompatActivity.class.getSimpleName() );
+    }
   }
 
   public GoogleMap getGoogleMap() {

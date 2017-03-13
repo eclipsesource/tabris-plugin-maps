@@ -72,9 +72,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   @TargetApi( Build.VERSION_CODES.JELLY_BEAN_MR1 )
   @Override
   public MapHolderView create( String id, Properties properties ) {
-    MapHolderView mapHolderView = new MapHolderView( activity, tabrisContext );
-    mapHolderView.createMap();
-    return mapHolderView;
+    return new MapHolderView( activity, tabrisContext );
   }
 
   @Override
