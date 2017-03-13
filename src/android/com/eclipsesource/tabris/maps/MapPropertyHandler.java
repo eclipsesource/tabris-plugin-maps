@@ -190,11 +190,6 @@ public class MapPropertyHandler extends TabrisViewPropertyHandler<MapHolderView>
     return googleMap;
   }
 
-  private float getZoom( MapHolderView mapHolderView ) {
-    GoogleMap googleMap = getGoogleMapSafely( mapHolderView );
-    return googleMap.getCameraPosition().zoom;
-  }
-
   private List<Double> getPosition( MapHolderView mapHolderView ) {
     LatLng target = getGoogleMapSafely( mapHolderView ).getCameraPosition().target;
     return asList( target.latitude, target.longitude );
@@ -202,7 +197,7 @@ public class MapPropertyHandler extends TabrisViewPropertyHandler<MapHolderView>
 
   private Object getCamera( MapHolderView mapHolderView ) {
     LatLng target = getGoogleMapSafely( mapHolderView ).getCameraPosition().target;
-    HashMap<String, Object> camera = new HashMap<>();
+    Map<String, Object> camera = new HashMap<>();
     camera.put( PROP_POSITION, asList( target.latitude, target.longitude ) );
     return camera;
   }

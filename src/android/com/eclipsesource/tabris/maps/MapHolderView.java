@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.eclipsesource.tabris.android.TabrisContext;
+import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -58,8 +59,12 @@ public class MapHolderView extends FrameLayout implements OnMapReadyCallback {
   @Override
   public void onMapReady( GoogleMap googleMap ) {
     this.googleMap = googleMap;
-    googleMap.setOnMarkerClickListener( new MarkerTapListener( this, tabrisContext.getObjectRegistry() ) );
-    tabrisContext.getObjectRegistry().getRemoteObjectForObject( this ).notify( EVENT_READY );
+    ObjectRegistry objectRegistry = tabrisContext.getObjectRegistry();
+    googleMap.setOnMarkerClickListener( new MarkerTapListener( this, objectRegistry ) );
+    MapCameraChangeListener cameraChangeListener = new MapCameraChangeListener( this, objectRegistry );
+    googleMap.setOnCameraMoveStartedListener( cameraChangeListener );
+    googleMap.setOnCameraIdleListener( cameraChangeListener );
+    objectRegistry.getRemoteObjectForObject( this ).notify( EVENT_READY );
   }
 
   public void moveCamera( CameraUpdate cameraUpdate ) {
