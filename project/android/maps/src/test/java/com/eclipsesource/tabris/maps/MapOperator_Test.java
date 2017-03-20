@@ -2,8 +2,8 @@ package com.eclipsesource.tabris.maps;
 
 import android.app.Activity;
 
+import com.eclipsesource.tabris.android.PropertyHandler;
 import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class MapOperator_Test {
   public void testGetPropertyHandler() {
     MapOperator operator = new MapOperator( mock( Activity.class ), mock( TabrisContext.class ) );
 
-    TabrisPropertyHandler propertyHandler = operator.getPropertyHandler( null );
+    PropertyHandler propertyHandler = operator.getPropertyHandler( null );
 
     assertTrue( propertyHandler instanceof MapPropertyHandler );
   }

@@ -13,10 +13,10 @@ import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
-import com.eclipsesource.tabris.android.AbstractTabrisOperator;
+import com.eclipsesource.tabris.android.AbstractOperator;
+import com.eclipsesource.tabris.android.PropertyHandler;
 import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.android.TabrisPropertyHandler;
 import com.eclipsesource.tabris.client.core.ObjectRegistry.RegistryEntry;
 import com.eclipsesource.tabris.client.core.OperatorRegistry;
 import com.eclipsesource.tabris.client.core.model.Properties;
@@ -35,7 +35,7 @@ import static com.eclipsesource.tabris.maps.MapLongPressListener.EVENT_LONGPRESS
 import static com.eclipsesource.tabris.maps.MapTapListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
-public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
+public class MapOperator extends AbstractOperator<MapHolderView> {
 
   private static final String TYPE = "com.eclipsesource.maps.Map";
   private static final String METHOD_MOVE_TO_REGION = "moveToRegion";
@@ -50,7 +50,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
 
   private final Activity activity;
   private final TabrisContext tabrisContext;
-  private final TabrisPropertyHandler<MapHolderView> mapPropertyHandler;
+  private final PropertyHandler<MapHolderView> mapPropertyHandler;
 
   public MapOperator( Activity activity, TabrisContext tabrisContext ) {
     this.activity = activity;
@@ -59,7 +59,7 @@ public class MapOperator extends AbstractTabrisOperator<MapHolderView> {
   }
 
   @Override
-  public TabrisPropertyHandler<MapHolderView> getPropertyHandler( MapHolderView object ) {
+  public PropertyHandler<MapHolderView> getPropertyHandler( MapHolderView object ) {
     return mapPropertyHandler;
   }
 
