@@ -10,7 +10,7 @@
 
   <preference name="EnableDeveloperConsole" value="true" />
 
-  <plugin name="tabris-plugin-maps" spec="3.0.0">
+  <plugin name="tabris-plugin-maps" spec="../">
     <variable name="ANDROID_API_KEY" value="ANDROID_API_KEY" />
   </plugin>
 
