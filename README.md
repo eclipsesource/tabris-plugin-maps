@@ -247,12 +247,12 @@ While not required by the consumer of the widget, this repository provides Andro
 
 The project provides a gradle based build configuration, which also allows to import the project into Android Studio.
 
-In order to reference the Tabris.js specific APIs, the environment variable `TABRIS_ANDROID_CORDOVA_PLATFORM` has to point to the Tabris.js Android Cordova platform root directory.
+In order to reference the Tabris.js specific APIs, the environment variable `TABRIS_ANDROID_PLATFORM` has to point to the Tabris.js Android Cordova platform root directory.
 
 ```bash
-export TABRIS_ANDROID_CORDOVA_PLATFORM=/home/user/tabris-android-cordova
+export TABRIS_ANDROID_PLATFORM=/home/user/tabris-android
 ```
- The environment variable is consumed in the gradle projects [build.gradle](plugin/project/android/build.gradle) file.
+ The environment variable is consumed in the gradle projects [build.gradle](project/android/build.gradle) file.
 
 ## Copyright
 
