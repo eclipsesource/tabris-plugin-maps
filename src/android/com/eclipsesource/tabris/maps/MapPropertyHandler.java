@@ -10,9 +10,9 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.content.ContextCompat;
 
+import com.eclipsesource.tabris.android.Properties;
 import com.eclipsesource.tabris.android.TabrisContext;
 import com.eclipsesource.tabris.android.ViewPropertyHandler;
-import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;

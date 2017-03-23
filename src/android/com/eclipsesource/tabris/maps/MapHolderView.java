@@ -10,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.eclipsesource.tabris.android.ObjectRegistry;
 import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.client.core.ObjectRegistry;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

@@ -3,9 +3,9 @@ package com.eclipsesource.tabris.maps;
 import android.app.Activity;
 
 import com.eclipsesource.tabris.android.AbstractOperator;
+import com.eclipsesource.tabris.android.Properties;
 import com.eclipsesource.tabris.android.PropertyHandler;
 import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.model.Marker;
 
 public class MarkerOperator extends AbstractOperator<MapMarker> {
@@ -15,7 +15,7 @@ public class MarkerOperator extends AbstractOperator<MapMarker> {
   private final MarkerPropertyHandler<MapMarker> markerPropertyHandler;
 
   public MarkerOperator( Activity activity, TabrisContext tabrisContext ) {
-    markerPropertyHandler = new MarkerPropertyHandler<>( activity, tabrisContext );
+    markerPropertyHandler = new MarkerPropertyHandler<>();
   }
 
   @Override

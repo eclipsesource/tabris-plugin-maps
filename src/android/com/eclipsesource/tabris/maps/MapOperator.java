@@ -14,12 +14,12 @@ import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
 import com.eclipsesource.tabris.android.AbstractOperator;
+import com.eclipsesource.tabris.android.ObjectRegistry.RegistryEntry;
+import com.eclipsesource.tabris.android.OperatorRegistry;
+import com.eclipsesource.tabris.android.Properties;
 import com.eclipsesource.tabris.android.PropertyHandler;
 import com.eclipsesource.tabris.android.TabrisActivity;
 import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.client.core.ObjectRegistry.RegistryEntry;
-import com.eclipsesource.tabris.client.core.OperatorRegistry;
-import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

@@ -1,6 +1,6 @@
 package com.eclipsesource.tabris.maps;
 
-import com.eclipsesource.tabris.client.core.ObjectRegistry;
+import com.eclipsesource.tabris.android.ObjectRegistry;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 

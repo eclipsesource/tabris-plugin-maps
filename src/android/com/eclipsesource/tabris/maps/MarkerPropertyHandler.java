@@ -1,10 +1,7 @@
 package com.eclipsesource.tabris.maps;
 
-import android.app.Activity;
-
+import com.eclipsesource.tabris.android.Properties;
 import com.eclipsesource.tabris.android.PropertyHandler;
-import com.eclipsesource.tabris.android.TabrisContext;
-import com.eclipsesource.tabris.client.core.model.Properties;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
@@ -16,14 +13,6 @@ public class MarkerPropertyHandler<T extends MapMarker> implements PropertyHandl
   private static final String PROP_POSITION = "position";
   private static final String PROP_TITLE = "title";
   private static final String PROP_SUBTITLE = "subtitle";
-
-  private final Activity activity;
-  private final TabrisContext context;
-
-  public MarkerPropertyHandler( Activity activity, TabrisContext context ) {
-    this.activity = activity;
-    this.context = context;
-  }
 
   @Override
   public void set( T marker, Properties properties ) {
