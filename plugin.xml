@@ -6,76 +6,87 @@
 
   <name>Tabris.js Maps Plugin</name>
   <description>A maps widget for Tabris.js. It is based on Google Maps on Android and MapKit on iOS.</description>
-    <author>EclipseSource</author>
+  <author>EclipseSource</author>
   <license>Revised BSD License (3-clause license)</license>
   <repo>https://github.com/eclipsesource/tabris-plugin-maps.git</repo>
   <issue>https://github.com/eclipsesource/tabris-plugin-maps/issues</issue>
 
-    <!-- cordova -->
-    <engines>
-        <engine name="cordova" version=">=3.8.0" />
-    </engines>
+  <!-- cordova -->
+  <engines>
+    <engine name="cordova" version=">=3.8.0" />
+  </engines>
 
-    <js-module src="www/Map.js" name="map">
-        <clobbers target="esmaps.Map" />
-    </js-module>
-    <js-module src="www/Marker.js" name="marker">
-	    <clobbers target="esmaps.Marker" />
-    </js-module>
-    <js-module src="www/sphericalutil.js" name="sphericalutil" />
+  <js-module src="www/Map.js" name="map">
+    <clobbers target="esmaps.Map" />
+  </js-module>
+  <js-module src="www/Marker.js" name="marker">
+    <clobbers target="esmaps.Marker" />
+  </js-module>
+  <js-module src="www/sphericalutil.js" name="sphericalutil" />
 
-    <platform name="android">
+  <platform name="android">
 
-        <info>Make sure to provide the Google Maps API key via the variable ANDROID_API_KEY</info>
+    <info>Make sure to provide the Google Maps API key via the variable ANDROID_API_KEY</info>
 
-        <preference name="ANDROID_API_KEY" />
+    <preference name="ANDROID_API_KEY" />
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <meta-data
-              android:name="com.google.android.maps.v2.API_KEY"
-              android:value="$ANDROID_API_KEY" />
-            <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-            <meta-data
-              android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps"
-              android:value="com.eclipsesource.tabris.maps.MapOperator" />
-            <meta-data
-              android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps.marker"
-              android:value="com.eclipsesource.tabris.maps.MarkerOperator" />
-        </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <meta-data
+          android:name="com.google.android.maps.v2.API_KEY"
+          android:value="$ANDROID_API_KEY" />
+      <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+      <meta-data
+          android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps"
+          android:value="com.eclipsesource.tabris.maps.MapOperator" />
+      <meta-data
+          android:name="com.eclipsesource.tabris.android.OPERATOR.com.eclipsesource.tabris.maps.marker"
+          android:value="com.eclipsesource.tabris.maps.MarkerOperator" />
+    </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-        </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    </config-file>
 
-        <framework src="com.google.android.gms:play-services-maps:10.2.0" />
+    <framework src="com.google.android.gms:play-services-maps:10.2.0" />
 
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapHolderView.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapOperator.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapPropertyHandler.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapTapListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapLongPressListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapCameraChangeListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapValidator.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerOperator.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerPropertyHandler.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerTapListener.java" target-dir="src/com/eclipsesource/tabris/maps" />
-        <source-file src="src/android/com/eclipsesource/tabris/maps/MapMarker.java" target-dir="src/com/eclipsesource/tabris/maps" />
-    </platform>
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapHolderView.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapOperator.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapPropertyHandler.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapTapListener.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapLongPressListener.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapCameraChangeListener.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapValidator.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerOperator.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerPropertyHandler.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerTapListener.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MapMarker.java"
+                 target-dir="src/com/eclipsesource/tabris/maps" />
+  </platform>
 
-    <platform name="ios">
-        <!-- Hooks -->
-        <hook type="after_plugin_install" src="scripts/custom-widget.js" />
+  <platform name="ios">
+    <!-- Hooks -->
+    <hook type="after_plugin_install" src="scripts/custom-widget.js" />
 
-        <!-- Source files -->
-        <header-file src="src/ios/ESMap.h" />
-        <source-file src="src/ios/ESMap.m" />
-        <header-file src="src/ios/ESMarker.h" />
-        <source-file src="src/ios/ESMarker.m" />
+    <!-- Source files -->
+    <header-file src="src/ios/ESMap.h" />
+    <source-file src="src/ios/ESMap.m" />
+    <header-file src="src/ios/ESMarker.h" />
+    <source-file src="src/ios/ESMarker.m" />
 
-        <!-- Required frameworks -->
-        <framework src="MapKit.framework" />
+    <!-- Required frameworks -->
+    <framework src="MapKit.framework" />
 
-    </platform>
+  </platform>
 
 </plugin>
