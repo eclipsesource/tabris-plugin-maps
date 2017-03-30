@@ -13,7 +13,7 @@ Marker.prototype.dispose = function() {
     this._map.removeMarker(this);
   }
   this._dispose();
-}
+};
 
 tabris.NativeObject.defineProperties(Marker.prototype, {
   position: {type: 'array', nocache: true}

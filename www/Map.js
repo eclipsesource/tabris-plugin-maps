@@ -14,7 +14,7 @@ Map.prototype._listen = function(name, listening) {
   } else {
     tabris.Widget.prototype._listen.call(this, name, listening);
   }
-}
+};
 
 Map.prototype._trigger = function(name, event) {
   if (name === 'changecamera') {
@@ -22,7 +22,7 @@ Map.prototype._trigger = function(name, event) {
   } else {
     tabris.Widget.prototype._trigger.call(this, name, event);
   }
-}
+};
 
 Object.assign(Map.prototype, {
 
