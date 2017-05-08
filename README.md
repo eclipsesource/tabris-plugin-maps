@@ -33,7 +33,7 @@ The plugin can be added like any other cordova plugin. Either via the `cordova p
 To fetch the latest development version use the GitHub url:
 
 ```xml
-<plugin name="tabris-plugin-maps" spec="https://github.com/eclipsesource/tabris-plugin-maps" />
+<plugin name="tabris-plugin-maps" spec="https://github.com/eclipsesource/tabris-plugin-maps.git" />
 ```
 
 #### Android
