@@ -53,14 +53,14 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
   private final TabrisContext tabrisContext;
   private final PropertyHandler<MapHolderView> mapPropertyHandler;
 
-  public MapOperator( Activity activity, TabrisContext tabrisContext ) {
+  public MapOperator(Activity activity, TabrisContext tabrisContext) {
     this.activity = activity;
     this.tabrisContext = tabrisContext;
-    mapPropertyHandler = new MapPropertyHandler( activity, tabrisContext );
+    mapPropertyHandler = new MapPropertyHandler(activity, tabrisContext);
   }
 
   @Override
-  public PropertyHandler<MapHolderView> getPropertyHandler( MapHolderView object ) {
+  public PropertyHandler<MapHolderView> getPropertyHandler(MapHolderView object) {
     return mapPropertyHandler;
   }
 
@@ -69,175 +69,175 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
     return TYPE;
   }
 
-  @TargetApi( Build.VERSION_CODES.JELLY_BEAN_MR1 )
+  @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   @Override
-  public MapHolderView create( String id, Properties properties ) {
-    return new MapHolderView( activity, tabrisContext );
+  public MapHolderView create(String id, Properties properties) {
+    return new MapHolderView(activity, tabrisContext);
   }
 
   @Override
-  public void listen( String id, MapHolderView mapHolderView, String event, boolean listen ) {
-    switch( event ) {
+  public void listen(String id, MapHolderView mapHolderView, String event, boolean listen) {
+    switch (event) {
       case EVENT_READY:
-        if( listen ) {
+        if (listen) {
           mapHolderView.setOnMapReadyListener();
         } else {
-          throw new IllegalStateException( "'ready' event listeners cannot be removed." );
+          throw new IllegalStateException("'ready' event listeners cannot be removed.");
         }
         break;
       case EVENT_TAP:
-        if( listen ) {
-          attachOnMapClickListener( mapHolderView );
+        if (listen) {
+          attachOnMapClickListener(mapHolderView);
         } else {
-          removeOnMapClickListener( mapHolderView );
+          removeOnMapClickListener(mapHolderView);
         }
         break;
       case EVENT_LONGPRESS:
-        if( listen ) {
-          attachOnMapLongClickListener( mapHolderView );
+        if (listen) {
+          attachOnMapLongClickListener(mapHolderView);
         } else {
-          removeOnMapLongClickListener( mapHolderView );
+          removeOnMapLongClickListener(mapHolderView);
         }
         break;
     }
   }
 
   @Override
-  public Object call( MapHolderView mapHolderView, String method, Properties properties ) {
-    switch( method ) {
+  public Object call(MapHolderView mapHolderView, String method, Properties properties) {
+    switch (method) {
       case METHOD_MOVE_TO_REGION:
-        moveCameraToRegion( mapHolderView, properties );
+        moveCameraToRegion(mapHolderView, properties);
         break;
       case METHOD_ADD_MARKER:
-        addMarker( mapHolderView, properties );
+        addMarker(mapHolderView, properties);
         break;
       case METHOD_REMOVE_MARKER:
-        removeMarker( properties );
+        removeMarker(properties);
         break;
     }
     return null;
   }
 
-  private void moveCameraToRegion( MapHolderView mapHolderView, Properties properties ) {
-    LatLngBounds bounds = createBoundsFromRegion( properties );
-    int padding = getPaddingFromOptions( properties );
-    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds( bounds, padding );
-    if( getAnimateFromOptions( properties ) ) {
-      mapHolderView.animateCamera( cameraUpdate );
+  private void moveCameraToRegion(MapHolderView mapHolderView, Properties properties) {
+    LatLngBounds bounds = createBoundsFromRegion(properties);
+    int padding = getPaddingFromOptions(properties);
+    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+    if (getAnimateFromOptions(properties)) {
+      mapHolderView.animateCamera(cameraUpdate);
     } else {
-      mapHolderView.moveCamera( cameraUpdate );
+      mapHolderView.moveCamera(cameraUpdate);
     }
   }
 
-  private boolean getAnimateFromOptions( Properties properties ) {
-    Properties optionProperties = properties.getProperties( PROP_OPTIONS );
-    if( optionProperties != null ) {
-      return optionProperties.getBooleanSafe( PROP_ANIMATE );
+  private boolean getAnimateFromOptions(Properties properties) {
+    Properties optionProperties = properties.getProperties(PROP_OPTIONS);
+    if (optionProperties != null) {
+      return optionProperties.getBooleanSafe(PROP_ANIMATE);
     }
     return false;
   }
 
-  private LatLngBounds createBoundsFromRegion( Properties properties ) {
-    Properties region = properties.getProperties( PROP_REGION );
-    List<Double> southWest = region.getList( PROP_SOUTH_WEST, Double.class );
-    List<Double> northEast = region.getList( PROP_NORTH_EAST, Double.class );
+  private LatLngBounds createBoundsFromRegion(Properties properties) {
+    Properties region = properties.getProperties(PROP_REGION);
+    List<Double> southWest = region.getList(PROP_SOUTH_WEST, Double.class);
+    List<Double> northEast = region.getList(PROP_NORTH_EAST, Double.class);
     return new LatLngBounds(
-        new LatLng( southWest.get( 0 ), southWest.get( 1 ) ),
-        new LatLng( northEast.get( 0 ), northEast.get( 1 ) ) );
+        new LatLng(southWest.get(0), southWest.get(1)),
+        new LatLng(northEast.get(0), northEast.get(1)));
   }
 
-  private int getPaddingFromOptions( Properties properties ) {
-    return getScaledFloat( properties.getProperties( PROP_OPTIONS ), PROP_PADDING );
+  private int getPaddingFromOptions(Properties properties) {
+    return getScaledFloat(properties.getProperties(PROP_OPTIONS), PROP_PADDING);
   }
 
-  private int getScaledFloat( Properties properties, String key ) {
-    if( properties != null ) {
-      Float padding = properties.getFloat( key );
-      if( padding != null ) {
+  private int getScaledFloat(Properties properties, String key) {
+    if (properties != null) {
+      Float padding = properties.getFloat(key);
+      if (padding != null) {
         DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics( metrics );
-        return Math.round( metrics.density * padding );
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return Math.round(metrics.density * padding);
       }
     }
     return 0;
   }
 
-  private void addMarker( MapHolderView mapHolderView, Properties properties ) {
-    String markerId = properties.getString( "marker" );
-    if( markerId != null ) {
-      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject( markerId, MapMarker.class );
+  private void addMarker(MapHolderView mapHolderView, Properties properties) {
+    String markerId = properties.getString("marker");
+    if (markerId != null) {
+      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject(markerId, MapMarker.class);
       MarkerOptions markerOptions = new MarkerOptions();
-      markerOptions.position( mapMarker.getPosition() );
-      Marker marker = mapHolderView.getGoogleMap().addMarker( markerOptions );
-      mapMarker.setMarker( marker );
-      mapMarker.setMapId( tabrisContext.getObjectRegistry().getRemoteObjectForObject( mapHolderView ).getId() );
+      markerOptions.position(mapMarker.getPosition());
+      Marker marker = mapHolderView.getGoogleMap().addMarker(markerOptions);
+      mapMarker.setMarker(marker);
+      mapMarker.setMapId(tabrisContext.getObjectRegistry().getRemoteObjectForObject(mapHolderView).getId());
       mapMarker.updateMarker();
     }
   }
 
-  private void removeMarker( Properties properties ) {
-    String markerId = properties.getString( "marker" );
-    if( markerId != null ) {
-      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject( markerId, MapMarker.class );
+  private void removeMarker(Properties properties) {
+    String markerId = properties.getString("marker");
+    if (markerId != null) {
+      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject(markerId, MapMarker.class);
       mapMarker.getMarker().remove();
-      mapMarker.setMarker( null );
-      mapMarker.setMapId( null );
+      mapMarker.setMarker(null);
+      mapMarker.setMapId(null);
     }
   }
 
   @Override
-  public void destroy( MapHolderView mapHolderView ) {
-    disableLocationIndicator( mapHolderView );
+  public void destroy(MapHolderView mapHolderView) {
+    disableLocationIndicator(mapHolderView);
     ViewParent parent = mapHolderView.getParent();
-    if( parent instanceof ViewGroup ) {
-      ( ( ViewGroup )parent ).removeView( mapHolderView );
+    if (parent instanceof ViewGroup) {
+      ((ViewGroup)parent).removeView(mapHolderView);
     }
-    destroyMarker( mapHolderView );
+    destroyMarker(mapHolderView);
   }
 
-  private void disableLocationIndicator( MapHolderView mapHolderView ) {
-    if( ContextCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION )
-        == PackageManager.PERMISSION_GRANTED ) {
-      mapHolderView.getGoogleMap().setMyLocationEnabled( false );
+  private void disableLocationIndicator(MapHolderView mapHolderView) {
+    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      mapHolderView.getGoogleMap().setMyLocationEnabled(false);
     }
   }
 
-  private void destroyMarker( MapHolderView mapHolderView ) {
-    String mapId = tabrisContext.getObjectRegistry().getRemoteObjectForObject( mapHolderView ).getId();
-    for( RegistryEntry registryEntry : tabrisContext.getObjectRegistry().getEntries() ) {
+  private void destroyMarker(MapHolderView mapHolderView) {
+    String mapId = tabrisContext.getObjectRegistry().getRemoteObjectForObject(mapHolderView).getId();
+    for (RegistryEntry registryEntry : tabrisContext.getObjectRegistry().getEntries()) {
       Object object = registryEntry.getObject();
-      if( object instanceof MapMarker ) {
-        MapMarker mapMarker = ( MapMarker )object;
+      if (object instanceof MapMarker) {
+        MapMarker mapMarker = (MapMarker)object;
         String markerMapId = mapMarker.getMapId();
-        if( markerMapId != null && markerMapId.equals( mapId ) ) {
-          OperatorRegistry operatorRegistry = ( ( TabrisActivity )activity ).getWidgetToolkit().getOperatorRegistry();
-          ( ( MarkerOperator )operatorRegistry.get( MarkerOperator.TYPE ) ).destroy( mapMarker );
+        if (markerMapId != null && markerMapId.equals(mapId)) {
+          OperatorRegistry operatorRegistry = ((TabrisActivity)activity).getWidgetToolkit().getOperatorRegistry();
+          ((MarkerOperator)operatorRegistry.get(MarkerOperator.TYPE)).destroy(mapMarker);
         }
       }
     }
   }
 
-  private void attachOnMapClickListener( MapHolderView mapHolderView ) {
-    getGoogleMapSafely( mapHolderView )
-        .setOnMapClickListener( new MapTapListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
+  private void attachOnMapClickListener(MapHolderView mapHolderView) {
+    getGoogleMapSafely(mapHolderView)
+        .setOnMapClickListener(new MapTapListener(tabrisContext.getObjectRegistry(), mapHolderView));
   }
 
-  private void removeOnMapClickListener( MapHolderView mapHolderView ) {
-    getGoogleMapSafely( mapHolderView ).setOnMapClickListener( null );
+  private void removeOnMapClickListener(MapHolderView mapHolderView) {
+    getGoogleMapSafely(mapHolderView).setOnMapClickListener(null);
   }
 
-  private void attachOnMapLongClickListener( MapHolderView mapHolderView ) {
-    getGoogleMapSafely( mapHolderView )
-        .setOnMapLongClickListener( new MapLongPressListener( tabrisContext.getObjectRegistry(), mapHolderView ) );
+  private void attachOnMapLongClickListener(MapHolderView mapHolderView) {
+    getGoogleMapSafely(mapHolderView)
+        .setOnMapLongClickListener(new MapLongPressListener(tabrisContext.getObjectRegistry(), mapHolderView));
   }
 
-  private void removeOnMapLongClickListener( MapHolderView mapHolderView ) {
-    getGoogleMapSafely( mapHolderView ).setOnMapLongClickListener( null );
+  private void removeOnMapLongClickListener(MapHolderView mapHolderView) {
+    getGoogleMapSafely(mapHolderView).setOnMapLongClickListener(null);
   }
 
-  private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
+  private GoogleMap getGoogleMapSafely(MapHolderView mapHolderView) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap( googleMap, "Can not get map before 'ready' event has fired." );
+    validateGoogleMap(googleMap, "Can not get map before 'ready' event has fired.");
     return googleMap;
   }
 

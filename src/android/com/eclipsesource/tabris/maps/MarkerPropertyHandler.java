@@ -15,46 +15,46 @@ public class MarkerPropertyHandler<T extends MapMarker> implements PropertyHandl
   private static final String PROP_SUBTITLE = "subtitle";
 
   @Override
-  public void set( T marker, Properties properties ) {
-    setPosition( marker, properties );
-    setTitle( marker, properties );
-    setSubtitle( marker, properties );
+  public void set(T marker, Properties properties) {
+    setPosition(marker, properties);
+    setTitle(marker, properties);
+    setSubtitle(marker, properties);
     marker.updateMarker();
   }
 
-  private void setPosition( T marker, Properties properties ) {
-    List<Double> position = properties.getList( PROP_POSITION, Double.class );
-    if( position == null || position.size() != 2 ) {
-      throw new IllegalArgumentException( "The 'position' property has to be a 2 element tuple but is " + position );
+  private void setPosition(T marker, Properties properties) {
+    List<Double> position = properties.getList(PROP_POSITION, Double.class);
+    if (position == null || position.size() != 2) {
+      throw new IllegalArgumentException("The 'position' property has to be a 2 element tuple but is " + position);
     }
-    marker.setPosition( new LatLng( position.get( 0 ), position.get( 1 ) ) );
+    marker.setPosition(new LatLng(position.get(0), position.get(1)));
   }
 
-  private void setTitle( T marker, Properties properties ) {
-    if( properties.hasProperty( PROP_TITLE ) ) {
-      marker.getMarker().setTitle( properties.getString( PROP_TITLE ) );
+  private void setTitle(T marker, Properties properties) {
+    if (properties.hasProperty(PROP_TITLE)) {
+      marker.getMarker().setTitle(properties.getString(PROP_TITLE));
     }
   }
 
-  private void setSubtitle( T marker, Properties properties ) {
-    if( properties.hasProperty( PROP_SUBTITLE ) ) {
-      marker.getMarker().setTitle( properties.getString( PROP_SUBTITLE ) );
+  private void setSubtitle(T marker, Properties properties) {
+    if (properties.hasProperty(PROP_SUBTITLE)) {
+      marker.getMarker().setTitle(properties.getString(PROP_SUBTITLE));
     }
   }
 
   @Override
-  public Object get( T marker, String property ) {
-    switch( property ) {
+  public Object get(T marker, String property) {
+    switch (property) {
       case PROP_POSITION:
-        return getPosition( marker );
+        return getPosition(marker);
     }
     return null;
   }
 
-  private Object getPosition( T marker ) {
+  private Object getPosition(T marker) {
     LatLng position = marker.getPosition();
-    if( position != null ) {
-      return asList( position.latitude, position.longitude );
+    if (position != null) {
+      return asList(position.latitude, position.longitude);
     }
     return null;
   }

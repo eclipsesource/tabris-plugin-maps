@@ -11,7 +11,7 @@ public class MapMarker {
   private Marker marker;
   private String mapId;
 
-  public void setPosition( LatLng position ) {
+  public void setPosition(LatLng position) {
     this.position = position;
   }
 
@@ -19,15 +19,15 @@ public class MapMarker {
     return position;
   }
 
-  public void setTitle( String title ) {
+  public void setTitle(String title) {
     this.title = title;
   }
 
-  public void setSubtitle( String subtitle ) {
+  public void setSubtitle(String subtitle) {
     this.subtitle = subtitle;
   }
 
-  public void setMarker( Marker marker ) {
+  public void setMarker(Marker marker) {
     this.marker = marker;
   }
 
@@ -35,7 +35,7 @@ public class MapMarker {
     return marker;
   }
 
-  public void setMapId( String mapId ) {
+  public void setMapId(String mapId) {
     this.mapId = mapId;
   }
 
@@ -44,10 +44,10 @@ public class MapMarker {
   }
 
   public void updateMarker() {
-    if( marker != null ) {
-      marker.setPosition( position );
-      marker.setTitle( title );
-      marker.setSnippet( subtitle );
+    if (marker != null) {
+      marker.setPosition(position);
+      marker.setTitle(title);
+      marker.setSnippet(subtitle);
     }
   }
 }

@@ -40,174 +40,174 @@ public class MapPropertyHandler extends ViewPropertyHandler<MapHolderView> {
   private Map<String, Integer> mapTypes;
   private Activity activity;
 
-  public MapPropertyHandler( Activity activity, TabrisContext context ) {
-    super( activity, context );
+  public MapPropertyHandler(Activity activity, TabrisContext context) {
+    super(activity, context);
     this.activity = activity;
     initMapTypesMap();
   }
 
   private Map<String, Integer> initMapTypesMap() {
     mapTypes = new HashMap<>();
-    mapTypes.put( "none", GoogleMap.MAP_TYPE_NONE );
-    mapTypes.put( "hybrid", GoogleMap.MAP_TYPE_HYBRID );
-    mapTypes.put( "normal", GoogleMap.MAP_TYPE_NORMAL );
-    mapTypes.put( "satellite", GoogleMap.MAP_TYPE_SATELLITE );
-    mapTypes.put( "terrain", GoogleMap.MAP_TYPE_TERRAIN );
+    mapTypes.put("none", GoogleMap.MAP_TYPE_NONE);
+    mapTypes.put("hybrid", GoogleMap.MAP_TYPE_HYBRID);
+    mapTypes.put("normal", GoogleMap.MAP_TYPE_NORMAL);
+    mapTypes.put("satellite", GoogleMap.MAP_TYPE_SATELLITE);
+    mapTypes.put("terrain", GoogleMap.MAP_TYPE_TERRAIN);
     return mapTypes;
   }
 
   @Override
-  public void set( MapHolderView view, Properties properties ) {
-    super.set( view, properties );
-    for( String key : properties.getAll().keySet() ) {
-      setProperty( key, view, properties );
+  public void set(MapHolderView view, Properties properties) {
+    super.set(view, properties);
+    for (String key : properties.getAll().keySet()) {
+      setProperty(key, view, properties);
     }
   }
 
-  private void setProperty( String key, MapHolderView mapHolderView, Properties properties ) {
-    switch( key ) {
+  private void setProperty(String key, MapHolderView mapHolderView, Properties properties) {
+    switch (key) {
       case PROP_POSITION:
-        setPosition( mapHolderView, properties );
+        setPosition(mapHolderView, properties);
         break;
       case PROP_CAMERA:
-        setCamera( mapHolderView, properties );
+        setCamera(mapHolderView, properties);
         break;
       case PROP_REGION:
-        setRegion( mapHolderView, properties );
+        setRegion(mapHolderView, properties);
         break;
       case PROP_MAP_TYPE:
-        setMapType( mapHolderView.getGoogleMap(), properties );
+        setMapType(mapHolderView.getGoogleMap(), properties);
         break;
       case PROP_SHOW_MY_LOCATION:
-        setShowMyLocation( mapHolderView.getGoogleMap(), properties );
+        setShowMyLocation(mapHolderView.getGoogleMap(), properties);
         break;
       case PROP_SHOW_MY_LOCATION_BUTTON:
-        setShowMyLocationButton( mapHolderView.getGoogleMap(), properties );
+        setShowMyLocationButton(mapHolderView.getGoogleMap(), properties);
         break;
     }
   }
 
-  private void setRegion( MapHolderView mapHolderView, Properties properties ) {
-    LatLngBounds bounds = createBoundsFromBoundingBox( properties.getProperties( PROP_REGION ) );
-    mapHolderView.moveCamera( CameraUpdateFactory.newLatLngBounds( bounds, 0 ) );
+  private void setRegion(MapHolderView mapHolderView, Properties properties) {
+    LatLngBounds bounds = createBoundsFromBoundingBox(properties.getProperties(PROP_REGION));
+    mapHolderView.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
   }
 
-  private LatLngBounds createBoundsFromBoundingBox( Properties properties ) {
-    List<Double> southWest = properties.getList( PROP_SOUTH_WEST, Double.class );
-    List<Double> northEast = properties.getList( PROP_NORTH_EAST, Double.class );
+  private LatLngBounds createBoundsFromBoundingBox(Properties properties) {
+    List<Double> southWest = properties.getList(PROP_SOUTH_WEST, Double.class);
+    List<Double> northEast = properties.getList(PROP_NORTH_EAST, Double.class);
     return new LatLngBounds(
-        new LatLng( southWest.get( 0 ), southWest.get( 1 ) ),
-        new LatLng( northEast.get( 0 ), northEast.get( 1 ) ) );
+        new LatLng(southWest.get(0), southWest.get(1)),
+        new LatLng(northEast.get(0), northEast.get(1)));
   }
 
-  private void setCamera( MapHolderView mapHolderView, Properties properties ) {
-    setPosition( mapHolderView, properties.getPropertiesSafe( PROP_CAMERA ) );
+  private void setCamera(MapHolderView mapHolderView, Properties properties) {
+    setPosition(mapHolderView, properties.getPropertiesSafe(PROP_CAMERA));
   }
 
-  private void setPosition( MapHolderView mapHolderView, Properties properties ) {
-    List<Double> position = properties.getList( PROP_POSITION, Double.class );
-    if( position == null || position.size() != 2 ) {
-      throw new IllegalArgumentException( "The 'position' property has to be a 2 element tuple but is " + position );
+  private void setPosition(MapHolderView mapHolderView, Properties properties) {
+    List<Double> position = properties.getList(PROP_POSITION, Double.class);
+    if (position == null || position.size() != 2) {
+      throw new IllegalArgumentException("The 'position' property has to be a 2 element tuple but is " + position);
     }
-    LatLng latLng = new LatLng( position.get( 0 ), position.get( 1 ) );
-    mapHolderView.moveCamera( CameraUpdateFactory.newLatLng( latLng ) );
+    LatLng latLng = new LatLng(position.get(0), position.get(1));
+    mapHolderView.moveCamera(CameraUpdateFactory.newLatLng(latLng));
   }
 
-  private void setMapType( GoogleMap map, Properties properties ) {
-    String mapTypeString = properties.getString( PROP_MAP_TYPE );
-    if( mapTypeString == null ) {
-      throw new IllegalArgumentException( "The 'mapType' property has to be a string value." );
+  private void setMapType(GoogleMap map, Properties properties) {
+    String mapTypeString = properties.getString(PROP_MAP_TYPE);
+    if (mapTypeString == null) {
+      throw new IllegalArgumentException("The 'mapType' property has to be a string value.");
     }
-    Integer mapTypeInteger = mapTypes.get( mapTypeString );
-    if( mapTypeInteger != null ) {
-      map.setMapType( mapTypeInteger );
+    Integer mapTypeInteger = mapTypes.get(mapTypeString);
+    if (mapTypeInteger != null) {
+      map.setMapType(mapTypeInteger);
     }
   }
 
-  private void setShowMyLocation( GoogleMap map, Properties properties ) {
-    if( ContextCompat.checkSelfPermission( activity, Manifest.permission.ACCESS_FINE_LOCATION )
-        != PackageManager.PERMISSION_GRANTED ) {
-      throw new IllegalStateException( Manifest.permission.ACCESS_FINE_LOCATION + " not available" );
+  private void setShowMyLocation(GoogleMap map, Properties properties) {
+    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
+      throw new IllegalStateException(Manifest.permission.ACCESS_FINE_LOCATION + " not available");
     }
-    map.setMyLocationEnabled( properties.getBooleanSafe( PROP_SHOW_MY_LOCATION ) );
+    map.setMyLocationEnabled(properties.getBooleanSafe(PROP_SHOW_MY_LOCATION));
   }
 
-  private void setShowMyLocationButton( GoogleMap map, Properties properties ) {
-    map.getUiSettings().setMyLocationButtonEnabled( properties.getBooleanSafe( PROP_SHOW_MY_LOCATION_BUTTON ) );
+  private void setShowMyLocationButton(GoogleMap map, Properties properties) {
+    map.getUiSettings().setMyLocationButtonEnabled(properties.getBooleanSafe(PROP_SHOW_MY_LOCATION_BUTTON));
   }
 
   @Override
-  public Object get( MapHolderView mapHolderView, String property ) {
-    switch( property ) {
+  public Object get(MapHolderView mapHolderView, String property) {
+    switch (property) {
       case PROP_POSITION:
-        return getPosition( mapHolderView );
+        return getPosition(mapHolderView);
       case PROP_CAMERA:
-        return getCamera( mapHolderView );
+        return getCamera(mapHolderView);
       case PROP_REGION:
-        return getRegion( mapHolderView );
+        return getRegion(mapHolderView);
       case PROP_SHOW_MY_LOCATION:
-        return getShowMyLocation( mapHolderView );
+        return getShowMyLocation(mapHolderView);
       case PROP_SHOW_MY_LOCATION_BUTTON:
-        return getShowMyLocationButton( mapHolderView );
+        return getShowMyLocationButton(mapHolderView);
       case PROP_MY_LOCATION:
-        return getMyLocation( mapHolderView );
+        return getMyLocation(mapHolderView);
       case PROP_MAP_TYPE:
-        return getMapType( mapHolderView );
+        return getMapType(mapHolderView);
       default:
-        return super.get( mapHolderView, property );
+        return super.get(mapHolderView, property);
     }
   }
 
-  private Object getMapType( MapHolderView mapHolderView ) {
+  private Object getMapType(MapHolderView mapHolderView) {
     int mapType = mapHolderView.getGoogleMap().getMapType();
-    for( Map.Entry<String, Integer> entry : mapTypes.entrySet() ) {
-      if( entry.getValue() == mapType ) {
+    for (Map.Entry<String, Integer> entry : mapTypes.entrySet()) {
+      if (entry.getValue() == mapType) {
         return entry.getKey();
       }
     }
     return null;
   }
 
-  private Object getRegion( MapHolderView mapHolderView ) {
+  private Object getRegion(MapHolderView mapHolderView) {
     LatLngBounds bounds = mapHolderView.getGoogleMap().getProjection().getVisibleRegion().latLngBounds;
     Map<String, Object> region = new HashMap<>();
-    region.put( PROP_SOUTH_WEST, asList( bounds.southwest.latitude, bounds.southwest.longitude ) );
-    region.put( PROP_NORTH_EAST, asList( bounds.northeast.latitude, bounds.northeast.longitude ) );
+    region.put(PROP_SOUTH_WEST, asList(bounds.southwest.latitude, bounds.southwest.longitude));
+    region.put(PROP_NORTH_EAST, asList(bounds.northeast.latitude, bounds.northeast.longitude));
     return region;
   }
 
-  private Object getMyLocation( MapHolderView mapHolderView ) {
+  private Object getMyLocation(MapHolderView mapHolderView) {
     Location myLocation = mapHolderView.getGoogleMap().getMyLocation();
-    if( myLocation != null ) {
-      return asList( myLocation.getLatitude(), myLocation.getLongitude() );
+    if (myLocation != null) {
+      return asList(myLocation.getLatitude(), myLocation.getLongitude());
     }
     return null;
   }
 
-  private GoogleMap getGoogleMapSafely( MapHolderView mapHolderView ) {
+  private GoogleMap getGoogleMapSafely(MapHolderView mapHolderView) {
     GoogleMap googleMap = mapHolderView.getGoogleMap();
-    validateGoogleMap( googleMap, "Only call get on map when it is ready." );
+    validateGoogleMap(googleMap, "Only call get on map when it is ready.");
     return googleMap;
   }
 
-  private List<Double> getPosition( MapHolderView mapHolderView ) {
-    LatLng target = getGoogleMapSafely( mapHolderView ).getCameraPosition().target;
-    return asList( target.latitude, target.longitude );
+  private List<Double> getPosition(MapHolderView mapHolderView) {
+    LatLng target = getGoogleMapSafely(mapHolderView).getCameraPosition().target;
+    return asList(target.latitude, target.longitude);
   }
 
-  private Object getCamera( MapHolderView mapHolderView ) {
-    LatLng target = getGoogleMapSafely( mapHolderView ).getCameraPosition().target;
+  private Object getCamera(MapHolderView mapHolderView) {
+    LatLng target = getGoogleMapSafely(mapHolderView).getCameraPosition().target;
     Map<String, Object> camera = new HashMap<>();
-    camera.put( PROP_POSITION, asList( target.latitude, target.longitude ) );
+    camera.put(PROP_POSITION, asList(target.latitude, target.longitude));
     return camera;
   }
 
-  private boolean getShowMyLocation( MapHolderView mapHolderView ) {
-    return getGoogleMapSafely( mapHolderView ).isMyLocationEnabled();
+  private boolean getShowMyLocation(MapHolderView mapHolderView) {
+    return getGoogleMapSafely(mapHolderView).isMyLocationEnabled();
   }
 
-  private boolean getShowMyLocationButton( MapHolderView mapHolderView ) {
-    return getGoogleMapSafely( mapHolderView ).getUiSettings().isMyLocationButtonEnabled();
+  private boolean getShowMyLocationButton(MapHolderView mapHolderView) {
+    return getGoogleMapSafely(mapHolderView).getUiSettings().isMyLocationButtonEnabled();
   }
 
 }

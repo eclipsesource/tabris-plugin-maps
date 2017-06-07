@@ -19,14 +19,14 @@ public class MapTapListener implements OnMapClickListener {
   private final ObjectRegistry objectRegistry;
   private final MapHolderView mapHolderView;
 
-  public MapTapListener( ObjectRegistry objectRegistry, MapHolderView mapHolderView ) {
+  public MapTapListener(ObjectRegistry objectRegistry, MapHolderView mapHolderView) {
     this.objectRegistry = objectRegistry;
     this.mapHolderView = mapHolderView;
   }
 
   @Override
-  public void onMapClick( LatLng latLng ) {
-    List<Double> position = asList( latLng.latitude, latLng.longitude );
-    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_TAP, "position", position );
+  public void onMapClick(LatLng latLng) {
+    List<Double> position = asList(latLng.latitude, latLng.longitude);
+    objectRegistry.getRemoteObjectForObject(mapHolderView).notify(EVENT_TAP, "position", position);
   }
 }

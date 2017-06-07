@@ -19,35 +19,35 @@ public class MapCameraChangeListener implements OnCameraMoveStartedListener, OnC
   private final MapHolderView mapHolderView;
   private int reason;
 
-  public MapCameraChangeListener( MapHolderView mapHolderView, ObjectRegistry objectRegistry ) {
+  public MapCameraChangeListener(MapHolderView mapHolderView, ObjectRegistry objectRegistry) {
     this.objectRegistry = objectRegistry;
     this.mapHolderView = mapHolderView;
   }
 
   @Override
-  public void onCameraMoveStarted( int reason ) {
+  public void onCameraMoveStarted(int reason) {
     this.reason = reason;
   }
 
   @Override
   public void onCameraIdle() {
     CameraPosition cameraPosition = mapHolderView.getGoogleMap().getCameraPosition();
-    notifyChangeCameraEvent( cameraPosition );
-    if( reason == OnCameraMoveStartedListener.REASON_GESTURE ) {
-      notifyCameraMoveEvent( cameraPosition );
+    notifyChangeCameraEvent(cameraPosition);
+    if (reason == OnCameraMoveStartedListener.REASON_GESTURE) {
+      notifyCameraMoveEvent(cameraPosition);
     }
   }
 
-  private void notifyChangeCameraEvent( CameraPosition cameraPosition ) {
+  private void notifyChangeCameraEvent(CameraPosition cameraPosition) {
     Map<String, Object> arguments = new HashMap<>();
-    arguments.put( "position", asList( cameraPosition.target.latitude, cameraPosition.target.longitude ) );
-    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_CHANGE_CAMERA, arguments );
+    arguments.put("position", asList(cameraPosition.target.latitude, cameraPosition.target.longitude));
+    objectRegistry.getRemoteObjectForObject(mapHolderView).notify(EVENT_CHANGE_CAMERA, arguments);
   }
 
-  private void notifyCameraMoveEvent( CameraPosition cameraPosition ) {
+  private void notifyCameraMoveEvent(CameraPosition cameraPosition) {
     Map<String, Object> arguments = new HashMap<>();
-    arguments.put( "position", asList( cameraPosition.target.latitude, cameraPosition.target.longitude ) );
-    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_CAMERA_MOVE, "camera", arguments );
+    arguments.put("position", asList(cameraPosition.target.latitude, cameraPosition.target.longitude));
+    objectRegistry.getRemoteObjectForObject(mapHolderView).notify(EVENT_CAMERA_MOVE, "camera", arguments);
   }
 
 }

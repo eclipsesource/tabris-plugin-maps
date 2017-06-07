@@ -14,20 +14,20 @@ public class MapOperator_Test {
 
   @Test
   public void testGetType() {
-    MapOperator operator = new MapOperator( mock( Activity.class ), mock( TabrisContext.class ) );
+    MapOperator operator = new MapOperator(mock(Activity.class), mock(TabrisContext.class));
 
     String type = operator.getType();
 
-    assertEquals( "com.eclipsesource.maps.Map", type );
+    assertEquals("com.eclipsesource.maps.Map", type);
   }
 
   @Test
   public void testGetPropertyHandler() {
-    MapOperator operator = new MapOperator( mock( Activity.class ), mock( TabrisContext.class ) );
+    MapOperator operator = new MapOperator(mock(Activity.class), mock(TabrisContext.class));
 
-    PropertyHandler propertyHandler = operator.getPropertyHandler( null );
+    PropertyHandler propertyHandler = operator.getPropertyHandler(null);
 
-    assertTrue( propertyHandler instanceof MapPropertyHandler );
+    assertTrue(propertyHandler instanceof MapPropertyHandler);
   }
 
 }

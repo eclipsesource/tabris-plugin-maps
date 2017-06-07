@@ -14,12 +14,12 @@ public class MarkerOperator extends AbstractOperator<MapMarker> {
 
   private final MarkerPropertyHandler<MapMarker> markerPropertyHandler;
 
-  public MarkerOperator( Activity activity, TabrisContext tabrisContext ) {
+  public MarkerOperator(Activity activity, TabrisContext tabrisContext) {
     markerPropertyHandler = new MarkerPropertyHandler<>();
   }
 
   @Override
-  public PropertyHandler<MapMarker> getPropertyHandler( MapMarker object ) {
+  public PropertyHandler<MapMarker> getPropertyHandler(MapMarker object) {
     return markerPropertyHandler;
   }
 
@@ -29,14 +29,14 @@ public class MarkerOperator extends AbstractOperator<MapMarker> {
   }
 
   @Override
-  public MapMarker create( String id, Properties properties ) {
+  public MapMarker create(String id, Properties properties) {
     return new MapMarker();
   }
 
   @Override
-  public void destroy( MapMarker mapMarker ) {
+  public void destroy(MapMarker mapMarker) {
     Marker marker = mapMarker.getMarker();
-    if( marker != null ) {
+    if (marker != null) {
       marker.remove();
     }
   }

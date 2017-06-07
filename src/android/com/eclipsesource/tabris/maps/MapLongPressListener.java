@@ -19,14 +19,14 @@ public class MapLongPressListener implements OnMapLongClickListener {
   private final ObjectRegistry objectRegistry;
   private final MapHolderView mapHolderView;
 
-  public MapLongPressListener( ObjectRegistry objectRegistry, MapHolderView mapHolderView ) {
+  public MapLongPressListener(ObjectRegistry objectRegistry, MapHolderView mapHolderView) {
     this.objectRegistry = objectRegistry;
     this.mapHolderView = mapHolderView;
   }
 
   @Override
-  public void onMapLongClick( LatLng latLng ) {
-    List<Double> position = asList( latLng.latitude, latLng.longitude );
-    objectRegistry.getRemoteObjectForObject( mapHolderView ).notify( EVENT_LONGPRESS, "position", position );
+  public void onMapLongClick(LatLng latLng) {
+    List<Double> position = asList(latLng.latitude, latLng.longitude);
+    objectRegistry.getRemoteObjectForObject(mapHolderView).notify(EVENT_LONGPRESS, "position", position);
   }
 }
