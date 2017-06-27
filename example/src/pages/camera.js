@@ -19,7 +19,7 @@ function createExample(page) {
   var map = new esmaps.Map({
     left: 0, right: 0, top: 0, bottom: controls
   }).on('ready', function() {
-    this.on('change:camera', function() {
+    this.on('cameraChanged', function() {
       updateCameraTextView('Camera changed programmatic');
     }).on('cameramove', function() {
       updateCameraTextView('Camera changed by user');

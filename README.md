@@ -140,9 +140,9 @@ The following properties can be applied on top of the [common Tabris.js properti
 * `camera` : _object_
   * The `camera` object consists of the same properties as the [`camera`](#camera) property and contains the new orientation of the camera
 
-##### `change:camera`
+##### `cameraChanged`
 
-* The `change:camera` event is fired when the position of the map has reached its final destination by a programmatic camera change. E.g. by setting the [`position`](#position) or using one of the [`moveTo`](#functions) functions.
+* The `cameraChanged` event is fired when the position of the map has reached its final destination by a programmatic camera change. E.g. by setting the [`position`](#position) or using one of the [`moveTo`](#functions) functions.
 
 ###### Event Parameters:
 

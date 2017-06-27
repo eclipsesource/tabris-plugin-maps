@@ -9,7 +9,7 @@ var Map = tabris.NativeObject.extend('com.eclipsesource.maps.Map', tabris.Widget
 Map.prototype._listen = function(name, listening) {
   if (EVENT_TYPES.indexOf(name) > -1) {
     this._nativeListen(name, listening);
-  } else if (name === 'change:camera') {
+  } else if (name === 'cameraChanged') {
     this._nativeListen('changecamera', listening);
   } else {
     tabris.Widget.prototype._listen.call(this, name, listening);
