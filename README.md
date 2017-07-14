@@ -24,7 +24,7 @@ Using the plugin follows the standard cordova plugin mechanism. The Tabris.js we
 
 ### Add the plugin to your project
 
-The plugin can be added like any other cordova plugin. Either via the `cordova plugin add` command or as an entry in the apps `config.xml` (recommended):
+The plugin should be added as an entry in the apps `config.xml` file:
 
 ```xml
 <plugin name="tabris-plugin-maps" spec="3.0.0" />
