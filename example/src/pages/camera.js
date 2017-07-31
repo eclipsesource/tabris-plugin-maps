@@ -21,7 +21,7 @@ function createExample(page) {
   }).on('ready', function() {
     this.on('cameraChanged', function() {
       updateCameraTextView('Camera changed programmatic');
-    }).on('cameramove', function() {
+    }).on('cameraMoved', function() {
       updateCameraTextView('Camera changed by user');
     });
     this.camera = {position: [48.8644458, 2.3589976]};

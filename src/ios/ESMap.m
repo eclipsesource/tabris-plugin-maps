@@ -47,7 +47,7 @@
 @synthesize tapListener = _tapListener;
 @synthesize longpressListener = _longpressListener;
 @synthesize readyListener = _readyListener;
-@synthesize cameramoveListener = _cameramoveListener;
+@synthesize cameraMovedListener = _cameraMovedListener;
 @synthesize changecameraListener = _changecameraListener;
 @synthesize showMyLocation = _showMyLocation;
 
@@ -114,7 +114,7 @@
     [set addObject:@"tapListener"];
     [set addObject:@"longpressListener"];
     [set addObject:@"readyListener"];
-    [set addObject:@"cameramoveListener"];
+    [set addObject:@"cameraMovedListener"];
     [set addObject:@"changecameraListener"];
     return set;
 }
@@ -219,9 +219,9 @@
     return _longpressListener;
 }
 
-- (void)setCameramoveListener:(BOOL)cameramoveListener {
-    _cameramoveListener = cameramoveListener;
-    if (cameramoveListener) {
+- (void)setCameraMovedListener:(BOOL)cameraMovedListener {
+    _cameraMovedListener = cameraMovedListener;
+    if (cameraMovedListener) {
         [self enableDoubleTapGestureRecognizer];
         [self enablePanGestureRecognizer];
         [self enablePinchGestureRecognizer];
@@ -232,8 +232,8 @@
     }
 }
 
-- (BOOL)cameramoveListener {
-    return _cameramoveListener;
+- (BOOL)cameraMovedListener {
+    return _cameraMovedListener;
 }
 
 - (void)enableDoubleTapGestureRecognizer {
@@ -401,10 +401,10 @@
         Message<Notification> *message = [[self notifications] forObject:self];
         [message fireEvent:@"changecamera" withAttributes:self.camera];
     }
-    if (self.cameramoveListener && self.gestureWasRecognized) {
+    if (self.cameraMovedListener && self.gestureWasRecognized) {
         self.gestureWasRecognized = NO;
         Message<Notification> *message = [[self notifications] forObject:self];
-        [message fireEvent:@"cameramove" withAttributes:@{@"camera":self.camera}];
+        [message fireEvent:@"cameraMoved" withAttributes:@{@"camera":self.camera}];
     }
 }
 

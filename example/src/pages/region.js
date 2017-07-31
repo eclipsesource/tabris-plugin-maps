@@ -20,7 +20,7 @@ function createExample(page) {
     left: 0, right: 0, top: 0, bottom: controls
   }).on('ready', function() {
     this.on('cameraChanged', updateRegionTextView)
-      .on('cameramove', updateRegionTextView);
+      .on('cameraMoved', updateRegionTextView);
     this.region = {southWest: [48.812059, 2.2495793], northEast: [48.910537, 2.4205543]};
   }).appendTo(page);
 
