@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 
 public class MapCameraChangeListener implements OnCameraMoveStartedListener, OnCameraIdleListener {
 
-  public static final String EVENT_CAMERA_MOVE = "cameramove";
+  public static final String EVENT_CAMERA_MOVED = "cameraMoved";
   public static final String EVENT_CHANGE_CAMERA = "changecamera";
 
   private final ObjectRegistry objectRegistry;
@@ -47,7 +47,7 @@ public class MapCameraChangeListener implements OnCameraMoveStartedListener, OnC
   private void notifyCameraMoveEvent(CameraPosition cameraPosition) {
     Map<String, Object> arguments = new HashMap<>();
     arguments.put("position", asList(cameraPosition.target.latitude, cameraPosition.target.longitude));
-    objectRegistry.getRemoteObjectForObject(mapHolderView).notify(EVENT_CAMERA_MOVE, "camera", arguments);
+    objectRegistry.getRemoteObjectForObject(mapHolderView).notify(EVENT_CAMERA_MOVED, "camera", arguments);
   }
 
 }

@@ -129,9 +129,9 @@ The following properties can be applied on top of the [common Tabris.js properti
 * `position` : _number[]_
   * A position array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
 
-##### `cameramove`
+##### `cameraMoved`
 
-* The `cameramove` event is fired when the user changed the position of the map by interacting with the map via touch. The callback is not guaranteed to fire continuously but rather when the map has reached a resting position.
+* The `cameraMoved` event is fired when the user changed the position of the map by interacting with the map via touch. The callback is not guaranteed to fire continuously but rather when the map has reached a resting position.
 
 ###### Event Parameters:
 

@@ -2,7 +2,7 @@ var PLUGIN_ID = 'tabris-plugin-maps';
 
 var sphericalUtil = cordova.require(PLUGIN_ID + '.sphericalutil');
 
-var EVENT_TYPES = ['tap', 'longpress', 'ready', 'cameramove']
+var EVENT_TYPES = ['tap', 'longpress', 'ready', 'cameraMoved']
 
 var Map = tabris.NativeObject.extend('com.eclipsesource.maps.Map', tabris.Widget);
 
