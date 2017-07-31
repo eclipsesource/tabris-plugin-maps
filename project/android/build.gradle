@@ -2,6 +2,7 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        maven { url 'https://maven.google.com' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
@@ -12,6 +13,7 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven { url 'https://maven.google.com' }
         maven {
             // provides tabris from directory repository
             url new File(System.getenv('TABRIS_ANDROID_PLATFORM') +
