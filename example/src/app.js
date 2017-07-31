@@ -1,29 +1,23 @@
-var positionPage = require('./pages/position');
-var cameraPage = require('./pages/camera');
-var regionPage = require('./pages/region');
-var markerPage = require('./pages/marker');
+const {Button, NavigationView, Page, ui} = require('tabris');
+const PositionPage = require('./pages/PositionPage');
+const CameraPage = require('./pages/CameraPage');
+const RegionPage = require('./pages/RegionPage');
+const MarkerPage = require('./pages/MarkerPage');
 
-var pages = [positionPage, cameraPage, regionPage, markerPage];
+const PAGES = [PositionPage, CameraPage, RegionPage, MarkerPage];
 
-var navigationView = new tabris.NavigationView({
+let navigationView = new NavigationView({
   left: 0, top: 0, right: 0, bottom: 0
-}).appendTo(tabris.ui.contentView);
+}).appendTo(ui.contentView);
 
-var mainPage = new tabris.Page({
-  title: 'Maps examples'
-});
+let mainPage = new Page({title: 'Maps examples'}).appendTo(navigationView);
 
-mainPage.appendTo(navigationView);
+PAGES.forEach(createPageButton);
 
-pages.forEach(createPageButton);
-
-function createPageButton(pageConstructor) {
-  var page = pageConstructor.create();
-  page.autoDispose = false;
-  new tabris.Button({
+function createPageButton(PageConstructor) {
+  new Button({
     left: 16, top: 'prev() 16', right: 16,
-    text: 'Show \'' + page.title.toLowerCase() + '\' example'
-  }).on('select', function() {
-    page.appendTo(navigationView);
-  }).appendTo(mainPage);
+    text: 'Show \'' + PageConstructor.name.toLowerCase() + '\' example'
+  }).on('select', () => new PageConstructor().appendTo(navigationView))
+    .appendTo(mainPage);
 }
