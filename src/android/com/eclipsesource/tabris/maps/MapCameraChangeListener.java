@@ -33,7 +33,8 @@ public class MapCameraChangeListener implements OnCameraMoveStartedListener, OnC
   public void onCameraIdle() {
     CameraPosition cameraPosition = mapHolderView.getGoogleMap().getCameraPosition();
     notifyChangeCameraEvent(cameraPosition);
-    if (reason == OnCameraMoveStartedListener.REASON_GESTURE) {
+    if (reason == OnCameraMoveStartedListener.REASON_GESTURE ||
+        reason == OnCameraMoveStartedListener.REASON_API_ANIMATION) {
       notifyCameraMoveEvent(cameraPosition);
     }
   }
