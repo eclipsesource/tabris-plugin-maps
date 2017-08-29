@@ -3,11 +3,11 @@ const {Button, Composite, Page, TextView} = require('tabris');
 class PositionPage extends Page {
 
   constructor() {
-    super({title: PositionPage.name});
+    super({title: PositionPage.NAME});
     this._createUI();
   }
 
-  static get name() {
+  static get NAME() {
     return 'Position';
   }
 

@@ -3,11 +3,11 @@ const {Button, Composite, Page, TextView} = require('tabris');
 class RegionPage extends Page {
 
   constructor() {
-    super({title: RegionPage.name});
+    super({title: RegionPage.NAME});
     this._createUI();
   }
 
-  static get name() {
+  static get NAME() {
     return 'Region';
   }
 

@@ -17,7 +17,7 @@ PAGES.forEach(createPageButton);
 function createPageButton(PageConstructor) {
   new Button({
     left: 16, top: 'prev() 16', right: 16,
-    text: 'Show \'' + PageConstructor.name.toLowerCase() + '\' example'
+    text: 'Show \'' + PageConstructor.NAME.toLowerCase() + '\' example'
   }).on('select', () => new PageConstructor().appendTo(navigationView))
     .appendTo(mainPage);
 }
