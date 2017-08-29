@@ -17,10 +17,10 @@ new esmaps.Map({
 }).appendTo(tabris.ui.contentView);
 ```
 
-A more elaborate example can be found in the [example](example/) folder. It provides a Tabris.js cordova project that demonstrates the various features of the `tabris-plugin-maps` widget. When building the example project don't forget to run `npm install` inside the `www` folder to fetch the Tabris.js dependencies.
+A more elaborate example can be found in the [example](example/) folder. It provides a Tabris.js app that demonstrates various features of the `tabris-plugin-maps` widget.
 
 ## Integrating the plugin
-Using the plugin follows the standard cordova plugin mechanism. The Tabris.js website provides detailed information on how to [integrate custom widgets](https://tabrisjs.com/documentation/latest/build#adding-plugins) in your Tabris.js based app.
+The Tabris.js website provides detailed information on how to [integrate custom widgets](https://tabrisjs.com/documentation/latest/build#adding-plugins) in your Tabris.js based app.
 
 ### Add the plugin to your project
 
@@ -38,21 +38,17 @@ To fetch the latest development version use the GitHub url:
 
 #### Android
 
-On Android a Google Maps API key has to be provided when adding the plugin to your Cordova project. The documentation for the Google Maps API explains how to [acquire an API key](https://developers.google.com/maps/documentation/android/signup).
+On Android a Google Maps API key has to be provided when adding the plugin to your Tabris.js app. The documentation for the Google Maps API explains how to [acquire an API key](https://developers.google.com/maps/documentation/android/signup).
 
-The API key can be configured inside your apps `config.xml`:
+The API key can be configured inside your app's `config.xml`:
 
 ```xml
 <plugin name="tabris-plugin-maps" spec="3.0.0">
-  <variable name="ANDROID_API_KEY" value="your-android-maps-api-key" />
+  <variable name="ANDROID_API_KEY" value="$ANDROID_API_KEY" />
 </plugin>
 ```
 
-Alternatively the API key can be added during the `cordova plugin add` command:
-
-```bash
-cordova plugin add <path-to-tabris-maps-plugin> --variable ANDROID_API_KEY=`your-android-maps-api-key`
-```
+When the environment variable `ANDROID_API_KEY` is set, Tabris.js CLI will replace the value placeholder `$ANDROID_API_KEY` in the config.xml during build.
 
 ## API documentation
 
