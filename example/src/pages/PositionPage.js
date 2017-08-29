@@ -13,7 +13,7 @@ class PositionPage extends Page {
 
   _createUI() {
     let controls = new Composite({
-      left: 0, right: 0, bottom: 0,
+      left: 0, right: 0, bottom: 0, height: 144,
       background: 'white',
       elevation: 6
     }).appendTo(this);
@@ -39,12 +39,12 @@ class PositionPage extends Page {
 
     let updatePositionButton = new Button({
       text: 'Get position',
-      left: 16, top: [paris, 16], bottom: 16
+      left: 16, bottom: 16
     }).on('select', () => this._updatePositionLabel())
       .appendTo(controls);
 
     this._positionLabel = new TextView({
-      left: [updatePositionButton, 16], right: 16, top: [paris, 16], bottom: 16,
+      left: [updatePositionButton, 16], right: 16, bottom: 20,
       markupEnabled: true
     }).appendTo(controls);
   }
