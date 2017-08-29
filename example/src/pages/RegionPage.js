@@ -13,7 +13,7 @@ class RegionPage extends Page {
 
   _createUI() {
     let controls = new Composite({
-      left: 0, right: 0, bottom: 0,
+      left: 0, right: 0, bottom: 0, height: 152,
       background: 'white',
       elevation: 6
     }).appendTo(this);
@@ -37,11 +37,11 @@ class RegionPage extends Page {
       left: '50% 8', right: 16, top: 16,
       text: 'Show Sydney'
     }).on('select', () => {
-      map.region = {southWest: [-33.912452, 151.1260233], northEast: [-33.785166, 151.2875383]};
+      this._map.region = {southWest: [-33.912452, 151.1260233], northEast: [-33.785166, 151.2875383]};
     }).appendTo(controls);
 
     this._regionLabel = new TextView({
-      left: 16, right: 16, top: [paris, 16], bottom: 16,
+      left: 16, right: 16, bottom: 16,
       lineSpacing: 1.2,
       markupEnabled: true
     }).appendTo(controls);

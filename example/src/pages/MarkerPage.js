@@ -13,7 +13,7 @@ class MarkerPage extends Page {
 
   _createUI() {
     let controls = new Composite({
-      left: 0, right: 0, bottom: 0,
+      left: 0, right: 0, bottom: 0, height: 64,
       background: 'white',
       elevation: 6
     }).appendTo(this);

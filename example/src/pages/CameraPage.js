@@ -13,7 +13,7 @@ class CameraPage extends Page {
 
   _createUI() {
     let controls = new Composite({
-      left: 0, right: 0, bottom: 0,
+      left: 0, right: 0, bottom: 0, height: 144,
       background: 'white',
       elevation: 6
     }).appendTo(this);
@@ -40,7 +40,7 @@ class CameraPage extends Page {
 
     this._statusLabel = new TextView({
       id: 'label',
-      left: 16, right: 16, top: [paris, 16], bottom: 16,
+      left: 16, right: 16, bottom: 20,
       lineSpacing: 1.2,
       markupEnabled: true
     }).appendTo(controls);
