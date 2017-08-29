@@ -3,11 +3,11 @@ const {Composite, Page, TextView} = require('tabris');
 class MarkerPage extends Page {
 
   constructor() {
-    super({title: MarkerPage.name});
+    super({title: MarkerPage.NAME});
     this._createUI();
   }
 
-  static get name() {
+  static get NAME() {
     return 'Marker';
   }
 

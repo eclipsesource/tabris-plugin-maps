@@ -3,11 +3,11 @@ const {Button, Composite, Page, TextView} = require('tabris');
 class CameraPage extends Page {
 
   constructor() {
-    super({title: CameraPage.name});
+    super({title: CameraPage.NAME});
     this._createUI();
   }
 
-  static get name() {
+  static get NAME() {
     return 'Camera';
   }
 
