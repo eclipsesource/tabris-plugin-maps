@@ -34,8 +34,8 @@ if (rootdir) {
     var updateIOSAppDelegate = function() {
       var appDelegate = getProjectFile("ios", "Classes/AppDelegate.m");
       var projectName = cfg.name();
-      var importReplace = "#import \"AppDelegate.h\"";
-      var registerReplace = "self.client.delegate = self;"
+      var importReplace = "/* HOOK: import classes for registration */";
+      var registerReplace = "/* HOOK: tabrisClientWillStartExecuting */";
       replace(appDelegate, importReplace, importReplace + "\n#import \"ESMap.h\"\n#import \"ESMarker.h\"");
       replace(appDelegate, registerReplace, "[self.client addRemoteObject:[ESMap class]];" + "\n\t" + "[self.client addRemoteObject:[ESMarker class]];" + "\n\t" + registerReplace);
     };
