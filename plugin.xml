@@ -75,8 +75,13 @@
   </platform>
 
   <platform name="ios">
-    <!-- Hooks -->
-    <hook type="after_plugin_install" src="scripts/custom-widget.js" />
+    <!-- Add entries to TabrisPlugins.plist -->
+    <config-file target="*TabrisPlugins.plist" parent="classes">
+      <array>
+        <string>ESMap</string>
+        <string>ESMarker</string>
+      </array>
+    </config-file>
 
     <!-- Source files -->
     <header-file src="src/ios/ESMap.h" />
