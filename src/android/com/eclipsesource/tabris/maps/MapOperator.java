@@ -5,16 +5,14 @@
 package com.eclipsesource.tabris.maps;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.eclipsesource.tabris.android.AbstractOperator;
+import com.eclipsesource.tabris.android.AbstractViewOperator;
 import com.eclipsesource.tabris.android.ObjectRegistry.RegistryEntry;
 import com.eclipsesource.tabris.android.OperatorRegistry;
 import com.eclipsesource.tabris.android.Properties;
@@ -36,7 +34,7 @@ import static com.eclipsesource.tabris.maps.MapLongPressListener.EVENT_LONGPRESS
 import static com.eclipsesource.tabris.maps.MapTapListener.EVENT_TAP;
 import static com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap;
 
-public class MapOperator extends AbstractOperator<MapHolderView> {
+public class MapOperator extends AbstractViewOperator<MapHolderView> {
 
   private static final String TYPE = "com.eclipsesource.maps.Map";
   private static final String METHOD_MOVE_TO_REGION = "moveToRegion";
@@ -49,14 +47,11 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
   private static final String PROP_NORTH_EAST = "northEast";
   private static final String PROP_REGION = "region";
 
-  private final Activity activity;
-  private final TabrisContext tabrisContext;
   private final PropertyHandler<MapHolderView> mapPropertyHandler;
 
   public MapOperator(Activity activity, TabrisContext tabrisContext) {
-    this.activity = activity;
-    this.tabrisContext = tabrisContext;
-    mapPropertyHandler = new MapPropertyHandler(activity, tabrisContext);
+    super(activity, tabrisContext);
+    mapPropertyHandler = new MapPropertyHandler(getActivity(), getTabrisContext());
   }
 
   @Override
@@ -69,14 +64,14 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
     return TYPE;
   }
 
-  @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   @Override
-  public MapHolderView create(String id, Properties properties) {
-    return new MapHolderView(activity, tabrisContext);
+  public MapHolderView createView(Properties properties) {
+    return new MapHolderView(getActivity(), getTabrisContext());
   }
 
   @Override
   public void listen(String id, MapHolderView mapHolderView, String event, boolean listen) {
+    super.listen(id, mapHolderView, event, listen);
     switch (event) {
       case EVENT_READY:
         if (listen) {
@@ -155,7 +150,7 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
       Float padding = properties.getFloat(key);
       if (padding != null) {
         DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         return Math.round(metrics.density * padding);
       }
     }
@@ -165,12 +160,12 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
   private void addMarker(MapHolderView mapHolderView, Properties properties) {
     String markerId = properties.getString("marker");
     if (markerId != null) {
-      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject(markerId, MapMarker.class);
+      MapMarker mapMarker = getTabrisContext().getObjectRegistry().getObject(markerId, MapMarker.class);
       MarkerOptions markerOptions = new MarkerOptions();
       markerOptions.position(mapMarker.getPosition());
       Marker marker = mapHolderView.getGoogleMap().addMarker(markerOptions);
       mapMarker.setMarker(marker);
-      mapMarker.setMapId(tabrisContext.getObjectRegistry().getRemoteObjectForObject(mapHolderView).getId());
+      mapMarker.setMapId(getTabrisContext().getObjectRegistry().getRemoteObjectForObject(mapHolderView).getId());
       mapMarker.updateMarker();
     }
   }
@@ -178,7 +173,7 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
   private void removeMarker(Properties properties) {
     String markerId = properties.getString("marker");
     if (markerId != null) {
-      MapMarker mapMarker = tabrisContext.getObjectRegistry().getObject(markerId, MapMarker.class);
+      MapMarker mapMarker = getTabrisContext().getObjectRegistry().getObject(markerId, MapMarker.class);
       mapMarker.getMarker().remove();
       mapMarker.setMarker(null);
       mapMarker.setMapId(null);
@@ -187,6 +182,7 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
 
   @Override
   public void destroy(MapHolderView mapHolderView) {
+    super.destroy(mapHolderView);
     disableLocationIndicator(mapHolderView);
     ViewParent parent = mapHolderView.getParent();
     if (parent instanceof ViewGroup) {
@@ -196,21 +192,21 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
   }
 
   private void disableLocationIndicator(MapHolderView mapHolderView) {
-    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
       mapHolderView.getGoogleMap().setMyLocationEnabled(false);
     }
   }
 
   private void destroyMarker(MapHolderView mapHolderView) {
-    String mapId = tabrisContext.getObjectRegistry().getRemoteObjectForObject(mapHolderView).getId();
-    for (RegistryEntry registryEntry : tabrisContext.getObjectRegistry().getEntries()) {
+    String mapId = getTabrisContext().getObjectRegistry().getRemoteObjectForObject(mapHolderView).getId();
+    for (RegistryEntry registryEntry : getTabrisContext().getObjectRegistry().getEntries()) {
       Object object = registryEntry.getObject();
       if (object instanceof MapMarker) {
         MapMarker mapMarker = (MapMarker)object;
         String markerMapId = mapMarker.getMapId();
         if (markerMapId != null && markerMapId.equals(mapId)) {
-          OperatorRegistry operatorRegistry = ((TabrisActivity)activity).getWidgetToolkit().getOperatorRegistry();
+          OperatorRegistry operatorRegistry = ((TabrisActivity) getActivity()).getWidgetToolkit().getOperatorRegistry();
           ((MarkerOperator)operatorRegistry.get(MarkerOperator.TYPE)).destroy(mapMarker);
         }
       }
@@ -219,7 +215,7 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
 
   private void attachOnMapClickListener(MapHolderView mapHolderView) {
     getGoogleMapSafely(mapHolderView)
-        .setOnMapClickListener(new MapTapListener(tabrisContext.getObjectRegistry(), mapHolderView));
+        .setOnMapClickListener(new MapTapListener(getTabrisContext().getObjectRegistry(), mapHolderView));
   }
 
   private void removeOnMapClickListener(MapHolderView mapHolderView) {
@@ -228,7 +224,7 @@ public class MapOperator extends AbstractOperator<MapHolderView> {
 
   private void attachOnMapLongClickListener(MapHolderView mapHolderView) {
     getGoogleMapSafely(mapHolderView)
-        .setOnMapLongClickListener(new MapLongPressListener(tabrisContext.getObjectRegistry(), mapHolderView));
+        .setOnMapLongClickListener(new MapLongPressListener(getTabrisContext().getObjectRegistry(), mapHolderView));
   }
 
   private void removeOnMapLongClickListener(MapHolderView mapHolderView) {

@@ -1,4 +1,8 @@
-<manifest package="com.eclipsesource.tabris.maps">
+<manifest package="com.eclipsesource.tabris.maps"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application />
 
