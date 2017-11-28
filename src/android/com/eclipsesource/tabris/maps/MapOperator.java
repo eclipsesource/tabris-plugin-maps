@@ -9,8 +9,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import com.eclipsesource.tabris.android.AbstractViewOperator;
 import com.eclipsesource.tabris.android.ObjectRegistry.RegistryEntry;
@@ -182,13 +180,9 @@ public class MapOperator extends AbstractViewOperator<MapHolderView> {
 
   @Override
   public void destroy(MapHolderView mapHolderView) {
-    super.destroy(mapHolderView);
     disableLocationIndicator(mapHolderView);
-    ViewParent parent = mapHolderView.getParent();
-    if (parent instanceof ViewGroup) {
-      ((ViewGroup)parent).removeView(mapHolderView);
-    }
     destroyMarker(mapHolderView);
+    super.destroy(mapHolderView);
   }
 
   private void disableLocationIndicator(MapHolderView mapHolderView) {
