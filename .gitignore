@@ -6,6 +6,7 @@ build/
 node_modules/
 platforms/
 plugins/
+project/
 *.iml
 local.properties
 npm-debug.log*
