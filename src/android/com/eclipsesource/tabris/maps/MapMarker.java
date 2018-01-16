@@ -1,5 +1,7 @@
 package com.eclipsesource.tabris.maps;
 
+import android.graphics.Bitmap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
@@ -7,6 +9,7 @@ public class MapMarker {
 
   private LatLng position;
   private String title;
+  private BitmapDescriptor icon;
   private String subtitle;
   private Marker marker;
   private String mapId;
@@ -17,6 +20,10 @@ public class MapMarker {
 
   public LatLng getPosition() {
     return position;
+  }
+
+  public void setIcon(BitmapDescriptor icon) {
+    this.icon = icon;
   }
 
   public void setTitle(String title) {
@@ -47,6 +54,7 @@ public class MapMarker {
     if (marker != null) {
       marker.setPosition(position);
       marker.setTitle(title);
+      marker.setIcon(icon);
       marker.setSnippet(subtitle);
     }
   }
