@@ -219,6 +219,10 @@ A `Marker` is used to indicate places and positions on the Map.
 
 * The current position of the marker if set. The position is an array consisting of latitude and longitude: E.g. `[48.8644458, 2.3589976]`
 
+##### `image` : _Image_
+
+* Image to be shown instead of the standard marker image.
+
 #### Events
 
 ##### `tap`

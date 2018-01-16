@@ -15,7 +15,7 @@ public class MarkerOperator extends AbstractOperator<MapMarker> {
   private final MarkerPropertyHandler<MapMarker> markerPropertyHandler;
 
   public MarkerOperator(Activity activity, TabrisContext tabrisContext) {
-    markerPropertyHandler = new MarkerPropertyHandler<>();
+    markerPropertyHandler = new MarkerPropertyHandler<>(tabrisContext);
   }
 
   @Override
