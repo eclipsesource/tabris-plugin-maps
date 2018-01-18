@@ -221,7 +221,7 @@ A `Marker` is used to indicate places and positions on the Map.
 
 ##### `image` : _Image_
 
-* Image to be shown instead of the standard marker image.
+* Image to be shown instead of the standard marker image. *Cannot be changed on iOS once the marker has been rendered.*
 
 #### Events
 

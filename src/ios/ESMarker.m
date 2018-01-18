@@ -9,10 +9,6 @@
 #import "ESMarker.h"
 #import "ESMap.h"
 
-@interface ESMarker ()
-@property (weak) ESMap *map;
-@end
-
 @implementation ESMarker
 
 @synthesize position = _position;
@@ -20,7 +16,7 @@
 @synthesize coordinate = _coordinate;
 @synthesize title = _title;
 @synthesize subtitle = _subtitle;
-@synthesize map = _map;
+@synthesize image = _image;
 
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
     self = [super initWithObjectId:objectId properties:properties andClient:client];

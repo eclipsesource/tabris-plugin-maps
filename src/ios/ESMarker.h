@@ -11,6 +11,7 @@
 
 @interface ESMarker : BasicWidget <MKAnnotation>
 @property (strong) NSArray *position;
+@property (strong) NSArray *image;
 @property (assign) BOOL tapListener;
 - (void)tapped;
 @end
