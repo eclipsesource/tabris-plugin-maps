@@ -74,9 +74,5 @@
     _coordinate = newCoordinate;
 }
 
--(void)destroy {
-    self.map = nil;
-    [super destroy];
-}
 
 @end

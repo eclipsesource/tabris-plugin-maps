@@ -11,7 +11,7 @@
 #import <MapKit/MapKit.h>
 
 @interface ESMarker : BasicWidget <MKAnnotation>
-@property (strong) ESMap *map;
+@property (weak) ESMap *map;
 @property (strong) NSArray *position;
 @property (strong) NSArray *image;
 @property (assign) BOOL tapListener;
