@@ -9,10 +9,6 @@
 #import "ESMarker.h"
 #import "ESMap.h"
 
-@interface ESMarker ()
-@property (weak) ESMap *map;
-@end
-
 @implementation ESMarker
 
 @synthesize position = _position;
@@ -20,6 +16,7 @@
 @synthesize coordinate = _coordinate;
 @synthesize title = _title;
 @synthesize subtitle = _subtitle;
+@synthesize image = _image;
 @synthesize map = _map;
 
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
@@ -39,6 +36,17 @@
         [self setCoordinate:CLLocationCoordinate2DMake(0, 0)];
     }
     return self;
+}
+
+-(void)setImage:(NSArray *)image {
+    _image = image;
+    if (self.map) {
+        [self.map refreshMarker: self];
+    }
+}
+
+-(NSArray *)image {
+    return _image;
 }
 
 - (UIView *)view {
@@ -65,5 +73,6 @@
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate {
     _coordinate = newCoordinate;
 }
+
 
 @end
