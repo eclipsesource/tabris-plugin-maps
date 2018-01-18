@@ -25,4 +25,5 @@
 - (void)addMarker:(NSDictionary *)properties;
 - (void)removeMarker:(NSDictionary *)properties;
 - (void)moveToRegion: (NSDictionary *)properties;
+- (void)refreshMarker:(ESMarker *)marker;
 @end
