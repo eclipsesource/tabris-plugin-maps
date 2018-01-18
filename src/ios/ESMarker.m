@@ -17,6 +17,7 @@
 @synthesize title = _title;
 @synthesize subtitle = _subtitle;
 @synthesize image = _image;
+@synthesize map = _map;
 
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
     self = [super initWithObjectId:objectId properties:properties andClient:client];
@@ -35,6 +36,17 @@
         [self setCoordinate:CLLocationCoordinate2DMake(0, 0)];
     }
     return self;
+}
+
+-(void)setImage:(NSArray *)image {
+    _image = image;
+    if (self.map) {
+        [self.map refreshMarker: self];
+    }
+}
+
+-(NSArray *)image {
+    return _image;
 }
 
 - (UIView *)view {
@@ -60,6 +72,11 @@
 
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate {
     _coordinate = newCoordinate;
+}
+
+-(void)destroy {
+    self.map = nil;
+    [super destroy];
 }
 
 @end

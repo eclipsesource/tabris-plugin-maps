@@ -337,6 +337,7 @@
 
 - (void)addMarker:(NSDictionary *)properties {
     ESMarker *marker = [self getMarkerFrom:properties];
+    marker.map = self;
     if (marker) {
         [self.map addAnnotation:(ESMarker *) marker];
     }
@@ -450,6 +451,11 @@
         view.image = nil;
         markerViewHolder = nil;
     }];
+}
+
+- (void) refreshMarker:(ESMarker *)marker {
+    [self.map removeAnnotation:marker];
+    [self.map addAnnotation:marker];
 }
 
 - (void)destroy {
