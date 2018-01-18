@@ -8,6 +8,7 @@
 
 #import "ESMap.h"
 #import "ESMarker.h"
+#import "UIImageView+Tabris.h"
 #import <MapKit/MapKit.h>
 
 @interface MKMapView (Tabris)
@@ -336,6 +337,7 @@
 
 - (void)addMarker:(NSDictionary *)properties {
     ESMarker *marker = [self getMarkerFrom:properties];
+    marker.map = self;
     if (marker) {
         [self.map addAnnotation:(ESMarker *) marker];
     }
@@ -414,6 +416,46 @@
     }
     ESMarker *marker = (ESMarker *)view.annotation;
     [marker tapped];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    if (![annotation isKindOfClass:[ESMarker class]]) {
+        return nil;
+    }
+    NSArray* image = ((ESMarker *) annotation).image;
+    NSString* reuseIdentifier = image ? [image objectAtIndex:0] : @"pin";
+    MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
+    if (view) {
+        view.annotation = annotation;
+        return view;
+    }
+    return [self createAnnotationView:annotation reuseIdentifier:reuseIdentifier image:image];
+}
+
+- (MKAnnotationView*)createAnnotationView:(id<MKAnnotation>)annotation reuseIdentifier:(NSString*)reuseIdentifier image:(NSArray *)image {
+    if (image) {
+        MKAnnotationView* view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+        [self setAnnotationViewImage:view image:image];
+        return view;
+    } else {
+        return [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+    }
+}
+
+- (void)setAnnotationViewImage:(MKAnnotationView *)view image: (NSArray *) image {
+    __block UIImageView *markerViewHolder = [[UIImageView alloc] init];
+    [markerViewHolder setImageWithProperties:image client:self.client success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *uiImage) {
+        view.image = uiImage;
+        markerViewHolder = nil;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        view.image = nil;
+        markerViewHolder = nil;
+    }];
+}
+
+- (void) refreshMarker:(ESMarker *)marker {
+    [self.map removeAnnotation:marker];
+    [self.map addAnnotation:marker];
 }
 
 - (void)destroy {
