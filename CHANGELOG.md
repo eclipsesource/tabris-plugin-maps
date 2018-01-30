@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+## Version 4.0.0
+
+* Update tabris-plugin-maps to Tabris.js 2.2 custom widget API. This version is not compatible with Tabris.js 2.0 and 2.1 anymore.
+* Support customizing the marker appearance by applying a custom image.
+
 ## Version 3.0.0
 
 * Migrate tabris-plugin-maps to Tabris.js 2 API (breaks compatibility with Tabris.js 1.x)

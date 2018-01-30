@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget xmlns="http://www.w3.org/ns/widgets"
         id="com.eclipsesource.tabris.maps.example"
-        version="3.0.0"
+        version="4.0.0"
         android-packageName="com.eclipsesource.tabris.maps.example"
         android-versionCode="2">
   <name>Tabris.js Maps Plugin Example</name>
