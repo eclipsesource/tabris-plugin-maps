@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+## Version 4.0.1
+
+* Fix marker image scaling on Android.
+
 ## Version 4.0.0
 
 * Update tabris-plugin-maps to Tabris.js 2.2 custom widget API. This version is not compatible with Tabris.js 2.0 and 2.1 anymore.

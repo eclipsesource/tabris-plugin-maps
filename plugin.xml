@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="tabris-plugin-maps"
-        version="4.0.0">
+        version="4.0.1">
 
   <name>Tabris.js Maps Plugin</name>
   <description>A maps widget for Tabris.js. It is based on Google Maps on Android and MapKit on iOS.</description>
