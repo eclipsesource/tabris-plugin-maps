@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+## Version 3.1.0
+
+* Support customizing the marker appearance by applying a custom image.
+
 ## Version 3.0.0
 
 * Migrate tabris-plugin-maps to Tabris.js 2 API (breaks compatibility with Tabris.js 1.x)
