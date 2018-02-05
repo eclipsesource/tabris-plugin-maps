@@ -73,9 +73,6 @@ public class MarkerPropertyHandler<T extends MapMarker> implements PropertyHandl
   }
 
   private Bitmap drawableToBitmap(Drawable drawable) {
-    if (drawable instanceof BitmapDrawable) {
-      return ((BitmapDrawable) drawable).getBitmap();
-    }
     Canvas canvas = new Canvas();
     Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
     canvas.setBitmap(bitmap);
