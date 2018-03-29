@@ -237,7 +237,7 @@ A `Marker` is used to indicate places and positions on the Map.
 
 ## Compatibility
 
-Compatible with [Tabris.js 2.2.0](https://github.com/eclipsesource/tabris-js/releases/tag/v2.2.0)
+Compatible with [Tabris.js 2.4.0](https://github.com/eclipsesource/tabris-js/releases/tag/v2.4.0)
 
 ## Development of the widget
 
