@@ -8,7 +8,7 @@
 
 #import "ESMap.h"
 #import "ESMarker.h"
-#import "UIImageView+Tabris.h"
+#import "TabrisImage.h"
 #import <MapKit/MapKit.h>
 
 @interface MKMapView (Tabris)
@@ -154,7 +154,7 @@
 }
 
 - (MKMapRect)getRectangleFromCoordinates:(NSArray *)northEastCoordinate
-                         southWestCoordinate:(NSArray *)southWestCoordinate {
+                     southWestCoordinate:(NSArray *)southWestCoordinate {
     MKMapPoint northEastPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([[northEastCoordinate objectAtIndex:0] floatValue],
                                                                                    [[northEastCoordinate objectAtIndex:1] floatValue]));
     MKMapPoint southWestPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([[southWestCoordinate objectAtIndex:0] floatValue],
@@ -443,13 +443,10 @@
 }
 
 - (void)setAnnotationViewImage:(MKAnnotationView *)view image: (NSArray *) image {
-    __block UIImageView *markerViewHolder = [[UIImageView alloc] init];
-    [markerViewHolder setImageWithProperties:image client:self.client success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *uiImage) {
-        view.image = uiImage;
-        markerViewHolder = nil;
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        view.image = nil;
-        markerViewHolder = nil;
+    __block TabrisImage *tabrisImage = [[TabrisImage alloc] initWithTabrisClient:self.client propertiesArray:image];
+    [tabrisImage getImage:^(UIImage *uiImage, NSError *error) {
+        view.image = error ? nil : uiImage;
+        tabrisImage = nil;
     }];
 }
 
