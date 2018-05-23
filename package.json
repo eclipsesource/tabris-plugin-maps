@@ -1,6 +1,6 @@
 {
   "name": "tabris-plugin-maps",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "A maps widget for Tabris.js",
   "cordova": {
     "id": "tabris-plugin-maps",
