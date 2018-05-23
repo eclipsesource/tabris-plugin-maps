@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+## Version 5.0.0
+
+* Make plugin compatible with Tabris.js 2.4 and 2.5.
+* Update used Play Services version to 12.0.1.
+
 ## Version 4.0.1
 
 * Fix marker image scaling on Android.
