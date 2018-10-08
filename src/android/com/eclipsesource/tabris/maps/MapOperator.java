@@ -7,7 +7,7 @@ package com.eclipsesource.tabris.maps;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.util.DisplayMetrics;
 
 import com.eclipsesource.tabris.android.AbstractViewOperator;

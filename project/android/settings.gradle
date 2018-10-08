@@ -1,1 +1,3 @@
 include 'maps'
+
+rootProject.name = 'tabris-plugin-maps'
