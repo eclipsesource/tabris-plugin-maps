@@ -6,11 +6,11 @@
 //
 //
 
-#import <Tabris/BasicWidget.h>
+#import <Tabris/Control.h>
 
 @class ESMarker;
 
-@interface ESMap : BasicWidget
+@interface ESMap : Control
 @property (assign) BOOL tapListener;
 @property (assign) BOOL longpressListener;
 @property (assign) BOOL readyListener;

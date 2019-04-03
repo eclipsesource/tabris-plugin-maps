@@ -19,9 +19,10 @@
 @synthesize image = _image;
 @synthesize map = _map;
 
-- (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties andClient:(TabrisClient *)client {
-    self = [super initWithObjectId:objectId properties:properties andClient:client];
+- (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties inContext:(id<TabrisContext>)context {
+    self = [super initWithObjectId:objectId properties:properties inContext:context];
     if (self) {
+        self.coordinate = CLLocationCoordinate2DMake(0, 0);
         NSArray *coordinates = [properties objectForKey:@"position"];
         if (coordinates) {
             self.coordinate = CLLocationCoordinate2DMake([[coordinates objectAtIndex:0] floatValue], [[coordinates objectAtIndex:1] floatValue]);
@@ -30,22 +31,14 @@
     return self;
 }
 
-- (instancetype)initWithObjectId:(NSString *)objectId andClient:(TabrisClient *)client {
-    self = [super initWithObjectId:objectId andClient:client];
-    if (self) {
-        [self setCoordinate:CLLocationCoordinate2DMake(0, 0)];
-    }
-    return self;
-}
-
--(void)setImage:(NSArray *)image {
+- (void)setImage:(NSArray *)image {
     _image = image;
     if (self.map) {
-        [self.map refreshMarker: self];
+        [self.map refreshMarker:self];
     }
 }
 
--(NSArray *)image {
+- (NSArray *)image {
     return _image;
 }
 
@@ -65,8 +58,7 @@
 
 - (void)tapped {
     if (self.tapListener) {
-        Message<Notification> *message = [[self notifications] forObject:self];
-        [message fireEvent:@"tap" withAttributes:@{}];
+        [self fireEventNamed:@"tap" withAttributes:@{}];
     }
 }
 

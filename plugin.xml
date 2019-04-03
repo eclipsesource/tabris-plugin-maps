@@ -88,7 +88,6 @@
     <source-file src="src/ios/ESMap.m" />
     <header-file src="src/ios/ESMarker.h" />
     <source-file src="src/ios/ESMarker.m" />
-    <header-file src="src/ios/TabrisImage.h" />
 
     <!-- Required frameworks -->
     <framework src="MapKit.framework" />
