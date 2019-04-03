@@ -1,4 +1,4 @@
-const {Button, NavigationView, Page, ui} = require('tabris');
+const {Button, NavigationView, Page, ui, contentView} = require('tabris');
 const PositionPage = require('./pages/PositionPage');
 const CameraPage = require('./pages/CameraPage');
 const RegionPage = require('./pages/RegionPage');
@@ -8,7 +8,7 @@ const PAGES = [PositionPage, CameraPage, RegionPage, MarkerPage];
 
 let navigationView = new NavigationView({
   left: 0, top: 0, right: 0, bottom: 0
-}).appendTo(ui.contentView);
+}).appendTo(contentView);
 
 let mainPage = new Page({title: 'Maps examples'}).appendTo(navigationView);
 
