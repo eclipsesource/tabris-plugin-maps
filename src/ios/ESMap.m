@@ -93,6 +93,9 @@
         self.pinchRecognizer = nil;
         self.gestureWasRecognized = NO;
         self.readyEventToken = 0;
+        self.interactiveWhenEnabled = YES;
+        [self adjustUserInteraction];
+        [self defineWidgetView:self.map];
         [self registerSelector:@selector(moveToRegion:) forCall:@"moveToRegion"];
         [self registerSelector:@selector(addMarker:) forCall:@"addMarker"];
         [self registerSelector:@selector(removeMarker:) forCall:@"removeMarker"];
@@ -118,10 +121,6 @@
     [set addObject:@"cameraMovedListener"];
     [set addObject:@"changecameraListener"];
     return set;
-}
-
-- (UIView *)view {
-    return self.map;
 }
 
 - (void)regionWillChangeByUserInteraction:(UIGestureRecognizer*)gestureRecognizer {
@@ -450,7 +449,7 @@
     }];
 }
 
-- (void) refreshMarker:(ESMarker *)marker {
+- (void)refreshMarker:(ESMarker *)marker {
     [self.map removeAnnotation:marker];
     [self.map addAnnotation:marker];
 }

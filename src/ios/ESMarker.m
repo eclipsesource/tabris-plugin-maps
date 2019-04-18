@@ -38,19 +38,15 @@
     return self;
 }
 
--(void)setImage:(NSArray *)image {
+- (void)setImage:(NSArray *)image {
     _image = image;
     if (self.map) {
         [self.map refreshMarker: self];
     }
 }
 
--(NSArray *)image {
+- (NSArray *)image {
     return _image;
-}
-
-- (UIView *)view {
-    return nil;
 }
 
 + (NSMutableSet *)remoteObjectProperties {
