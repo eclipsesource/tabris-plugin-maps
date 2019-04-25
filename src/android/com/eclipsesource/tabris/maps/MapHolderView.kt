@@ -22,7 +22,7 @@ class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activi
     createMap()
   }
 
-  fun createMap() {
+  private fun createMap() {
     mapFragment = SupportMapFragment()
     if (scope.activity is AppCompatActivity) {
       scope.activity
