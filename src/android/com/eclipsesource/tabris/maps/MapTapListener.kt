@@ -1,7 +1,6 @@
 package com.eclipsesource.tabris.maps
 
 import com.eclipsesource.tabris.android.ActivityScope
-import com.eclipsesource.tabris.maps.MapHolderView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 

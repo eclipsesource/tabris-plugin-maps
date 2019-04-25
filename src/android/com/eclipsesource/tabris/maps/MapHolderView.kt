@@ -13,8 +13,9 @@ import com.google.android.gms.maps.SupportMapFragment
 @SuppressLint("ViewConstructor")
 class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activity), OnMapReadyCallback {
 
-  var googleMap: GoogleMap? = null
   private lateinit var mapFragment: SupportMapFragment
+
+  var googleMap: GoogleMap? = null
 
   init {
     id = View.generateViewId()

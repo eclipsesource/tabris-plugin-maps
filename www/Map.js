@@ -26,8 +26,8 @@ Map.prototype._trigger = function(name, event) {
 
 Object.assign(Map.prototype, {
 
-  _create: function() {
-    tabris.NativeObject.prototype._create.apply(this, arguments);
+  _nativeCreate: function() {
+    tabris.NativeObject.prototype._nativeCreate.apply(this, arguments);
     this._markers = [];
     return this;
   },

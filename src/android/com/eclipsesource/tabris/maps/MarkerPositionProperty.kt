@@ -2,7 +2,6 @@ package com.eclipsesource.tabris.maps
 
 import com.eclipsesource.tabris.android.V8ArrayProperty
 import com.eclipsesource.tabris.android.internal.ktx.asList
-import com.eclipsesource.tabris.maps.MapMarker
 import com.eclipsesource.v8.V8Array
 import com.google.android.gms.maps.model.LatLng
 

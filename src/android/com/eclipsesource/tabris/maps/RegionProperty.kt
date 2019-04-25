@@ -10,11 +10,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-class RegionProperty : V8ObjectProperty<MapHolderView>("position") {
+class RegionProperty : V8ObjectProperty<MapHolderView>("region") {
 
   override fun set(mapHolderView: MapHolderView, v8Object: V8Object?) {
     v8Object?.let {
-      val bounds = createBoundsFromBoundingBox(it.getObject("region"))
+      val bounds = createBoundsFromBoundingBox(it)
       mapHolderView.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0))
     }
   }
