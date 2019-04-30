@@ -8,7 +8,7 @@ import com.eclipsesource.v8.V8Object
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
 class MarkerHandler(scope: ActivityScope) : ObjectHandler<MapMarker> {
 
-  override val type = TYPE
+  override val type = "com.eclipsesource.maps.Marker"
 
   override val properties: List<Property<MapMarker, *>> = listOf(
       MarkerImageProperty(scope),
@@ -21,10 +21,6 @@ class MarkerHandler(scope: ActivityScope) : ObjectHandler<MapMarker> {
 
   override fun destroy(mapMarker: MapMarker) {
     mapMarker.marker?.remove()
-  }
-
-  companion object {
-    const val TYPE = "com.eclipsesource.maps.Marker"
   }
 
 }

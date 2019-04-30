@@ -146,7 +146,7 @@ open class MapHandler(private val scope: ActivityScope) : ObjectHandler<MapHolde
     val mapId = scope.remoteObject(mapHolderView)?.id
     scope.objectRegistry.find<MapMarker>()
         .filter { it.mapId == mapId }
-        .forEach { scope.objectHandlerRegistry.findByType(MarkerHandler.TYPE)?.destroy(it) }
+        .forEach { scope.bridge.destroy(it) }
   }
 
   private fun attachOnMapClickListener(mapHolderView: MapHolderView) {
