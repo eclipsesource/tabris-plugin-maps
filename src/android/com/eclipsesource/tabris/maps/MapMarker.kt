@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 
-data class MapMarker(var position: LatLng? = null,
+class MapMarker(var position: LatLng? = null,
                      var title: String? = null,
                      var icon: BitmapDescriptor? = null,
                      var subtitle: String? = null,
