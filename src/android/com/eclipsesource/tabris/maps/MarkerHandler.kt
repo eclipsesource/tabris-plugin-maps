@@ -13,7 +13,7 @@ class MarkerHandler(scope: ActivityScope) : ObjectHandler<MapMarker> {
   override val properties: List<Property<MapMarker, *>> = listOf(
       MarkerImageProperty(scope),
       MarkerPositionProperty(),
-      MarkerSubtitleProperty,
+      MarkerSnippetProperty,
       MarkerTitleProperty
   )
 

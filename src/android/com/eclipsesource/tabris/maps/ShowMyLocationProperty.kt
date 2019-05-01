@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.eclipsesource.tabris.android.ActivityScope
 import com.eclipsesource.tabris.android.BooleanProperty
-import com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap
 
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
 class ShowMyLocationProperty(private val scope: ActivityScope) : BooleanProperty<MapHolderView>("showMyLocation") {
@@ -19,8 +18,10 @@ class ShowMyLocationProperty(private val scope: ActivityScope) : BooleanProperty
   }
 
   override fun get(mapHolderView: MapHolderView): Boolean {
-    validateGoogleMap(mapHolderView.googleMap, "Only call get on map when it is ready.")
-    return mapHolderView.googleMap?.isMyLocationEnabled ?: false
+    val googleMap = requireNotNull(mapHolderView.googleMap) {
+      "Google Map is not yet ready. Only call get on map when it is ready."
+    }
+    return googleMap.isMyLocationEnabled
   }
 
 }

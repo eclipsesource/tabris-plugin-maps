@@ -4,7 +4,7 @@ import com.eclipsesource.tabris.android.StringProperty
 import com.google.android.gms.maps.GoogleMap
 
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-class MapTypeProperty : StringProperty<MapHolderView>("mapType") {
+object MapTypeProperty : StringProperty<MapHolderView>("mapType") {
 
   private val mapTypes = mapOf(
       "none" to GoogleMap.MAP_TYPE_NONE,
@@ -23,12 +23,7 @@ class MapTypeProperty : StringProperty<MapHolderView>("mapType") {
 
   override fun get(mapHolderView: MapHolderView): Any? {
     val mapType = mapHolderView.googleMap?.mapType
-    for ((key, value) in mapTypes) {
-      if (value == mapType) {
-        return key
-      }
-    }
-    return null
+    return mapTypes.filterValues { it == mapType }.keys.elementAtOrNull(0)
   }
 
 }

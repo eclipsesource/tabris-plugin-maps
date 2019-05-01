@@ -16,11 +16,7 @@ class MarkerPositionProperty : V8ArrayProperty<MapMarker>("position") {
     marker.position = LatLng(position[0], position[1])
   }
 
-  override fun get(marker: MapMarker): Any? {
-    val position = marker.position
-    return if (position != null) {
-      listOf(position.latitude, position.longitude)
-    } else null
-  }
+  override fun get(marker: MapMarker): Any? =
+      marker.position?.let { listOf(it.latitude, it.longitude) }
 
 }

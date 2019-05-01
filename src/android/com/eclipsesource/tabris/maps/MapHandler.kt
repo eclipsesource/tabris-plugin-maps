@@ -2,39 +2,40 @@ package com.eclipsesource.tabris.maps
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.util.DisplayMetrics
 import androidx.core.content.ContextCompat
 import com.eclipsesource.tabris.android.ActivityScope
-import com.eclipsesource.tabris.android.ObjectHandler
 import com.eclipsesource.tabris.android.Property
 import com.eclipsesource.tabris.android.internal.ktx.asList
 import com.eclipsesource.tabris.android.internal.ktx.getFloat
-import com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap
+import com.eclipsesource.tabris.android.internal.ktx.toPixel
+import com.eclipsesource.tabris.android.internal.nativeobject.view.ViewHandler
 import com.eclipsesource.v8.V8Object
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlin.math.roundToInt
 
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-open class MapHandler(private val scope: ActivityScope) : ObjectHandler<MapHolderView> {
+open class MapHandler(private val scope: ActivityScope) : ViewHandler<MapHolderView>(scope) {
 
   override val type = "com.eclipsesource.maps.Map"
 
   override val properties: List<Property<MapHolderView, *>> = listOf(
-      CameraProperty(),
-      MapTypeProperty(),
+      CameraProperty,
+      MapTypeProperty,
       MyLocationProperty,
-      PositionProperty(),
-      RegionProperty(),
-      ShowMyLocationButtonProperty(),
+      PositionProperty,
+      RegionProperty,
+      ShowMyLocationButtonProperty,
       ShowMyLocationProperty(scope)
   )
 
   override fun create(id: String, properties: V8Object) = MapHolderView(scope)
 
   override fun listen(id: String, mapHolderView: MapHolderView, event: String, listen: Boolean) {
+    super.listen(id, mapHolderView, event, listen)
     when (event) {
       "ready" -> if (listen) {
         mapHolderView.setOnMapReadyListener()
@@ -72,10 +73,8 @@ open class MapHandler(private val scope: ActivityScope) : ObjectHandler<MapHolde
     }
   }
 
-  private fun getAnimateFromOptions(properties: V8Object): Boolean {
-    val optionProperties = properties.getObject("options")
-    return optionProperties?.getBoolean("animate") ?: false
-  }
+  private fun getAnimateFromOptions(properties: V8Object): Boolean =
+      properties.getObject("options")?.getBoolean("animate") ?: false
 
   private fun createBoundsFromRegion(properties: V8Object): LatLngBounds {
     val region = properties.getObject("region")
@@ -86,20 +85,8 @@ open class MapHandler(private val scope: ActivityScope) : ObjectHandler<MapHolde
         LatLng(northEast[0], northEast[1]))
   }
 
-  private fun getPaddingFromOptions(properties: V8Object): Int {
-    return getScaledFloat(properties.getObject("options"), "padding")
-  }
-
-  private fun getScaledFloat(properties: V8Object?, key: String): Int {
-    properties?.let {
-      it.getFloat(key).let { padding ->
-        val metrics = DisplayMetrics()
-        scope.activity.windowManager.defaultDisplay.getMetrics(metrics)
-        return Math.round(metrics.density * padding)
-      }
-    }
-    return 0
-  }
+  private fun getPaddingFromOptions(properties: V8Object): Int =
+      properties.getObject("options")?.getFloat("padding")?.toPixel(scope)?.roundToInt() ?: 0
 
   private fun addMarker(mapHolderView: MapHolderView, properties: V8Object) {
     properties.getString("marker")?.let {
@@ -110,7 +97,6 @@ open class MapHandler(private val scope: ActivityScope) : ObjectHandler<MapHolde
           with(mapMarker) {
             marker = mapHolderView.googleMap?.addMarker(markerOptions)
             mapId = scope.remoteObject(mapHolderView)?.id
-            updateMarker()
           }
         }
       }
@@ -150,25 +136,23 @@ open class MapHandler(private val scope: ActivityScope) : ObjectHandler<MapHolde
   }
 
   private fun attachOnMapClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView)?.setOnMapClickListener(MapTapListener(scope, mapHolderView))
+    getGoogleMapSafely(mapHolderView).setOnMapClickListener(MapTapListener(scope, mapHolderView))
   }
 
   private fun removeOnMapClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView)?.setOnMapClickListener(null)
+    getGoogleMapSafely(mapHolderView).setOnMapClickListener(null)
   }
 
   private fun attachOnMapLongClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView)?.setOnMapLongClickListener(MapLongPressListener(scope, mapHolderView))
+    getGoogleMapSafely(mapHolderView).setOnMapLongClickListener(MapLongPressListener(scope, mapHolderView))
   }
 
   private fun removeOnMapLongClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView)?.setOnMapLongClickListener(null)
+    getGoogleMapSafely(mapHolderView).setOnMapLongClickListener(null)
   }
 
-  private fun getGoogleMapSafely(mapHolderView: MapHolderView): GoogleMap? {
-    val googleMap = mapHolderView.googleMap
-    validateGoogleMap(googleMap, "Can not get map before 'ready' event has fired.")
-    return googleMap
+  private fun getGoogleMapSafely(mapHolderView: MapHolderView): GoogleMap = requireNotNull(mapHolderView.googleMap) {
+    "Google Map is not yet ready. Can not get map before 'ready' event has fired."
   }
 
 }

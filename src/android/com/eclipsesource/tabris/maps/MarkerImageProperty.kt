@@ -16,9 +16,7 @@ class MarkerImageProperty(private val scope: ActivityScope) : V8ArrayProperty<Ma
     val imageList = Image.fromV8Array(it).toList()
     scope.imageProvider.load(imageList, object : ImageProviderListenerAdapter() {
       override fun onImageLoaded(drawable: Drawable) {
-        val bitmap = drawableToBitmap(drawable)
-        icon = BitmapDescriptorFactory.fromBitmap(bitmap)
-        updateMarker()
+        icon = BitmapDescriptorFactory.fromBitmap(drawableToBitmap(drawable))
       }
     })
   }

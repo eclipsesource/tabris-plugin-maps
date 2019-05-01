@@ -2,14 +2,13 @@ package com.eclipsesource.tabris.maps
 
 import com.eclipsesource.tabris.android.V8ObjectProperty
 import com.eclipsesource.tabris.android.internal.ktx.asList
-import com.eclipsesource.tabris.maps.MapValidator.validateGoogleMap
 import com.eclipsesource.v8.V8Object
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import java.util.Arrays.asList
 
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-class CameraProperty : V8ObjectProperty<MapHolderView>("camera") {
+object CameraProperty : V8ObjectProperty<MapHolderView>("camera") {
 
   override fun set(mapHolderView: MapHolderView, property: V8Object?) {
     val position = property?.getArray("position")?.asList<Double>()
@@ -20,10 +19,14 @@ class CameraProperty : V8ObjectProperty<MapHolderView>("camera") {
     mapHolderView.moveCamera(CameraUpdateFactory.newLatLng(latLng))
   }
 
-  override fun get(mapHolderView: MapHolderView): Any {
-    validateGoogleMap(mapHolderView.googleMap, "Only call get on map when it is ready.")
-    val target = mapHolderView.googleMap?.cameraPosition?.target
-    return mapOf("position" to asList(target!!.latitude, target.longitude))
+  override fun get(mapHolderView: MapHolderView): Any? {
+    val googleMap = requireNotNull(mapHolderView.googleMap) {
+      "Google Map is not yet ready. Only call get on map when it is ready."
+    }
+    googleMap.cameraPosition?.target?.let {
+      return mapOf("position" to asList(it.latitude, it.longitude))
+    }
+    return null
   }
 
 }

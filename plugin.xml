@@ -67,15 +67,13 @@
                  target-dir="src/com/eclipsesource/tabris/maps" />
     <source-file src="src/android/com/eclipsesource/tabris/maps/MapTypeProperty.kt"
                  target-dir="src/com/eclipsesource/tabris/maps" />
-    <source-file src="src/android/com/eclipsesource/tabris/maps/MapValidator.kt"
-                 target-dir="src/com/eclipsesource/tabris/maps" />
     <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerHandler.kt"
                  target-dir="src/com/eclipsesource/tabris/maps" />
     <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerImageProperty.kt"
                  target-dir="src/com/eclipsesource/tabris/maps" />
     <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerPositionProperty.kt"
                  target-dir="src/com/eclipsesource/tabris/maps" />
-    <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerSubtitleProperty.kt"
+    <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerSnippetProperty.kt"
                  target-dir="src/com/eclipsesource/tabris/maps" />
     <source-file src="src/android/com/eclipsesource/tabris/maps/MarkerTapListener.kt"
                  target-dir="src/com/eclipsesource/tabris/maps" />

@@ -1,10 +1,10 @@
 package com.eclipsesource.tabris.maps
 
-import com.eclipsesource.tabris.android.ActivityScope
+import com.eclipsesource.tabris.android.Scope
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 
-class MapTapListener(private val scope: ActivityScope, private val mapHolderView: MapHolderView)
+class MapTapListener(private val scope: Scope, private val mapHolderView: MapHolderView)
   : GoogleMap.OnMapClickListener {
 
   override fun onMapClick(latLng: LatLng) {
