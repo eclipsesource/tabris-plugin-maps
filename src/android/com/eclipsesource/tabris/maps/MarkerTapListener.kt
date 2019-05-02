@@ -8,14 +8,9 @@ class MarkerTapListener(private val mapHolderView: MapHolderView, private val sc
 
   override fun onMarkerClick(marker: Marker): Boolean {
     val mapId = scope.remoteObject(mapHolderView)?.id
-    scope.objectRegistry.find<MapMarker>().forEach { mapMarker ->
-      mapMarker.marker?.let {
-        if (it.id == marker.id && mapMarker.mapId == mapId) {
-          scope.remoteObject(mapMarker)?.notify("tap")
-          return true
-        }
-      }
-    }
+    scope.objectRegistry.find<MapMarker>()
+        .find { it.marker?.id == marker.id && it.mapId == mapId }
+        .let { scope.remoteObject(it)?.notify("tap") }
     return true
   }
 
