@@ -2,18 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation 'com.eclipsesource.tabris.android:tabris:3.0.0-beta2'
+    implementation 'com.eclipsesource.tabris.android:tabris:3.0.0-rc1'
     implementation 'com.google.android.gms:play-services-maps:12.0.1'
-
-    testImplementation 'androidx.test:core:1.1.0'
-    testImplementation "androidx.test.ext:junit:1.1.0"
-    testImplementation 'androidx.test:runner:1.1.1'
-    testImplementation 'androidx.test:rules:1.1.1'
-    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0'
-    testImplementation 'com.squareup.assertj:assertj-android:1.2.0'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.amshove.kluent:kluent:1.40'
-    testImplementation 'org.robolectric:robolectric:4.2.1'
 }
 
 android {
@@ -41,4 +31,3 @@ android {
     }
 
 }
-
