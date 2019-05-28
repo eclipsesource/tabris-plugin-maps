@@ -11,7 +11,6 @@ import com.eclipsesource.tabris.android.internal.ktx.toPixel
 import com.eclipsesource.tabris.android.internal.nativeobject.view.ViewHandler
 import com.eclipsesource.v8.V8Object
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
@@ -95,7 +94,7 @@ open class MapHandler(private val scope: ActivityScope) : ViewHandler<MapHolderV
           val markerOptions = MarkerOptions()
           markerOptions.position(markerPosition)
           with(mapMarker) {
-            marker = mapHolderView.googleMap?.addMarker(markerOptions)
+            marker = mapHolderView.googleMap.addMarker(markerOptions)
             mapId = scope.remoteObject(mapHolderView)?.id
           }
         }
@@ -124,7 +123,7 @@ open class MapHandler(private val scope: ActivityScope) : ViewHandler<MapHolderV
   private fun disableLocationIndicator(mapHolderView: MapHolderView) {
     if (ContextCompat.checkSelfPermission(scope.activity, Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
-      mapHolderView.googleMap?.isMyLocationEnabled = false
+      mapHolderView.googleMap.isMyLocationEnabled = false
     }
   }
 
@@ -136,23 +135,19 @@ open class MapHandler(private val scope: ActivityScope) : ViewHandler<MapHolderV
   }
 
   private fun attachOnMapClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView).setOnMapClickListener(MapTapListener(scope, mapHolderView))
+    mapHolderView.googleMap.setOnMapClickListener(MapTapListener(scope, mapHolderView))
   }
 
   private fun removeOnMapClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView).setOnMapClickListener(null)
+    mapHolderView.googleMap.setOnMapClickListener(null)
   }
 
   private fun attachOnMapLongClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView).setOnMapLongClickListener(MapLongPressListener(scope, mapHolderView))
+    mapHolderView.googleMap.setOnMapLongClickListener(MapLongPressListener(scope, mapHolderView))
   }
 
   private fun removeOnMapLongClickListener(mapHolderView: MapHolderView) {
-    getGoogleMapSafely(mapHolderView).setOnMapLongClickListener(null)
-  }
-
-  private fun getGoogleMapSafely(mapHolderView: MapHolderView): GoogleMap = requireNotNull(mapHolderView.googleMap) {
-    "Google Map is not yet ready. Can not get map before 'ready' event has fired."
+    mapHolderView.googleMap.setOnMapLongClickListener(null)
   }
 
 }

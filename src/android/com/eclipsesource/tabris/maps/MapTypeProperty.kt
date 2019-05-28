@@ -17,12 +17,12 @@ object MapTypeProperty : StringProperty<MapHolderView>("mapType") {
   override fun set(mapHolderView: MapHolderView, mapType: String?) {
     require(mapType != null) { "The 'mapType' property has to be a string value." }
     mapTypes[mapType]?.let {
-      mapHolderView.googleMap?.setMapType(it)
+      mapHolderView.googleMap.mapType = it
     }
   }
 
   override fun get(mapHolderView: MapHolderView): Any? {
-    val mapType = mapHolderView.googleMap?.mapType
+    val mapType = mapHolderView.googleMap.mapType
     return mapTypes.filterValues { it == mapType }.keys.elementAtOrNull(0)
   }
 

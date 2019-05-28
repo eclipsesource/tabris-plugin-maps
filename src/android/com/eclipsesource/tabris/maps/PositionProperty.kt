@@ -19,10 +19,7 @@ object PositionProperty : V8ArrayProperty<MapHolderView>("position") {
   }
 
   override fun get(mapHolderView: MapHolderView): List<Double>? {
-    val googleMap = requireNotNull(mapHolderView.googleMap) {
-      "Google Map is not yet ready. Only call get on map when it is ready."
-    }
-    googleMap.cameraPosition?.target?.let {
+    mapHolderView.googleMap.cameraPosition?.target?.let {
       return listOf(it.latitude, it.longitude)
     }
     return null

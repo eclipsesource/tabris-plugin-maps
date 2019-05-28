@@ -17,7 +17,7 @@ class MapCameraChangeListener(private val mapHolderView: MapHolderView, private 
   }
 
   override fun onCameraIdle() {
-    mapHolderView.googleMap?.cameraPosition?.let {
+    mapHolderView.googleMap.cameraPosition?.let {
       notifyChangeCameraEvent(it)
       when (reason) {
         REASON_GESTURE, REASON_API_ANIMATION -> notifyCameraMoveEvent(it)

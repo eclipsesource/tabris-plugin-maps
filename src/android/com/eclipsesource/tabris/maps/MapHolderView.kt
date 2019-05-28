@@ -14,8 +14,15 @@ import com.google.android.gms.maps.SupportMapFragment
 class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activity), OnMapReadyCallback {
 
   private lateinit var mapFragment: SupportMapFragment
+  private var _googleMap: GoogleMap? = null
 
-  var googleMap: GoogleMap? = null
+  var googleMap: GoogleMap
+    set(value) {
+      _googleMap = value
+    }
+    get() = requireNotNull(_googleMap) {
+      "Google Map is not yet ready. Only call get on map when it is ready."
+    }
 
   init {
     id = View.generateViewId()
@@ -24,15 +31,14 @@ class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activi
 
   private fun createMap() {
     mapFragment = SupportMapFragment()
-    if (scope.activity is AppCompatActivity) {
-      scope.activity
-          .supportFragmentManager
-          .beginTransaction()
-          .add(id, mapFragment)
-          .commit()
-    } else {
-      throw RuntimeException("Maps plugin requires " + AppCompatActivity::class.java.simpleName)
+    check(scope.activity is AppCompatActivity) {
+      "Maps plugin requires " + AppCompatActivity::class.java.simpleName
     }
+    scope.activity
+        .supportFragmentManager
+        .beginTransaction()
+        .add(id, mapFragment)
+        .commit()
   }
 
   fun setOnMapReadyListener() {
@@ -51,11 +57,11 @@ class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activi
   }
 
   fun moveCamera(cameraUpdate: CameraUpdate) {
-    googleMap?.moveCamera(cameraUpdate)
+    googleMap.moveCamera(cameraUpdate)
   }
 
   fun animateCamera(cameraUpdate: CameraUpdate) {
-    googleMap?.animateCamera(cameraUpdate)
+    googleMap.animateCamera(cameraUpdate)
   }
 
 }

@@ -14,14 +14,9 @@ class ShowMyLocationProperty(private val scope: ActivityScope) : BooleanProperty
         == PackageManager.PERMISSION_GRANTED) {
       Manifest.permission.ACCESS_FINE_LOCATION + " not available"
     }
-    mapHolderView.googleMap?.isMyLocationEnabled = showMyLocation ?: false
+    mapHolderView.googleMap.isMyLocationEnabled = showMyLocation ?: false
   }
 
-  override fun get(mapHolderView: MapHolderView): Boolean {
-    val googleMap = requireNotNull(mapHolderView.googleMap) {
-      "Google Map is not yet ready. Only call get on map when it is ready."
-    }
-    return googleMap.isMyLocationEnabled
-  }
+  override fun get(mapHolderView: MapHolderView) = mapHolderView.googleMap.isMyLocationEnabled
 
 }

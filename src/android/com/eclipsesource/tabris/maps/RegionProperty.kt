@@ -18,10 +18,7 @@ object RegionProperty : V8ObjectProperty<MapHolderView>("region") {
   }
 
   override fun get(mapHolderView: MapHolderView): Any {
-    val googleMap = requireNotNull(mapHolderView.googleMap) {
-      "Google Map is not yet ready. Only call get on map when it is ready."
-    }
-    val bounds = googleMap.projection.visibleRegion.latLngBounds
+    val bounds = mapHolderView.googleMap.projection.visibleRegion.latLngBounds
     return mapOf(
         "southWest" to listOf(bounds.southwest.latitude, bounds.southwest.longitude),
         "northEast" to listOf(bounds.northeast.latitude, bounds.northeast.longitude)
