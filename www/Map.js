@@ -10,14 +10,14 @@ Map.prototype._listen = function(name, listening) {
   if (EVENT_TYPES.indexOf(name) > -1) {
     this._nativeListen(name, listening);
   } else if (name === 'cameraChanged') {
-    this._nativeListen('changecamera', listening);
+    this._nativeListen('changeCamera', listening);
   } else {
     tabris.Widget.prototype._listen.call(this, name, listening);
   }
 };
 
 Map.prototype._trigger = function(name, event) {
-  if (name === 'changecamera') {
+  if (name === 'changeCamera') {
     this._triggerChangeEvent('camera', event);
   } else {
     tabris.Widget.prototype._trigger.call(this, name, event);
@@ -26,8 +26,8 @@ Map.prototype._trigger = function(name, event) {
 
 Object.assign(Map.prototype, {
 
-  _create: function() {
-    tabris.NativeObject.prototype._create.apply(this, arguments);
+  _nativeCreate: function() {
+    tabris.NativeObject.prototype._nativeCreate.apply(this, arguments);
     this._markers = [];
     return this;
   },
