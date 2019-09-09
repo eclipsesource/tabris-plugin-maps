@@ -5,8 +5,8 @@
         android-packageName="com.eclipsesource.tabris.maps.example"
         android-versionCode="2">
   <name>Tabris.js Maps Plugin Example</name>
-  <description>Examples for the Tabris.js maps custom widget.</description>
-  <author email="tabris@eclipsesource.com" href="https://tabrisjs.com">EclipseSource</author>
+  <description>Examples for the Tabris.js maps widget.</description>
+  <author email="care@tabris.com" href="https://tabris.com">EclipseSource</author>
 
   <preference name="EnableDeveloperConsole" value="true" />
 
