@@ -1,0 +1,26 @@
+name: Build example app
+
+on: [push]
+
+jobs:
+  build_android:
+    name: Build Android example app
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install tabris-cli
+        run: sudo npm install -g tabris-cli
+      - name: Build Tabris app in ".example"
+        env:
+          TABRIS_BUILD_KEY: ${{ secrets.TABRIS_BUILD_KEY }}
+          ANDROID_API_KEY: ${{ secrets.ANDROID_API_KEY }}
+        run: |
+          cd .example
+          sudo -E tabris build android
+      - name: Archive build Android app .apk
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: android-example-app
+          path: .example/build/cordova/platforms/android/app/build/outputs/apk/debug/app-debug.apk
