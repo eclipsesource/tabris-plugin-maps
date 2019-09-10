@@ -2,17 +2,18 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation 'com.eclipsesource.tabris.android:tabris:3.0.0'
-    implementation 'com.google.android.gms:play-services-maps:12.0.1'
+    implementation 'com.eclipsesource.tabris.android:tabris:3.2.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 android {
 
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
     }
 
     lintOptions {

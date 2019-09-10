@@ -1,10 +1,10 @@
 package com.eclipsesource.tabris.maps
 
 import com.eclipsesource.tabris.android.Scope
-import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener
-import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE
-import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_API_ANIMATION
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_API_ANIMATION
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE
 import com.google.android.gms.maps.model.CameraPosition
 
 class MapCameraChangeListener(private val mapHolderView: MapHolderView, private val scope: Scope)

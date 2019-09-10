@@ -3,6 +3,6 @@
   "description": "Example for the Tabris maps widget.",
   "main": "src/app.js",
   "dependencies": {
-    "tabris": "3.1.0"
+    "tabris": "nightly"
   }
 }

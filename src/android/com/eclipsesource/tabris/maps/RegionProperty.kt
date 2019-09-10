@@ -1,7 +1,7 @@
 package com.eclipsesource.tabris.maps
 
 import com.eclipsesource.tabris.android.V8ObjectProperty
-import com.eclipsesource.tabris.android.internal.ktx.asList
+import com.eclipsesource.tabris.android.internal.ktx.toList
 import com.eclipsesource.v8.V8Object
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
@@ -26,8 +26,8 @@ object RegionProperty : V8ObjectProperty<MapHolderView>("region") {
   }
 
   private fun createBoundsFromBoundingBox(region: V8Object): LatLngBounds {
-    val southWest = region.getArray("southWest").asList<Double>()
-    val northEast = region.getArray("northEast").asList<Double>()
+    val southWest = region.getArray("southWest").toList<Double>()
+    val northEast = region.getArray("northEast").toList<Double>()
     return LatLngBounds(
         LatLng(southWest[0], southWest[1]),
         LatLng(northEast[0], northEast[1]))

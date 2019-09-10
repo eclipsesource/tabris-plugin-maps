@@ -32,7 +32,7 @@
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
       <meta-data
-          android:name="com.google.android.maps.v2.API_KEY"
+          android:name="com.google.android.geo.API_KEY"
           android:value="$ANDROID_API_KEY" />
       <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
       <meta-data
@@ -41,7 +41,6 @@
       <meta-data
           android:name="com.eclipsesource.tabris.android.HANDLER.com.eclipsesource.tabris.maps.marker"
           android:value="com.eclipsesource.tabris.maps.MarkerHandler" />
-      <uses-library android:name="org.apache.http.legacy" android:required="false" />
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest">
@@ -49,7 +48,7 @@
       <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     </config-file>
 
-    <framework src="com.google.android.gms:play-services-maps:12.0.1" />
+    <framework src="com.google.android.gms:play-services-maps:17.0.0" />
 
     <source-file src="src/android/com/eclipsesource/tabris/maps/CameraProperty.kt"
                  target-dir="src/com/eclipsesource/tabris/maps" />

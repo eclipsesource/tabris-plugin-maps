@@ -4,6 +4,10 @@ The `tabris-plugin-maps` plugin project provides a [Tabris.js](https://tabrisjs.
 
 ![Tabris maps on iOS and Android](assets/screenshots/maps.png)
 
+## Compatibility
+
+Compatible with [Tabris.js](https://www.npmjs.com/package/tabris) 3.2.0+. For older Tabris version see repository branches.
+
 ## Example
 
 The following snippet shows how the `tabris-plugin-maps` plugin can be used in a Tabris.js app:

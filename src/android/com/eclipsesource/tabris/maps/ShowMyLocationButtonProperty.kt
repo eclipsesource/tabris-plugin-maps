@@ -10,6 +10,6 @@ object ShowMyLocationButtonProperty : BooleanProperty<MapHolderView>("showMyLoca
   }
 
   override fun get(mapHolderView: MapHolderView) =
-          mapHolderView.googleMap.uiSettings?.isMyLocationButtonEnabled ?: false
+      mapHolderView.googleMap.uiSettings?.isMyLocationButtonEnabled ?: false
 
 }

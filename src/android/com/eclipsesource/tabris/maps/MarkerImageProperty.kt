@@ -2,33 +2,32 @@ package com.eclipsesource.tabris.maps
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import com.eclipsesource.tabris.android.ActivityScope
 import com.eclipsesource.tabris.android.V8ArrayProperty
-import com.eclipsesource.tabris.android.internal.toolkit.Image
-import com.eclipsesource.tabris.android.internal.toolkit.ImageProviderListenerAdapter
+import com.eclipsesource.tabris.android.internal.image.Image
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 class MarkerImageProperty(private val scope: ActivityScope) : V8ArrayProperty<MapMarker>("image", {
   if (it == null) {
     icon = null
   } else {
-    val imageList = Image.fromV8Array(it).toList()
-    scope.imageProvider.load(imageList, object : ImageProviderListenerAdapter() {
-      override fun onImageLoaded(drawable: Drawable) {
-        icon = BitmapDescriptorFactory.fromBitmap(drawableToBitmap(drawable))
+    scope.imageLoader.load(Image(scope, it)) { drawable: Drawable? ->
+      icon = when {
+        drawable is BitmapDrawable -> BitmapDescriptorFactory.fromBitmap(drawable.bitmap)
+        drawable != null -> BitmapDescriptorFactory.fromBitmap(drawable.toBitmap())
+        else -> null
       }
-    })
+    }
   }
 })
 
-private fun drawableToBitmap(drawable: Drawable): Bitmap {
+private fun Drawable.toBitmap(): Bitmap {
   val canvas = Canvas()
-  val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+  val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
   canvas.setBitmap(bitmap)
-  with(drawable) {
-    setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-    draw(canvas)
-  }
+  setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+  draw(canvas)
   return bitmap
 }

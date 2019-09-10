@@ -1,7 +1,7 @@
 package com.eclipsesource.tabris.maps
 
 import com.eclipsesource.tabris.android.V8ArrayProperty
-import com.eclipsesource.tabris.android.internal.ktx.asList
+import com.eclipsesource.tabris.android.internal.ktx.toList
 import com.eclipsesource.v8.V8Array
 import com.google.android.gms.maps.model.LatLng
 
@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLng
 class MarkerPositionProperty : V8ArrayProperty<MapMarker>("position") {
 
   override fun set(marker: MapMarker, property: V8Array?) {
-    val position = property?.asList<Double>()
+    val position = property?.toList<Double>()
     require(position != null && position.size == 2) {
       "The 'position' property has to be a 2 element tuple but is $position"
     }

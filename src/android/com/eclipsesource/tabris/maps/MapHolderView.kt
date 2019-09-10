@@ -3,7 +3,6 @@ package com.eclipsesource.tabris.maps
 import android.annotation.SuppressLint
 import android.view.View
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import com.eclipsesource.tabris.android.ActivityScope
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.GoogleMap
@@ -31,9 +30,6 @@ class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activi
 
   private fun createMap() {
     mapFragment = SupportMapFragment()
-    check(scope.activity is AppCompatActivity) {
-      "Maps plugin requires " + AppCompatActivity::class.java.simpleName
-    }
     scope.activity
         .supportFragmentManager
         .beginTransaction()

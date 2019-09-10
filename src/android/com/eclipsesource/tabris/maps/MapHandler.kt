@@ -5,8 +5,8 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.eclipsesource.tabris.android.ActivityScope
 import com.eclipsesource.tabris.android.Property
-import com.eclipsesource.tabris.android.internal.ktx.asList
 import com.eclipsesource.tabris.android.internal.ktx.getFloat
+import com.eclipsesource.tabris.android.internal.ktx.toList
 import com.eclipsesource.tabris.android.internal.ktx.toPixel
 import com.eclipsesource.tabris.android.internal.nativeobject.view.ViewHandler
 import com.eclipsesource.v8.V8Object
@@ -77,8 +77,8 @@ open class MapHandler(private val scope: ActivityScope) : ViewHandler<MapHolderV
 
   private fun createBoundsFromRegion(properties: V8Object): LatLngBounds {
     val region = properties.getObject("region")
-    val southWest = region.getArray("southWest").asList<Double>()
-    val northEast = region.getArray("northEast").asList<Double>()
+    val southWest = region.getArray("southWest").toList<Double>()
+    val northEast = region.getArray("northEast").toList<Double>()
     return LatLngBounds(
         LatLng(southWest[0], southWest[1]),
         LatLng(northEast[0], northEast[1]))
