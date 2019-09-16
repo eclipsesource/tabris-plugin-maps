@@ -21,12 +21,13 @@
     "tabris.js",
     "maps"
   ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=3.8.0"
+  "engines": {
+    "cordovaDependencies": {
+      "5.0.0": {
+        "cordova-android": ">=8.0.0"
+      }
     }
-  ],
+  },
   "author": "EclipseSource",
   "license": "Revised BSD License (3-clause license)",
   "bugs": {
