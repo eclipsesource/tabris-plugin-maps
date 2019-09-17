@@ -431,7 +431,7 @@
 }
 
 - (void)setAnnotationViewImage:(MKAnnotationView *)view image: (NSArray *) image {
-    __block TabrisImage *tabrisImage = [[TabrisImage alloc] initWithTabrisContext:self.context propertiesArray:image];
+    __block TabrisImage *tabrisImage = [[TabrisImage alloc] initWithTabrisContext:self.context propertiesObject:image];
     [tabrisImage getImage:^(UIImage *uiImage, NSError *error) {
         view.image = error ? nil : uiImage;
         tabrisImage = nil;
