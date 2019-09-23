@@ -21,7 +21,7 @@ jobs:
       - name: Archive build Android app .apk
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: android-example-app
+          name: tabris-plugin-maps-example-android
           path: .example/build/cordova/platforms/android/app/build/outputs/apk/debug/app-debug.apk
 
   build_ios:
@@ -29,10 +29,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Update Node.js
-        run: |
-          sudo npm install -g n
-          sudo n latest
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 'x'
       - name: Install tabris-cli
         run: sudo npm install -g tabris-cli
       - name: Build Tabris app in ".example"
@@ -41,3 +40,8 @@ jobs:
         run: |
           cd .example
           sudo -E tabris build ios
+      - name: Archive build iOS .app
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: tabris-plugin-maps-example-ios
+          path: ".example/build/cordova/platforms/ios/build/emulator/Tabris.js Maps Plugin Example.app"
