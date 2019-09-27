@@ -1,47 +1,16 @@
 name: Build example app
 
-on: [push]
+on:
+  push:
+    branches:
+      - tabris-js-action
 
 jobs:
-
   build_android:
-    name: Build Android example app
+    name: Build example app for Android platform
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Install tabris-cli
-        run: sudo npm install -g tabris-cli
-      - name: Build Tabris app in ".example"
-        env:
-          TABRIS_BUILD_KEY: ${{ secrets.TABRIS_BUILD_KEY }}
-          ANDROID_API_KEY: ${{ secrets.ANDROID_API_KEY }}
-        run: |
-          cd .example
-          sudo -E tabris build android
-      - name: Archive build Android app .apk
-        uses: actions/upload-artifact@v1.0.0
+      - uses: eclipsesource/tabris-js-action@master
         with:
-          name: tabris-plugin-maps-example-android
-          path: .example/build/cordova/platforms/android/app/build/outputs/apk/debug/app-debug.apk
-
-  build_ios:
-    name: Build iOS example app
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 'x'
-      - name: Install tabris-cli
-        run: sudo npm install -g tabris-cli
-      - name: Build Tabris app in ".example"
-        env:
-          TABRIS_BUILD_KEY: ${{ secrets.TABRIS_BUILD_KEY }}
-        run: |
-          cd .example
-          sudo -E tabris build ios
-      - name: Archive build iOS .app
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: tabris-plugin-maps-example-ios
-          path: ".example/build/cordova/platforms/ios/build/emulator/Tabris.js Maps Plugin Example.app"
+          tabris-build-key: ${{ secrets.TABRIS_BUILD_KEY }}
+          path: .example
