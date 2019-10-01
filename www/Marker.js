@@ -16,8 +16,18 @@ Marker.prototype.dispose = function() {
 };
 
 tabris.NativeObject.defineProperties(Marker.prototype, {
-  position: {type: 'array', nocache: true},
-  image: {type: 'ImageValue', nocache: true, default: null}
+  position: {
+    type: {
+      convert(value) {
+        if (!Array.isArray(value)) {
+          throw new Error(value + ' is not an array');
+        }
+        return Object.freeze(value);
+      }
+    },
+    nocache: true
+  },
+  image: {type: 'ImageValue', default: null}
 });
 
 module.exports = Marker;

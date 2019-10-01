@@ -75,21 +75,35 @@ Object.assign(Map.prototype, {
 });
 
 tabris.NativeObject.defineProperties(Map.prototype, {
-  position: {type: 'array', nocache: true},
-  region: {type: 'any', nocache: true},
-  camera: {
-    type: 'any', nocache: true,
-    access: {
-      set: function(name, camera) {
-        this._nativeSet(name, camera);
+  position: {
+    type: {
+      convert(value) {
+        if (!Array.isArray(value)) {
+          throw new Error(value + ' is not an array');
+        }
+        return Object.freeze(value);
       }
-    }
+    },
+    nocache: true
   },
+  region: {type: 'any', nocache: true},
+  camera: {type: 'any', nocache: true},
   showMyLocation: {type: 'boolean', default: false},
   showMyLocationButton: {type: 'boolean', default: false},
-  myLocation: {type: 'array', nocache: true},
+  myLocation: {
+    type: {
+      convert(value) {
+        if (!Array.isArray(value)) {
+          throw new Error(value + ' is not an array');
+        }
+        return Object.freeze(value);
+      }
+    },
+    nocache: true
+  },
   mapType: {
-    type: ['choice', ['none', 'hybrid', 'normal', 'satellite', 'terrain', 'satelliteflyover', 'hybridflyover']],
+    type: 'string',
+    choice: ['none', 'hybrid', 'normal', 'satellite', 'terrain', 'satelliteflyover', 'hybridflyover'],
     nocache: true
   }
 });

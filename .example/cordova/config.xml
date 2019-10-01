@@ -9,6 +9,7 @@
   <author email="care@tabris.com" href="https://tabris.com">EclipseSource</author>
 
   <preference name="EnableDeveloperConsole" value="true" />
+  <preference name="UseStrictSSL" value="false" />
 
   <plugin name="tabris-plugin-maps" spec="https://github.com/eclipsesource/tabris-plugin-maps.git">
     <variable name="ANDROID_API_KEY" value="$ANDROID_API_KEY" />
