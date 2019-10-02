@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+## Version 6.0.0
+
+* Make plugin compatible with Tabris.js 3.2+
+
 ## Version 5.0.0
 
 * Make plugin compatible with Tabris.js 2.4 and 2.5.
