@@ -5,11 +5,11 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import com.eclipsesource.tabris.android.ActivityScope
-import com.eclipsesource.tabris.android.V8ArrayProperty
+import com.eclipsesource.tabris.android.AnyProperty
 import com.eclipsesource.tabris.android.internal.image.Image
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
-class MarkerImageProperty(private val scope: ActivityScope) : V8ArrayProperty<MapMarker>("image", {
+class MarkerImageProperty(private val scope: ActivityScope) : AnyProperty<MapMarker>("image", {
   if (it == null) {
     icon = null
   } else {
