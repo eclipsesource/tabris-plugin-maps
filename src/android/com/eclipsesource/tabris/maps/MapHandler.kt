@@ -37,7 +37,7 @@ open class MapHandler(private val scope: ActivityScope) : ViewHandler<MapHolderV
     super.listen(id, mapHolderView, event, listen)
     when (event) {
       "ready" -> if (listen) {
-        mapHolderView.setOnMapReadyListener()
+        mapHolderView.ensureOnMapReadyListener()
       } else {
         throw IllegalStateException("'ready' event listeners cannot be removed.")
       }

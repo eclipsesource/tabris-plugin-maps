@@ -12,8 +12,9 @@ import com.google.android.gms.maps.SupportMapFragment
 @SuppressLint("ViewConstructor")
 class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activity), OnMapReadyCallback {
 
-  private lateinit var mapFragment: SupportMapFragment
+  private var mapFragment: SupportMapFragment? = null
   private var _googleMap: GoogleMap? = null
+  private var mapReadyListenerRequired = false
 
   var googleMap: GoogleMap
     set(value) {
@@ -25,20 +26,36 @@ class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activi
 
   init {
     id = View.generateViewId()
+  }
+
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
     createMap()
+    if (mapReadyListenerRequired) {
+      attachOnMapReadyListener()
+    }
   }
 
   private fun createMap() {
-    mapFragment = SupportMapFragment()
-    scope.activity
-        .supportFragmentManager
-        .beginTransaction()
-        .add(id, mapFragment)
-        .commit()
+    mapFragment = SupportMapFragment().also {
+      scope.activity
+          .supportFragmentManager
+          .beginTransaction()
+          .add(id, it)
+          .commit()
+    }
   }
 
-  fun setOnMapReadyListener() {
-    mapFragment.getMapAsync(this)
+  fun ensureOnMapReadyListener() {
+    mapReadyListenerRequired = true
+    attachOnMapReadyListener()
+  }
+
+  private fun attachOnMapReadyListener() {
+    mapFragment?.let {
+      it.getMapAsync(this)
+      mapReadyListenerRequired = false
+    }
   }
 
   override fun onMapReady(googleMap: GoogleMap) {
