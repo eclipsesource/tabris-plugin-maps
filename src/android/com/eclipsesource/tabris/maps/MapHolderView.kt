@@ -37,11 +37,11 @@ class MapHolderView(private val scope: ActivityScope) : FrameLayout(scope.activi
   }
 
   private fun createMap() {
-    mapFragment = SupportMapFragment().apply {
+    mapFragment = SupportMapFragment().also {
       scope.activity
           .supportFragmentManager
           .beginTransaction()
-          .add(id, this)
+          .add(id, it)
           .commit()
     }
   }
