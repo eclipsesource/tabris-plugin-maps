@@ -410,8 +410,9 @@
     if (![annotation isKindOfClass:[ESMarker class]]) {
         return nil;
     }
-    NSArray* image = ((ESMarker *) annotation).image;
-    NSString* reuseIdentifier = image ? [image objectAtIndex:0] : @"pin";
+
+    NSObject* image = ((ESMarker *) annotation).image;
+    NSString* reuseIdentifier = [self reuseIdentifierForImage:image] ?: @"pin";
     MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
     if (view) {
         view.annotation = annotation;
@@ -420,7 +421,18 @@
     return [self createAnnotationView:annotation reuseIdentifier:reuseIdentifier image:image];
 }
 
-- (MKAnnotationView*)createAnnotationView:(id<MKAnnotation>)annotation reuseIdentifier:(NSString*)reuseIdentifier image:(NSArray *)image {
+- (NSString*)reuseIdentifierForImage:(NSObject*)imageObject {
+    if ([imageObject isKindOfClass:[NSArray class]]) {
+        NSArray* imageArray = ((NSArray*)imageObject);
+        return imageArray.count ? [imageArray objectAtIndex:0] : nil;
+    } else if ([imageObject isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* imageDictionary = ((NSDictionary*)imageObject);
+        return [imageDictionary objectForKey:@"src"];
+    }
+    return nil;
+}
+
+- (MKAnnotationView*)createAnnotationView:(id<MKAnnotation>)annotation reuseIdentifier:(NSString*)reuseIdentifier image:(NSObject *)image {
     if (image) {
         MKAnnotationView* view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
         [self setAnnotationViewImage:view image:image];
@@ -430,7 +442,7 @@
     }
 }
 
-- (void)setAnnotationViewImage:(MKAnnotationView *)view image: (NSArray *) image {
+- (void)setAnnotationViewImage:(MKAnnotationView *)view image: (NSObject *) image {
     __block TabrisImage *tabrisImage = [[TabrisImage alloc] initWithTabrisContext:self.context propertiesObject:image];
     [tabrisImage getImage:^(UIImage *uiImage, NSError *error) {
         view.image = error ? nil : uiImage;

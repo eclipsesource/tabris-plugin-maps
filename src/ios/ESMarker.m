@@ -31,14 +31,14 @@
     return self;
 }
 
-- (void)setImage:(NSArray *)image {
-    _image = image;
+- (void)setImage:(NSObject *)image {
+    _image = [image isKindOfClass:[NSArray class]] || [image isKindOfClass:[NSDictionary class]] ? image : nil;
     if (self.map) {
         [self.map refreshMarker:self];
     }
 }
 
-- (NSArray *)image {
+- (NSObject *)image {
     return _image;
 }
 
