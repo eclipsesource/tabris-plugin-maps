@@ -50,7 +50,7 @@
 @synthesize longpressListener = _longpressListener;
 @synthesize readyListener = _readyListener;
 @synthesize cameraMovedListener = _cameraMovedListener;
-@synthesize changecameraListener = _changecameraListener;
+@synthesize changeCameraListener = _changeCameraListener;
 @synthesize showMyLocation = _showMyLocation;
 
 - (instancetype)initWithObjectId:(NSString *)objectId properties:(NSDictionary *)properties inContext:(id<TabrisContext>)context {
@@ -389,8 +389,8 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    if (self.changecameraListener) {
-        [self fireEventNamed:@"changecamera" withAttributes:self.camera];
+    if (self.changeCameraListener) {
+        [self fireEventNamed:@"changeCamera" withAttributes:self.camera];
     }
     if (self.cameraMovedListener && self.gestureWasRecognized) {
         self.gestureWasRecognized = NO;
