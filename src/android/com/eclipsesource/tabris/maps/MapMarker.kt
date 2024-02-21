@@ -9,7 +9,7 @@ class MapMarker {
   var position: LatLng? = null
     set(value) {
       field = value
-      marker?.let { it.position = value }
+      marker?.position = value ?: return
     }
 
   var title: String? = null
@@ -34,7 +34,7 @@ class MapMarker {
     set(value) {
       field = value
       value?.let {
-        it.position = position
+        it.position = position ?: return
         it.title = title
         it.setIcon(icon)
         it.snippet = snippet
